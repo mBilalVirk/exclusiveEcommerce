@@ -219,6 +219,7 @@
         </div>
 
     </div>
+
     <div class="w-full flex justify-center mt-6">
         <button
             class="bg-red-500 text-white font-semibold px-6 py-3 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 transition-colors duration-200 cursor-pointer">

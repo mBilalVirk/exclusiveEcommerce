@@ -1,4 +1,4 @@
-<div class="w-full h-10 flex items-center justify-center gap-3 bg-white mt-2">
+<div class="w-full h-15 flex items-center justify-center gap-3 bg-white shadow-md z-50">
 
     <!-- Top Header: Logo + Menu -->
     <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-4 py-3 ">
