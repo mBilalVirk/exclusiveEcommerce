@@ -1,0 +1,11 @@
+@extends('layout.app')
+@section('content')
+    @include('header.top')
+    @include('header.navbar')
+    @include('user.hero.hero')
+    @include('user.today.today')
+    @include('user.categories.categories')
+    @include('user.months.months')
+    @include('user.banner.banner')
+    @include('user.products.ourproducts')
+@endsection
