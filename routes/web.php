@@ -16,3 +16,7 @@ Route::get('/register', function () {
 Route::get('/wishlist', function () {
     return view('user.wishlist.wishlist');
 });
+Route::get('/cart', function () {
+    return view('user.cart.cart');
+});
+
