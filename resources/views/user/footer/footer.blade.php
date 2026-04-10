@@ -29,21 +29,21 @@
             <div class="flex flex-col gap-4">
                 <h3 class="text-xl font-medium">Account</h3>
                 <ul class="text-sm space-y-3">
-                    <li><a href="#" class="hover:text-gray-400 transition">My Account</a></li>
-                    <li><a href="#" class="hover:text-gray-400 transition">Login / Register</a></li>
-                    <li><a href="#" class="hover:text-gray-400 transition">Cart</a></li>
-                    <li><a href="#" class="hover:text-gray-400 transition">Wishlist</a></li>
-                    <li><a href="#" class="hover:text-gray-400 transition">Shop</a></li>
+                    <li><a href="/account" class="hover:text-gray-400 transition">My Account</a></li>
+                    <li><a href="/login" class="hover:text-gray-400 transition">Login / Register</a></li>
+                    <li><a href="/cart" class="hover:text-gray-400 transition">Cart</a></li>
+                    <li><a href="/wishlist" class="hover:text-gray-400 transition">Wishlist</a></li>
+                    <li><a href="/" class="hover:text-gray-400 transition">Shop</a></li>
                 </ul>
             </div>
 
             <div class="flex flex-col gap-4">
                 <h3 class="text-xl font-medium">Quick Link</h3>
                 <ul class="text-sm space-y-3">
-                    <li><a href="#" class="hover:text-gray-400 transition">Privacy Policy</a></li>
-                    <li><a href="#" class="hover:text-gray-400 transition">Terms Of Use</a></li>
-                    <li><a href="#" class="hover:text-gray-400 transition">FAQ</a></li>
-                    <li><a href="#" class="hover:text-gray-400 transition">Contact</a></li>
+                    <li><a href="/privacy-policy" class="hover:text-gray-400 transition">Privacy Policy</a></li>
+                    <li><a href="/terms" class="hover:text-gray-400 transition">Terms Of Use</a></li>
+                    <li><a href="/faq" class="hover:text-gray-400 transition">FAQ</a></li>
+                    <li><a href="/contact" class="hover:text-gray-400 transition">Contact</a></li>
                 </ul>
             </div>
 
@@ -62,13 +62,13 @@
                     <div class="flex flex-col gap-2 w-[150px]">
 
                         <!-- Google Play -->
-                        <a href="#">
+                        <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
                             <img src="image/play-store.png" alt="Get it on Google Play"
                                 class="w-full h-auto hover:scale-105 transition duration-300">
                         </a>
 
                         <!-- App Store -->
-                        <a href="#">
+                        <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer">
                             <img src="image/app-store.png" alt="Download on the App Store"
                                 class="w-full h-auto hover:scale-105 transition duration-300">
                         </a>
@@ -77,10 +77,14 @@
                 </div>
 
                 <div class="flex gap-6 mt-2">
-                    <a href="#" class="hover:text-gray-400"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="hover:text-gray-400"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="hover:text-gray-400"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="hover:text-gray-400"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-gray-400"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-gray-400"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-gray-400"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                        class="hover:text-gray-400"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
         </div>

@@ -6,7 +6,7 @@
     <div id="about">
         <div class="max-w-6xl mx-auto px-4 py-10 font-sans bg-white">
             <div class="text-sm text-gray-500 my-4">
-                <a href="#" class="hover:text-black">Home</a> /
+                <a href="/" class="hover:text-black">Home</a> /
                 <span class="text-black">About</span>
             </div>
 
@@ -108,12 +108,12 @@
                         <h3 class="text-3xl font-medium tracking-wider mb-2">Tom Cruise</h3>
                         <p class="text-base mb-4">Founder & Chairman</p>
                         <div class="flex gap-4 text-xl">
-                            <a href="#" class="hover:text-[#DB4444] transition-colors"><i
-                                    class="fa-brands fa-twitter"></i></a>
-                            <a href="#" class="hover:text-[#DB4444] transition-colors"><i
-                                    class="fa-brands fa-instagram"></i></a>
-                            <a href="#" class="hover:text-[#DB4444] transition-colors"><i
-                                    class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
+                                class="hover:text-[#DB4444] transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+                                class="hover:text-[#DB4444] transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                                class="hover:text-[#DB4444] transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
                         </div>
                     </div>
 
@@ -125,12 +125,12 @@
                         <h3 class="text-3xl font-medium tracking-wider mb-2">Emma Watson</h3>
                         <p class="text-base mb-4">Managing Director</p>
                         <div class="flex gap-4 text-xl">
-                            <a href="#" class="hover:text-[#DB4444] transition-colors"><i
-                                    class="fa-brands fa-twitter"></i></a>
-                            <a href="#" class="hover:text-[#DB4444] transition-colors"><i
-                                    class="fa-brands fa-instagram"></i></a>
-                            <a href="#" class="hover:text-[#DB4444] transition-colors"><i
-                                    class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
+                                class="hover:text-[#DB4444] transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+                                class="hover:text-[#DB4444] transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                                class="hover:text-[#DB4444] transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
                         </div>
                     </div>
 
@@ -142,11 +142,12 @@
                         <h3 class="text-3xl font-medium tracking-wider mb-2">Will Smith</h3>
                         <p class="text-base mb-4">Product Designer</p>
                         <div class="flex gap-4 text-xl">
-                            <a href="#" class="hover:text-[#DB4444] transition-colors"><i
-                                    class="fa-brands fa-twitter"></i></a>
-                            <a href="#" class="hover:text-[#DB4444] transition-colors"><i
-                                    class="fa-brands fa-instagram"></i></a>
-                            <a href="#" class="hover:text-[#DB4444] transition-colors"><i
+                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
+                                class="hover:text-[#DB4444] transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+                                class="hover:text-[#DB4444] transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                                class="hover:text-[#DB4444] transition-colors"><i
                                     class="fa-brands fa-linkedin-in"></i></a>
                         </div>
                     </div>

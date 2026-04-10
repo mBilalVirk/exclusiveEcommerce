@@ -7,7 +7,7 @@
             <div class="flex justify-between items-center">
 
                 <nav class="flex text-sm mb-20 text-gray-500">
-                    <a href="#" class="hover:text-black">Home</a>
+                    <a href="/" class="hover:text-black">Home</a>
                     <span class="mx-2">/</span>
                     <span class="text-black">My Account</span>
                 </nav>
@@ -23,22 +23,22 @@
                     <div>
                         <h3 class="font-medium text-base mb-4">Manage My Account</h3>
                         <ul class="pl-8 space-y-2 text-sm text-gray-500">
-                            <li><a href="#" class="text-[#DB4444]">My Profile</a></li>
-                            <li><a href="#" class="hover:text-[#DB4444]">Address Book</a></li>
-                            <li><a href="#" class="hover:text-[#DB4444]">My Payment Options</a></li>
+                            <li><a href="/account#profile" class="text-[#DB4444]">My Profile</a></li>
+                            <li><a href="/account#address-book" class="hover:text-[#DB4444]">Address Book</a></li>
+                            <li><a href="/account#payment-options" class="hover:text-[#DB4444]">My Payment Options</a></li>
                         </ul>
                     </div>
 
                     <div>
                         <h3 class="font-medium text-base mb-4">My Orders</h3>
                         <ul class="pl-8 space-y-2 text-sm text-gray-500">
-                            <li><a href="#" class="hover:text-[#DB4444]">My Returns</a></li>
-                            <li><a href="#" class="hover:text-[#DB4444]">My Cancellations</a></li>
+                            <li><a href="/account#returns" class="hover:text-[#DB4444]">My Returns</a></li>
+                            <li><a href="/account#cancellations" class="hover:text-[#DB4444]">My Cancellations</a></li>
                         </ul>
                     </div>
 
                     <div>
-                        <a href="#" class="font-medium text-base hover:text-[#DB4444]">My WishList</a>
+                        <a href="/wishlist" class="font-medium text-base hover:text-[#DB4444]">My WishList</a>
                     </div>
                 </aside>
 

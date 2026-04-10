@@ -31,7 +31,7 @@
                             Log In
                         </button>
 
-                        <a href="#" class="text-[#DB4444] text-base hover:underline transition-all">
+                        <a href="/forgot-password" class="text-[#DB4444] text-base hover:underline transition-all">
                             Forget Password?
                         </a>
                     </div>

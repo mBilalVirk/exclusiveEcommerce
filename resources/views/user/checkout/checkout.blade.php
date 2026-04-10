@@ -5,10 +5,10 @@
     <div id="checkout">
         <div class="max-w-7xl mx-auto px-4 py-16 font-sans">
             <div class="text-sm text-gray-500 my-4">
-                <a href="#" class="hover:text-black">Account</a> /
-                <a href="#" class="hover:text-black">My Account</a> /
-                <a href="#" class="hover:text-black">Product</a> /
-                <a href="#" class="hover:text-black">View Cart</a> /
+                <a href="/account" class="hover:text-black">Account</a> /
+                <a href="/account" class="hover:text-black">My Account</a> /
+                <a href="/" class="hover:text-black">Product</a> /
+                <a href="/cart" class="hover:text-black">View Cart</a> /
 
                 <span class="text-black">CheckOut</span>
             </div>

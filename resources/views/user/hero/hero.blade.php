@@ -3,7 +3,7 @@
         <ul class="flex flex-col space-y-1">
 
             <li>
-                <a href="#"
+                <a href="/shop?category=women-fashion"
                     class="flex items-center justify-between px-4 py-2 text-black hover:bg-gray-100 transition-colors duration-200">
                     <span class="text-base font-normal">Woman’s Fashion</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
@@ -14,7 +14,7 @@
             </li>
 
             <li>
-                <a href="#"
+                <a href="/shop?category=mens-fashion"
                     class="flex items-center justify-between px-4 py-2 text-black hover:bg-gray-100 transition-colors duration-200">
                     <span class="text-base font-normal">Men’s Fashion</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
@@ -25,35 +25,35 @@
             </li>
 
             <li>
-                <a href="#"
+                <a href="/shop?category=electronics"
                     class="block px-4 py-2 text-black hover:bg-gray-100 transition-colors duration-200">Electronics</a>
             </li>
             <li>
-                <a href="#"
+                <a href="/shop?category=home-lifestyle"
                     class="block px-4 py-2 text-black hover:bg-gray-100 transition-colors duration-200">Home &
                     Lifestyle</a>
             </li>
             <li>
-                <a href="#"
+                <a href="/shop?category=medicine"
                     class="block px-4 py-2 text-black hover:bg-gray-100 transition-colors duration-200">Medicine</a>
             </li>
             <li>
-                <a href="#"
+                <a href="/shop?category=sports-outdoor"
                     class="block px-4 py-2 text-black hover:bg-gray-100 transition-colors duration-200">Sports &
                     Outdoor</a>
             </li>
             <li>
-                <a href="#"
+                <a href="/shop?category=babys-toys"
                     class="block px-4 py-2 text-black hover:bg-gray-100 transition-colors duration-200">Baby’s &
                     Toys</a>
             </li>
             <li>
-                <a href="#"
+                <a href="/shop?category=groceries-pets"
                     class="block px-4 py-2 text-black hover:bg-gray-100 transition-colors duration-200">Groceries &
                     Pets</a>
             </li>
             <li>
-                <a href="#"
+                <a href="/shop?category=health-beauty"
                     class="block px-4 py-2 text-black hover:bg-gray-100 transition-colors duration-200">Health &
                     Beauty</a>
             </li>

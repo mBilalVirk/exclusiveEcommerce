@@ -26,7 +26,7 @@
         <div class="max-w-6xl mx-auto ">
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-8">
 
-                <a href="#"
+                <a href="/shop?category=phones"
                     class="w-40 h-40 flex flex-col items-center justify-center border border-gray-300 rounded-md py-6 transition-all duration-200 hover:border-red-500 hover:shadow-sm">
                     <svg class="w-12 h-12 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="1.5">
@@ -36,7 +36,7 @@
                     <span class="text-sm font-medium">Phones</span>
                 </a>
 
-                <a href="#"
+                <a href="/shop?category=computers"
                     class="w-40 h-40 flex flex-col items-center justify-center border border-gray-300 rounded-md py-6 transition-all duration-200 hover:border-red-500">
                     <svg class="w-12 h-12 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="1.5">
@@ -47,7 +47,7 @@
                     <span class="text-sm font-medium">Computers</span>
                 </a>
 
-                <a href="#"
+                <a href="/shop?category=smartwatch"
                     class="w-40 h-40 flex flex-col items-center justify-center border border-gray-300 rounded-md py-6 transition-all duration-200 hover:border-red-500">
                     <svg class="w-12 h-12 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="1.5">
@@ -57,7 +57,7 @@
                     <span class="text-sm font-medium">SmartWatch</span>
                 </a>
 
-                <a href="#"
+                <a href="/shop?category=camera"
                     class="w-40 h-40 flex flex-col items-center justify-center bg-red-500 border border-red-500 text-white rounded-md py-6 shadow-lg">
                     <svg class="w-12 h-12 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="1.5">
@@ -68,7 +68,7 @@
                     <span class="text-sm font-medium">Camera</span>
                 </a>
 
-                <a href="#"
+                <a href="/shop?category=headphones"
                     class="w-40 h-40 flex flex-col items-center justify-center border border-gray-300 rounded-md py-6 transition-all duration-200 hover:border-red-500">
                     <svg class="w-12 h-12 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="1.5">
@@ -80,7 +80,7 @@
                     <span class="text-sm font-medium">HeadPhones</span>
                 </a>
 
-                <a href="#"
+                <a href="/shop?category=gaming"
                     class="w-40 h-40 flex flex-col items-center justify-center border border-gray-300 rounded-md py-6 transition-all duration-200 hover:border-red-500">
                     <svg class="w-12 h-12 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="1.5">

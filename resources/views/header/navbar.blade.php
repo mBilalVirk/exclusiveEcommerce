@@ -3,13 +3,13 @@
         <div class="flex items-center justify-between h-16 md:h-16 gap-4 ">
 
             <div class="flex-shrink-0">
-                <a href="#" class="text-xl md:text-2xl font-bold text-black tracking-wider">Exclusive</a>
+                <a href="/" class="text-xl md:text-2xl font-bold text-black tracking-wider">Exclusive</a>
             </div>
 
             <div class="hidden md:flex items-center space-x-8">
                 <a href="/" class="text-base text-black hover:underline underline-offset-4">Home</a>
-                <a href="#" class="text-base text-black hover:underline underline-offset-4">Contact</a>
-                <a href="#" class="text-base text-black hover:underline underline-offset-4">About</a>
+                <a href="/contact" class="text-base text-black hover:underline underline-offset-4">Contact</a>
+                <a href="/about" class="text-base text-black hover:underline underline-offset-4">About</a>
                 <a href="/register" class="text-base text-black hover:underline underline-offset-4">Sign Up</a>
             </div>
 
@@ -22,48 +22,48 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <a href="#" class="relative">
+                    <a href="/wishlist" class="relative">
                         <i class="fa-regular fa-heart text-xl"></i>
                     </a>
 
-                    <a href="#" class="relative">
+                    <a href="/cart" class="relative">
                         <i class="fa-solid fa-cart-shopping text-xl"></i>
                         <span
                             class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">3</span>
                     </a>
                     <div class="relative">
-                        <a href="" class="hidden sm:block">
+                        <a href="/account" class="hidden sm:block">
                             <i class="fa-regular fa-user text-xl"></i>
                         </a>
                         <div id="user-dropdown"
                             class="hidden absolute right-0 mt-3 w-64 rounded-md shadow-2xl bg-black/70 backdrop-blur-lg border border-white/10 z-[100] overflow-hidden">
                             <div class="py-4 px-2 space-y-1">
 
-                                <a href="#"
+                                <a href="/account#manage"
                                     class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
                                     <i class="fa-regular fa-user text-xl"></i>
                                     <span class="text-sm font-light">Manage My Account</span>
                                 </a>
 
-                                <a href="#"
+                                <a href="/account#orders"
                                     class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
                                     <i class="fa-solid fa-box text-xl"></i>
                                     <span class="text-sm font-light">My Order</span>
                                 </a>
 
-                                <a href="#"
+                                <a href="/account#cancellations"
                                     class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
                                     <i class="fa-regular fa-circle-xmark text-xl"></i>
                                     <span class="text-sm font-light">My Cancellations</span>
                                 </a>
 
-                                <a href="#"
+                                <a href="/account#reviews"
                                     class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
                                     <i class="fa-regular fa-star text-xl"></i>
                                     <span class="text-sm font-light">My Reviews</span>
                                 </a>
 
-                                <a href="#"
+                                <a href="/logout"
                                     class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
                                     <i class="fa-solid fa-arrow-right-from-bracket text-xl"></i>
                                     <span class="text-sm font-light">Logout</span>
@@ -108,11 +108,11 @@
 
             <div class="px-4 pt-2 pb-6 space-y-4">
                 <a href="/" class="block text-lg font-medium text-black">Home</a>
-                <a href="#" class="block text-lg font-medium text-black">Contact</a>
-                <a href="#" class="block text-lg font-medium text-black">About</a>
+                <a href="/contact" class="block text-lg font-medium text-black">Contact</a>
+                <a href="/about" class="block text-lg font-medium text-black">About</a>
                 <a href="/register" class="block text-lg font-medium text-black">Sign Up</a>
                 <hr>
-                <a href="#" class="block text-lg font-medium text-black">My Account</a>
+                <a href="/account" class="block text-lg font-medium text-black">My Account</a>
             </div>
 
         </div>

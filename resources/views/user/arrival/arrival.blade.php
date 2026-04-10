@@ -37,7 +37,8 @@
                         <p class="text-xs md:text-sm text-gray-300 mb-3 md:mb-4">
                             Black and White version of the PS5 coming out on sale.
                         </p>
-                        <a href="#" class="border-b border-gray-400 text-sm hover:text-gray-300">
+                        <a href="/shop?category=playstation-5"
+                            class="border-b border-gray-400 text-sm hover:text-gray-300">
                             Shop Now
                         </a>
                     </div>
@@ -54,7 +55,8 @@
                         <p class="text-xs md:text-sm text-gray-300 mb-3 md:mb-4">
                             Featured woman collections that give you another vibe.
                         </p>
-                        <a href="#" class="border-b border-gray-400 text-sm hover:text-gray-300">
+                        <a href="/shop?category=womens-collections"
+                            class="border-b border-gray-400 text-sm hover:text-gray-300">
                             Shop Now
                         </a>
                     </div>
@@ -71,7 +73,8 @@
                     <div class="absolute bottom-0 left-0 p-4 md:p-6 z-20 text-white">
                         <h2 class="text-lg md:text-xl font-bold mb-1">Speakers</h2>
                         <p class="text-xs text-gray-300 mb-2 md:mb-3">Amazon wireless speakers</p>
-                        <a href="#" class="border-b border-gray-400 text-xs md:text-sm hover:text-gray-300">
+                        <a href="/shop?category=speakers"
+                            class="border-b border-gray-400 text-xs md:text-sm hover:text-gray-300">
                             Shop Now
                         </a>
                     </div>
@@ -88,7 +91,8 @@
                     <div class="absolute bottom-0 left-0 p-4 md:p-6 z-20 text-white">
                         <h2 class="text-lg md:text-xl font-bold mb-1">Perfume</h2>
                         <p class="text-xs text-gray-300 mb-2 md:mb-3">GUCCI INTENSE OUD EDP</p>
-                        <a href="#" class="border-b border-gray-400 text-xs md:text-sm hover:text-gray-300">
+                        <a href="/shop?category=perfume"
+                            class="border-b border-gray-400 text-xs md:text-sm hover:text-gray-300">
                             Shop Now
                         </a>
                     </div>
