@@ -22,4 +22,7 @@ Route::get('/cart', function () {
 Route::get('/checkout', function () {
     return view('user.checkout.checkout');
 });
+Route::get('/account', function () {
+    return view('user.account.account');
+});
 
