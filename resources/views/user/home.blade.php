@@ -8,4 +8,7 @@
     @include('user.months.months')
     @include('user.banner.banner')
     @include('user.products.ourproducts')
+    @include('user.arrival.arrival')
+    @include('user.services.services')
+    @include('user.footer.footer')
 @endsection

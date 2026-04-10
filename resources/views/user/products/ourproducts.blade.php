@@ -7,7 +7,7 @@
                     <div class="w-5 h-10 bg-red-500 rounded-sm"></div>
                     <span class="text-red-500 font-bold text-sm">Our Products</span>
                 </div>
-
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Explore Our Products</h2>
             </div>
 
             <div class="flex gap-2">
