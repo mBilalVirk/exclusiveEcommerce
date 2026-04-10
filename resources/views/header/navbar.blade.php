@@ -31,39 +31,91 @@
                         <span
                             class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">3</span>
                     </a>
+                    <div class="relative">
+                        <a href="" class="hidden sm:block">
+                            <i class="fa-regular fa-user text-xl"></i>
+                        </a>
+                        <div id="user-dropdown"
+                            class="hidden absolute right-0 mt-3 w-64 rounded-md shadow-2xl bg-black/70 backdrop-blur-lg border border-white/10 z-[100] overflow-hidden">
+                            <div class="py-4 px-2 space-y-1">
 
-                    <a href="#" class="hidden sm:block">
-                        <i class="fa-regular fa-user text-xl"></i>
-                    </a>
+                                <a href="#"
+                                    class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
+                                    <i class="fa-regular fa-user text-xl"></i>
+                                    <span class="text-sm font-light">Manage My Account</span>
+                                </a>
+
+                                <a href="#"
+                                    class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
+                                    <i class="fa-solid fa-box text-xl"></i>
+                                    <span class="text-sm font-light">My Order</span>
+                                </a>
+
+                                <a href="#"
+                                    class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
+                                    <i class="fa-regular fa-circle-xmark text-xl"></i>
+                                    <span class="text-sm font-light">My Cancellations</span>
+                                </a>
+
+                                <a href="#"
+                                    class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
+                                    <i class="fa-regular fa-star text-xl"></i>
+                                    <span class="text-sm font-light">My Reviews</span>
+                                </a>
+
+                                <a href="#"
+                                    class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
+                                    <i class="fa-solid fa-arrow-right-from-bracket text-xl"></i>
+                                    <span class="text-sm font-light">Logout</span>
+                                </a>
+
+                            </div>
+                        </div>
+                        <script>
+                            const userIcon = document.querySelector(".fa-user");
+                            const dropdown = document.getElementById("user-dropdown");
+
+                            userIcon.addEventListener("click", function(e) {
+                                e.preventDefault();
+                                dropdown.classList.toggle("hidden");
+                            });
+
+                            // close when clicking outside
+                            document.addEventListener("click", function(e) {
+                                if (!userIcon.contains(e.target) && !dropdown.contains(e.target)) {
+                                    dropdown.classList.add("hidden");
+                                }
+                            });
+                        </script>
+                    </div>
+
+                    <button id="mobile-menu-button" class="md:hidden text-black p-1">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
                 </div>
+            </div>
 
-                <button id="mobile-menu-button" class="md:hidden text-black p-1">
-                    <i class="fa-solid fa-bars text-2xl"></i>
-                </button>
+            <div class="sm:hidden pb-4">
+                <div class="flex items-center bg-gray-100 rounded px-3 py-2 w-full">
+                    <input type="text" placeholder="Search..." class="bg-transparent outline-none text-sm w-full" />
+                    <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
+                </div>
             </div>
         </div>
 
-        <div class="sm:hidden pb-4">
-            <div class="flex items-center bg-gray-100 rounded px-3 py-2 w-full">
-                <input type="text" placeholder="Search..." class="bg-transparent outline-none text-sm w-full" />
-                <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
+        <div id="mobile-menu"
+            class="hidden md:hidden absolute top-full left-0 w-full bg-white border-t border-gray-100 shadow-xl z-50">
+
+            <div class="px-4 pt-2 pb-6 space-y-4">
+                <a href="/" class="block text-lg font-medium text-black">Home</a>
+                <a href="#" class="block text-lg font-medium text-black">Contact</a>
+                <a href="#" class="block text-lg font-medium text-black">About</a>
+                <a href="/register" class="block text-lg font-medium text-black">Sign Up</a>
+                <hr>
+                <a href="#" class="block text-lg font-medium text-black">My Account</a>
             </div>
+
         </div>
-    </div>
-
-    <div id="mobile-menu"
-        class="hidden md:hidden absolute top-full left-0 w-full bg-white border-t border-gray-100 shadow-xl z-50">
-
-        <div class="px-4 pt-2 pb-6 space-y-4">
-            <a href="/" class="block text-lg font-medium text-black">Home</a>
-            <a href="#" class="block text-lg font-medium text-black">Contact</a>
-            <a href="#" class="block text-lg font-medium text-black">About</a>
-            <a href="/register" class="block text-lg font-medium text-black">Sign Up</a>
-            <hr>
-            <a href="#" class="block text-lg font-medium text-black">My Account</a>
-        </div>
-
-    </div>
 </nav>
 
 <script>
