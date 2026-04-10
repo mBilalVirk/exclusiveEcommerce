@@ -83,12 +83,19 @@
                         </div>
 
                         <div class="flex justify-end items-center gap-8 pt-6">
+
+
                             <button type="button"
-                                class="text-sm font-medium hover:text-[#DB4444] transition">Cancel</button>
+                                class="text-base font-medium px-6 py-3 rounded-lg border-2 border-gray-300 text-gray-700 hover:border-[#DB4444] hover:text-[#DB4444] hover:bg-red-50 transition duration-200 cursor-pointer">
+                                Cancel
+                            </button>
+
                             <button type="submit"
-                                class="bg-[#DB4444] text-white px-12 py-4 rounded font-medium hover:bg-[#c33a3a] transition">
+                                class="text-base font-semibold px-8 py-3 rounded-lg bg-[#DB4444] text-white hover:bg-[#c33a3a] transition duration-200 cursor-pointer">
                                 Save Changes
                             </button>
+
+
                         </div>
                     </form>
                 </main>
