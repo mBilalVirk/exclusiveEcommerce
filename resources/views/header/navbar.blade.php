@@ -7,10 +7,10 @@
             </div>
 
             <div class="hidden md:flex items-center space-x-8">
-                <a href="#" class="text-base text-black hover:underline underline-offset-4">Home</a>
+                <a href="/" class="text-base text-black hover:underline underline-offset-4">Home</a>
                 <a href="#" class="text-base text-black hover:underline underline-offset-4">Contact</a>
                 <a href="#" class="text-base text-black hover:underline underline-offset-4">About</a>
-                <a href="#" class="text-base text-black hover:underline underline-offset-4">Sign Up</a>
+                <a href="/register" class="text-base text-black hover:underline underline-offset-4">Sign Up</a>
             </div>
 
             <div class="flex items-center gap-3 md:gap-6 flex-1 justify-end md:flex-none">
@@ -55,10 +55,10 @@
         class="hidden md:hidden absolute top-full left-0 w-full bg-white border-t border-gray-100 shadow-xl z-50">
 
         <div class="px-4 pt-2 pb-6 space-y-4">
-            <a href="#" class="block text-lg font-medium text-black">Home</a>
+            <a href="/" class="block text-lg font-medium text-black">Home</a>
             <a href="#" class="block text-lg font-medium text-black">Contact</a>
             <a href="#" class="block text-lg font-medium text-black">About</a>
-            <a href="#" class="block text-lg font-medium text-black">Sign Up</a>
+            <a href="/register" class="block text-lg font-medium text-black">Sign Up</a>
             <hr>
             <a href="#" class="block text-lg font-medium text-black">My Account</a>
         </div>
