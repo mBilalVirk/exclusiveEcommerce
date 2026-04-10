@@ -4,7 +4,10 @@
     @include('header.navbar')
     <div id="cart">
         <div class="max-w-7xl mx-auto px-4 py-10 font-sans bg-white">
-
+            <div class="text-sm text-gray-500 my-4">
+                <a href="#" class="hover:text-black">Home</a> /
+                <span class="text-black">Cart</span>
+            </div>
             <div class="hidden md:grid grid-cols-4 bg-white shadow-sm rounded px-8 py-6 mb-10 text-base font-medium">
                 <div>Product</div>
                 <div class="text-center">Price</div>

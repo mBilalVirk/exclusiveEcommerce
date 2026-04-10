@@ -19,4 +19,7 @@ Route::get('/wishlist', function () {
 Route::get('/cart', function () {
     return view('user.cart.cart');
 });
+Route::get('/checkout', function () {
+    return view('user.checkout.checkout');
+});
 
