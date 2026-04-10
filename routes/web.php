@@ -25,4 +25,7 @@ Route::get('/checkout', function () {
 Route::get('/account', function () {
     return view('user.account.account');
 });
+Route::get('/about', function () {
+    return view('user.about.about');
+});
 
