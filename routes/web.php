@@ -28,4 +28,15 @@ Route::get('/account', function () {
 Route::get('/about', function () {
     return view('user.about.about');
 });
+Route::get('/contact', function () {
+    return view('user.contact.contact');
+});
+
+Route::get('/test-404', function () {
+    abort(404);
+});
+Route::get('/show', function () {
+    return view('user.product-details.product-details');
+});
+
 
