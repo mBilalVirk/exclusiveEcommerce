@@ -39,4 +39,8 @@ Route::get('/show', function () {
     return view('user.product-details.product-details');
 });
 
+Route::get('/admin', function () {
+    return view('admin.dashboard');
+});
+
 
