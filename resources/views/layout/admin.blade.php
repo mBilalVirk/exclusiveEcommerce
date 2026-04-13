@@ -53,7 +53,7 @@
 
                 <div class="flex items-center gap-4">
                     <span class="hidden sm:inline font-medium text-sm text-gray-700">Bilal</span>
-                    <form method="POST" action="">
+                    <form method="POST" action={{ route('admin.logout') }}>
                         @csrf
                         <button
                             class="text-[#DB4444] text-sm font-medium border border-[#DB4444] px-3 py-1 rounded hover:bg-[#DB4444] hover:text-white transition">

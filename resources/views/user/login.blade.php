@@ -14,14 +14,26 @@
                 <h1 class="text-3xl md:text-4xl font-medium tracking-tight mb-3">Log in to Exclusive</h1>
                 <p class="text-base text-gray-600 mb-12">Enter your details below</p>
 
-                <form class="space-y-10">
+                <form action="{{ route('login.post') }}" method="POST" class="space-y-10">
+                    @csrf
+
+                    @if ($errors->any())
+                        <div class="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                            <ul class="list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <div class="relative border-b border-gray-300 focus-within:border-black transition-colors">
-                        <input type="text" placeholder="Email or Phone Number"
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="Email"
                             class="w-full py-2 bg-transparent outline-none placeholder:text-gray-400">
                     </div>
 
                     <div class="relative border-b border-gray-300 focus-within:border-black transition-colors">
-                        <input type="password" placeholder="Password"
+                        <input type="password" name="password" placeholder="Password"
                             class="w-full py-2 bg-transparent outline-none placeholder:text-gray-400">
                     </div>
 

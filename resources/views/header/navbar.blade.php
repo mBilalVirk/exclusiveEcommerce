@@ -10,7 +10,19 @@
                 <a href="/" class="text-base text-black hover:underline underline-offset-4">Home</a>
                 <a href="/contact" class="text-base text-black hover:underline underline-offset-4">Contact</a>
                 <a href="/about" class="text-base text-black hover:underline underline-offset-4">About</a>
-                <a href="/register" class="text-base text-black hover:underline underline-offset-4">Sign Up</a>
+                @guest
+                    <a href="{{ route('register') }}" class="text-base text-black hover:underline underline-offset-4">Sign
+                        Up</a>
+                    <a href="{{ route('login') }}" class="text-base text-black hover:underline underline-offset-4">Log
+                        In</a>
+                @else
+                    <a href="{{ route('account') }}" class="text-base text-black hover:underline underline-offset-4">My
+                        Account</a>
+                    @if (auth()->user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="text-base text-black hover:underline underline-offset-4">Dashboard</a>
+                    @endif
+                @endguest
             </div>
 
             <div class="flex items-center gap-3 md:gap-6 flex-1 justify-end md:flex-none">
@@ -31,63 +43,66 @@
                         <span
                             class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">3</span>
                     </a>
-                    <div class="relative">
-                        <a href="/account" class="hidden sm:block">
-                            <i class="fa-regular fa-user text-xl"></i>
-                        </a>
-                        <div id="user-dropdown"
-                            class="hidden absolute right-0 mt-3 w-64 rounded-md shadow-2xl bg-black/70 backdrop-blur-lg border border-white/10 z-[100] overflow-hidden">
-                            <div class="py-4 px-2 space-y-1">
 
-                                <a href="/account#manage"
-                                    class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
-                                    <i class="fa-regular fa-user text-xl"></i>
-                                    <span class="text-sm font-light">Manage My Account</span>
-                                </a>
+                    @auth
+                        <div class="relative">
+                            <a href="{{ route('account') }}" class="hidden sm:block">
+                                <i class="fa-regular fa-user text-xl"></i>
+                            </a>
+                            <div id="user-dropdown"
+                                class="hidden absolute right-0 mt-3 w-64 rounded-md shadow-2xl bg-black/70 backdrop-blur-lg border border-white/10 z-[100] overflow-hidden">
+                                <div class="py-4 px-2 space-y-1">
 
-                                <a href="/account#orders"
-                                    class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
-                                    <i class="fa-solid fa-box text-xl"></i>
-                                    <span class="text-sm font-light">My Order</span>
-                                </a>
+                                    <a href="{{ route('account') }}#manage"
+                                        class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
+                                        <i class="fa-regular fa-user text-xl"></i>
+                                        <span class="text-sm font-light">Manage My Account</span>
+                                    </a>
 
-                                <a href="/account#cancellations"
-                                    class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
-                                    <i class="fa-regular fa-circle-xmark text-xl"></i>
-                                    <span class="text-sm font-light">My Cancellations</span>
-                                </a>
+                                    <a href="{{ route('account') }}#orders"
+                                        class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
+                                        <i class="fa-solid fa-box text-xl"></i>
+                                        <span class="text-sm font-light">My Order</span>
+                                    </a>
 
-                                <a href="/account#reviews"
-                                    class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
-                                    <i class="fa-regular fa-star text-xl"></i>
-                                    <span class="text-sm font-light">My Reviews</span>
-                                </a>
+                                    <a href="{{ route('account') }}#cancellations"
+                                        class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
+                                        <i class="fa-regular fa-circle-xmark text-xl"></i>
+                                        <span class="text-sm font-light">My Cancellations</span>
+                                    </a>
 
-                                <a href="/logout"
-                                    class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
-                                    <i class="fa-solid fa-arrow-right-from-bracket text-xl"></i>
-                                    <span class="text-sm font-light">Logout</span>
-                                </a>
+                                    <a href="{{ route('account') }}#reviews"
+                                        class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
+                                        <i class="fa-regular fa-star text-xl"></i>
+                                        <span class="text-sm font-light">My Reviews</span>
+                                    </a>
 
+                                    <a href="{{ route('logout') }}"
+                                        class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
+                                        <i class="fa-solid fa-arrow-right-from-bracket text-xl"></i>
+                                        <span class="text-sm font-light">Logout</span>
+                                    </a>
+
+                                </div>
                             </div>
+                            <script>
+                                const userIcon = document.querySelector(".fa-user");
+                                const dropdown = document.getElementById("user-dropdown");
+
+                                userIcon.addEventListener("click", function(e) {
+                                    e.preventDefault();
+                                    dropdown.classList.toggle("hidden");
+                                });
+
+                                // close when clicking outside
+                                document.addEventListener("click", function(e) {
+                                    if (!userIcon.contains(e.target) && !dropdown.contains(e.target)) {
+                                        dropdown.classList.add("hidden");
+                                    }
+                                });
+                            </script>
                         </div>
-                        <script>
-                            const userIcon = document.querySelector(".fa-user");
-                            const dropdown = document.getElementById("user-dropdown");
-
-                            userIcon.addEventListener("click", function(e) {
-                                e.preventDefault();
-                                dropdown.classList.toggle("hidden");
-                            });
-
-                            // close when clicking outside
-                            document.addEventListener("click", function(e) {
-                                if (!userIcon.contains(e.target) && !dropdown.contains(e.target)) {
-                                    dropdown.classList.add("hidden");
-                                }
-                            });
-                        </script>
-                    </div>
+                    @endauth
 
                     <button id="mobile-menu-button" class="md:hidden text-black p-1">
                         <i class="fa-solid fa-bars text-2xl"></i>
@@ -110,9 +125,18 @@
                 <a href="/" class="block text-lg font-medium text-black">Home</a>
                 <a href="/contact" class="block text-lg font-medium text-black">Contact</a>
                 <a href="/about" class="block text-lg font-medium text-black">About</a>
-                <a href="/register" class="block text-lg font-medium text-black">Sign Up</a>
+                @guest
+                    <a href="{{ route('login') }}" class="block text-lg font-medium text-black">Log In</a>
+                    <a href="{{ route('register') }}" class="block text-lg font-medium text-black">Sign Up</a>
+                @else
+                    <a href="{{ route('account') }}" class="block text-lg font-medium text-black">My Account</a>
+                    @if (auth()->user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}" class="block text-lg font-medium text-black">Dashboard</a>
+                    @endif
+                    <a href="{{ route('logout') }}" class="block text-lg font-medium text-black">Logout</a>
+                @endguest
                 <hr>
-                <a href="/account" class="block text-lg font-medium text-black">My Account</a>
+                <a href="/cart" class="block text-lg font-medium text-black">My Cart</a>
             </div>
 
         </div>

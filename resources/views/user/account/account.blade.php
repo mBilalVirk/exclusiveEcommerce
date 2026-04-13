@@ -14,7 +14,7 @@
 
                 <div>
                     <span>Welcome! </span>
-                    <span class="text-red-500 font-medium">Md Rimel</span>
+                    <span class="text-red-500 font-medium">{{ auth()->user()->name ?? 'Guest' }}</span>
                 </div>
 
             </div>
@@ -45,16 +45,31 @@
                 <main class="flex-1 bg-white shadow-sm rounded-sm p-8 md:p-12 border border-gray-50">
                     <h2 class="text-xl font-medium text-[#DB4444] mb-8">Edit Your Profile</h2>
 
-                    <form class="space-y-6">
+                    <form action="{{ route('account.update') }}" method="POST" class="space-y-6">
+                        @csrf
+                        @if ($errors->any())
+                            <div class="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                                <ul class="list-disc list-inside">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('status'))
+                            <div class="rounded border border-green-200 bg-green-50 p-4 text-sm text-green-700">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div class="space-y-2">
                                 <label class="text-sm">First Name</label>
-                                <input type="text" value="Md"
+                                <input type="text" name="first_name" value="{{ auth()->user()->first_name ?? '' }}"
                                     class="w-full bg-[#F5F5F5] rounded px-4 py-3 outline-none focus:ring-1 focus:ring-gray-300">
                             </div>
                             <div class="space-y-2">
                                 <label class="text-sm">Last Name</label>
-                                <input type="text" value="Rimel"
+                                <input type="text" name="last_name" value="{{ auth()->user()->last_name ?? '' }}"
                                     class="w-full bg-[#F5F5F5] rounded px-4 py-3 outline-none focus:ring-1 focus:ring-gray-300">
                             </div>
                         </div>
@@ -62,23 +77,24 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div class="space-y-2">
                                 <label class="text-sm">Email</label>
-                                <input type="email" value="rimel1111@gmail.com"
+                                <input type="email" name="email" value="{{ old('email', auth()->user()->email ?? '') }}"
                                     class="w-full bg-[#F5F5F5] rounded px-4 py-3 outline-none">
                             </div>
                             <div class="space-y-2">
                                 <label class="text-sm">Address</label>
-                                <input type="text" value="Kingston, 5236, United State"
+                                <input type="text" name="address"
+                                    value="{{ old('address', auth()->user()->address ?? '') }}"
                                     class="w-full bg-[#F5F5F5] rounded px-4 py-3 outline-none">
                             </div>
                         </div>
 
                         <div class="space-y-4 pt-4">
                             <label class="text-sm">Password Changes</label>
-                            <input type="password" placeholder="Current Passwod"
+                            <input type="password" name="current_password" placeholder="Current Password"
                                 class="w-full bg-[#F5F5F5] rounded px-4 py-3 outline-none">
-                            <input type="password" placeholder="New Passwod"
+                            <input type="password" name="new_password" placeholder="New Password"
                                 class="w-full bg-[#F5F5F5] rounded px-4 py-3 outline-none">
-                            <input type="password" placeholder="Confirm New Passwod"
+                            <input type="password" name="new_password_confirmation" placeholder="Confirm New Password"
                                 class="w-full bg-[#F5F5F5] rounded px-4 py-3 outline-none">
                         </div>
 
@@ -98,6 +114,7 @@
 
                         </div>
                     </form>
+
                 </main>
             </div>
         </div>

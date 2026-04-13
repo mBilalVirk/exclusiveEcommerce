@@ -14,19 +14,43 @@
                 <h1 class="text-3xl md:text-4xl font-medium tracking-tight mb-3">Create an account</h1>
                 <p class="text-base text-gray-600 mb-10">Enter your details below</p>
 
-                <form class="space-y-8">
+                <form action="{{ route('register.post') }}" method="POST" class="space-y-8">
+                    @csrf
+
+                    @if ($errors->any())
+                        <div class="rounded border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                            <ul class="list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="relative border-b border-gray-300 focus-within:border-black transition-colors">
+                            <input type="text" name="first_name" value="{{ old('first_name') }}" placeholder="First Name"
+                                class="w-full py-2 bg-transparent outline-none placeholder:text-gray-400">
+                        </div>
+
+                        <div class="relative border-b border-gray-300 focus-within:border-black transition-colors">
+                            <input type="text" name="last_name" value="{{ old('last_name') }}" placeholder="Last Name"
+                                class="w-full py-2 bg-transparent outline-none placeholder:text-gray-400">
+                        </div>
+                    </div>
+
                     <div class="relative border-b border-gray-300 focus-within:border-black transition-colors">
-                        <input type="text" placeholder="Name"
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="Email"
                             class="w-full py-2 bg-transparent outline-none placeholder:text-gray-400">
                     </div>
 
                     <div class="relative border-b border-gray-300 focus-within:border-black transition-colors">
-                        <input type="text" placeholder="Email or Phone Number"
+                        <input type="password" name="password" placeholder="Password"
                             class="w-full py-2 bg-transparent outline-none placeholder:text-gray-400">
                     </div>
 
                     <div class="relative border-b border-gray-300 focus-within:border-black transition-colors">
-                        <input type="password" placeholder="Password"
+                        <input type="password" name="password_confirmation" placeholder="Confirm Password"
                             class="w-full py-2 bg-transparent outline-none placeholder:text-gray-400">
                     </div>
 
@@ -47,7 +71,7 @@
 
                 <div class="mt-8 text-center text-gray-600">
                     Already have account?
-                    <a href="/login"
+                    <a href="{{ route('login') }}"
                         class="text-black font-medium border-b border-gray-400 ml-2 hover:border-black transition-all pb-1">Log
                         in</a>
                 </div>
