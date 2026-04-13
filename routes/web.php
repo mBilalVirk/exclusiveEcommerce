@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController; // Assuming you have this for 'show'
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UserMiddleware;
@@ -17,6 +18,8 @@ Route::get('/about', function () { return view('user.about.about'); });
 Route::get('/contact', function () { return view('user.contact.contact'); });
 Route::get('/show', function () { return view('user.product-details.product-details'); });
 Route::get('/test-404', function () { abort(404); });
+Route::get('/products', [ProductController::class, 'index'])->name('products');
+Route::get('/products/flashsales', [ProductController::class, 'flashsales'])->name('flashsales');
 
 /*
 |--------------------------------------------------------------------------
@@ -45,8 +48,14 @@ Route::middleware([UserMiddleware::class])->group(function () {
     Route::get('/account', function () { return view('user.account.account'); })->name('account');
     Route::post('/account', [AuthController::class, 'updateProfile'])->name('account.update');
     Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
-});
 
+
+   
+    Route::get('/cart/count', [CartController::class,'cartTotal']);
+    Route::post('/cart/add', [CartController::class, 'addToCart']);
+    Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
+});
+ Route::get('/products', [ProductController::class, 'index'])->name('products');
 /*
 |--------------------------------------------------------------------------
 | Admin Routes (Role Restricted)

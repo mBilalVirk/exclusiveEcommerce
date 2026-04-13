@@ -31,10 +31,10 @@
 
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="products-grid">
 
 
-        <div class="group">
+        {{-- <div class="group">
             <div class="relative bg-gray-100 rounded-sm h-[250px] flex items-center justify-center overflow-hidden">
 
 
@@ -360,7 +360,7 @@
                     <span class="text-gray-400 text-sm font-bold">(17)</span>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 
@@ -373,4 +373,5 @@
 
     <hr class="border-t border-gray-300 my-6 mx-6" />
 
+    @vite('resources/js/products.js')
 </div>
