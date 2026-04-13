@@ -51,7 +51,7 @@ Route::middleware([UserMiddleware::class])->group(function () {
 
 
    
-    Route::get('/cart/count', [CartController::class,'cartTotal']);
+    Route::get('/cart/count', [CartController::class,'cartCount']);
     Route::post('/cart/add', [CartController::class, 'addToCart']);
     Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
 });

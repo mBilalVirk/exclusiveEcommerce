@@ -45,3 +45,8 @@
 </html>
 
 ```
+
+# 13/04/2026
+
+1. add back-end authentications.
+2. add to cart
