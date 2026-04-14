@@ -33,36 +33,36 @@
                     <button><i class="fa-solid fa-magnifying-glass text-sm"></i></button>
                 </div>
 
-                @auth
-                    <div class="flex items-center gap-4">
-                        <a href="/wishlist" class="relative">
-                            <i class="fa-regular fa-heart text-xl"></i>
-                        </a>
 
-                        <a href="/cart" class="relative">
-                            <i class="fa-solid fa-cart-shopping text-xl"></i>
-                            <span id="cart-count"
-                                class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
-                        </a>
-                        <script>
-                            document.addEventListener("DOMContentLoaded", function() {
-                                // ✅ Attach to window to make it globally callable
-                                window.updateCartCount = function() {
-                                    fetch("/cart/count")
-                                        .then(res => res.json())
-                                        .then(data => {
+                <div class="flex items-center gap-4">
+                    <a href="/wishlist" class="relative">
+                        <i class="fa-regular fa-heart text-xl"></i>
+                    </a>
 
-                                            const el = document.getElementById("cart-count");
-                                            if (el) el.innerText = data.count;
-                                        })
-                                        .catch(err => console.log("Cart count error:", err));
-                                };
+                    <a href="/cart" class="relative">
+                        <i class="fa-solid fa-cart-shopping text-xl"></i>
+                        <span id="cart-count"
+                            class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                    </a>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            // ✅ Attach to window to make it globally callable
+                            window.updateCartCount = function() {
+                                fetch("/cart/count")
+                                    .then(res => res.json())
+                                    .then(data => {
 
-                                // Run once on page load
-                                window.updateCartCount();
-                            });
-                        </script>
+                                        const el = document.getElementById("cart-count");
+                                        if (el) el.innerText = data.count;
+                                    })
+                                    .catch(err => console.log("Cart count error:", err));
+                            };
 
+                            // Run once on page load
+                            window.updateCartCount();
+                        });
+                    </script>
+                    @auth
                         <div class="relative">
                             <a href="{{ route('account') }}" class="hidden sm:block">
                                 <i class="fa-regular fa-user text-xl"></i>

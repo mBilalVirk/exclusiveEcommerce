@@ -36,7 +36,7 @@
                     <span class="text-sm font-medium">Phones</span>
                 </a>
 
-                <a href="/shop?category=computers"
+                <a href="/shop?category=computing"
                     class="w-40 h-40 flex flex-col items-center justify-center border border-gray-300 rounded-md py-6 transition-all duration-200 hover:border-red-500">
                     <svg class="w-12 h-12 mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="1.5">
@@ -44,7 +44,7 @@
                         <line x1="8" y1="21" x2="16" y2="21"></line>
                         <line x1="12" y1="17" x2="12" y2="21"></line>
                     </svg>
-                    <span class="text-sm font-medium">Computers</span>
+                    <span class="text-sm font-medium">Computing</span>
                 </a>
 
                 <a href="/shop?category=smartwatch"

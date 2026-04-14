@@ -1,4 +1,5 @@
 @extends('layout.app')
+@section('title', 'Cart')
 @section('content')
     @include('header.top')
     @include('header.navbar')
@@ -15,9 +16,9 @@
                 <div class="text-right">Subtotal</div>
             </div>
 
-            <div class="space-y-8 mb-10">
+            <div class="space-y-8 mb-10" id="cart-items-container">
 
-                <div
+                {{-- <div
                     class="grid grid-cols-1 md:grid-cols-4 items-center bg-white shadow-sm rounded px-8 py-6 relative group">
                     <div class="flex items-center gap-4">
                         <div class="relative">
@@ -63,7 +64,8 @@
                         </div>
                     </div>
                     <div class="text-right text-sm font-medium">$1100</div>
-                </div>
+                </div> --}}
+
             </div>
 
             <div class="flex flex-col sm:flex-row justify-between gap-4 mb-20">
@@ -89,15 +91,15 @@
                     <div class="space-y-4">
                         <div class="flex justify-between border-b border-gray-300 pb-4 text-sm">
                             <span>Subtotal:</span>
-                            <span>$1750</span>
+                            <span id="subtotal"></span>
                         </div>
                         <div class="flex justify-between border-b border-gray-300 pb-4 text-sm">
                             <span>Shipping:</span>
-                            <span>Free</span>
+                            <span id="shippin_fee">Free</span>
                         </div>
                         <div class="flex justify-between pb-4 text-base font-medium">
                             <span>Total:</span>
-                            <span>$1750</span>
+                            <span id="grandtotal"></span>
                         </div>
                     </div>
                     <button
@@ -107,6 +109,6 @@
             </div>
         </div>
     </div>
-
+    @vite('resources/js/cart.js')
     @include('user.footer.footer')
 @endsection

@@ -22,7 +22,7 @@
 
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {{-- <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
 
             <div class="group">
@@ -192,9 +192,14 @@
                 </div>
             </div>
 
-        </div>
-
-        <hr class="border-t border-gray-300 my-6 mx-6" />
-
+        </div> --}}
     </div>
+    <div class="swiper bestselling-swiper">
+        <div id="bestselling-grid" class="swiper-wrapper"></div>
+
+        {{-- <div id="best-prev" class="swiper-button-prev"></div>
+        <div id="best-next" class="swiper-button-next"></div> --}}
+    </div>
+    <hr class="border-t border-gray-300 my-6 mx-6" />
+    @vite('resources/js/bestselling.js')
 </div>

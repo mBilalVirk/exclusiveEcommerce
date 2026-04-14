@@ -4,14 +4,14 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 document.addEventListener("DOMContentLoaded", function () {
-    const container = document.getElementById("flashsales-grid");
+    const container = document.getElementById("bestselling-grid");
 
     if (!container) {
-        console.error("flashsales-grid element not found");
+        console.error("bestselling-grid element not found");
         return;
     }
 
-    fetch("/products/flashsales", {
+    fetch("/products/bestselling", {
         headers: {
             Accept: "application/json",
             "X-Requested-With": "XMLHttpRequest",
@@ -110,16 +110,18 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             container.innerHTML = html;
+
+            initSwiper();
+
             // ✅ Add to Cart functionality - Using Event Delegation
             container.addEventListener("click", function (e) {
                 const button = e.target.closest(".add-to-cart");
                 if (button) {
                     const productId = button.dataset.id;
-                    // const productName = button.dataset.name;productName
-                    addToCart(productId, button);
+                    const productName = button.dataset.name;
+                    addToCart(productId, productName, button);
                 }
             });
-            initSwiper();
         })
         .catch((error) => {
             console.error("Error loading products:", error);
@@ -132,12 +134,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // ✅ Add to Cart Function
-function addToCart(productId, button) {
+function addToCart(productId, productName, button) {
     // Disable button temporarily
     const originalText = button.textContent;
     button.disabled = true;
     button.textContent = "Adding...";
-    console.log("add to cart!!");
 
     // Send request to server
     fetch("/cart/add", {
@@ -197,18 +198,18 @@ function addToCart(productId, button) {
 
 // ✅ SWIPER INIT
 function initSwiper() {
-    if (window.flashSwiper) {
-        window.flashSwiper.destroy(true, true);
+    if (window.bestSwiper) {
+        window.bestSwiper.destroy(true, true);
     }
 
-    window.flashSwiper = new Swiper(".flashsales-swiper", {
+    window.bestSwiper = new Swiper(".bestselling-swiper", {
         modules: [Navigation],
         slidesPerView: 1,
         spaceBetween: 20,
 
         navigation: {
-            nextEl: "#flash-next",
-            prevEl: "#flash-prev",
+            nextEl: "#best-next",
+            prevEl: "#best-prev",
         },
 
         breakpoints: {

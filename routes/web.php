@@ -20,7 +20,15 @@ Route::get('/show', function () { return view('user.product-details.product-deta
 Route::get('/test-404', function () { abort(404); });
 Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/products/flashsales', [ProductController::class, 'flashsales'])->name('flashsales');
+Route::get('/products/bestselling', [ProductController::class, 'bestSelling'])->name('bestselling');
+Route::get('/shop', [ProductController::class, 'shop'])->name('shop');
+Route::get('/cart', function () { return view('user.cart.cart'); });
 
+// add to cart 
+Route::get('/cart/count', [CartController::class,'cartCount']);
+    Route::post('/cart/add', [CartController::class, 'addToCart']);
+    Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
+    Route::get('/cartshow', [CartController::class, 'showCart'])->name('cart.show');
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes (Guest Only)
@@ -43,7 +51,7 @@ Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->nam
 */
 Route::middleware([UserMiddleware::class])->group(function () {
     Route::get('/wishlist', function () { return view('user.wishlist.wishlist'); });
-    Route::get('/cart', function () { return view('user.cart.cart'); });
+    
     Route::get('/checkout', function () { return view('user.checkout.checkout'); });
     Route::get('/account', function () { return view('user.account.account'); })->name('account');
     Route::post('/account', [AuthController::class, 'updateProfile'])->name('account.update');
@@ -51,9 +59,7 @@ Route::middleware([UserMiddleware::class])->group(function () {
 
 
    
-    Route::get('/cart/count', [CartController::class,'cartCount']);
-    Route::post('/cart/add', [CartController::class, 'addToCart']);
-    Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
+    
 });
  Route::get('/products', [ProductController::class, 'index'])->name('products');
 /*
