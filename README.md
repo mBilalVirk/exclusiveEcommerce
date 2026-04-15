@@ -58,3 +58,4 @@
 # 15/04/2026
 
 1. add to cart option for login user and guest user.
+2. update cart functionality.
