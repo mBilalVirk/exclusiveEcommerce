@@ -158,8 +158,15 @@ function addToCart(productId, productName, button) {
         .then(async (res) => {
             const data = await res.json();
 
-            if (!res.ok) {
-                throw new Error(data.message || "Failed to add to cart");
+            if (data.status === true) {
+                // Success Toast
+                showToast(data.message, "success");
+
+                // Re-fetch cart items to update UI without reload
+                if (typeof fetchCart === "function") fetchCart();
+            } else {
+                // Error Toast
+                showToast(data.message, "error");
             }
 
             return data;

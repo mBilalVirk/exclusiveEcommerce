@@ -13,40 +13,62 @@ class CartController extends Controller
     public function showCart(Request $request)
     {
         if (Auth::check()) {
-            // ✅ Logged-in user: fetch from DB with product relation
+            //  Logged-in user
             $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
 
-            // Calculate total
             $total = 0;
 
             foreach ($cartItems as $item) {
                 $total += $item->product->price * $item->qty;
             }
 
-             return response()->json([
-                'status' => true,
-                'cartItems' => $cartItems,
-                'total' => $total,
-                'isDatabase' => false,
-            ], 200);
+            return response()->json(
+                [
+                    'status' => true,
+                    'cartItems' => $cartItems,
+                    'total' => $total,
+                    'isDatabase' => false,
+                ],
+                200,
+            );
         } else {
-            // ✅ Guest user: fetch from session
+            // For guest user
             $cart = session()->get('cart', []);
 
+            $cartItems = [];
             $total = 0;
 
+            $productIds = array_column($cart, 'id');
+            $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
+
             foreach ($cart as $item) {
-                $total += $item['price'] * $item['qty'];
+                $product = $products[$item['id']] ?? null;
+
+                if ($product) {
+                    $price = $product->discount_price ?? $product->price;
+
+                    $cartItems[] = [
+                        'id' => $item['id'],
+                        'qty' => $item['qty'],
+                        'product' => $product,
+                    ];
+
+                    $total += $price * $item['qty'];
+                }
             }
 
-            return response()->json([
-                'status' => true,
-                'cartItems' => $cartItems,
-                'total' => $total,
-                'isDatabase' => false,
-            ], 200);
+            return response()->json(
+                [
+                    'status' => true,
+                    'cartItems' => $cartItems,
+                    'total' => $total,
+                    'isDatabase' => false,
+                ],
+                200,
+            );
         }
     }
+
     public function addToCart(Request $request)
     {
         $product = Product::find($request->product_id);
@@ -103,29 +125,60 @@ class CartController extends Controller
         );
     }
 
-    public function removeFromCart(Request $request)
+    public function removeFromCart(Request $request, $id)
     {
-        $productId = $request->id;
+        $productId = $id;
 
         if (Auth::check()) {
-            // ✅ Using Cart model directly
-            Cart::where('user_id', Auth::id())->where('product_id', $productId)->delete();
-
+            // DB cart
+            $isDeleted = Cart::where('user_id', Auth::id())->where('id', $productId)->delete();
+            if ($isDeleted > 0) {
+                return response()->json(
+                    [
+                        'status' => true,
+                        'message' => 'Product removed!',
+                    ],
+                    200,
+                );
+            } else {
+                return response()->json(
+                    [
+                        'status' => true,
+                        'message' => 'Something really happened but wrong!',
+                    ],
+                    200,
+                );
+            }
             $totalCount = Cart::where('user_id', Auth::id())->count();
         } else {
             $cart = session()->get('cart', []);
+            $isDeleted = false;
             if (isset($cart[$productId])) {
                 unset($cart[$productId]);
+
+                // 🔥 important fix
+                // $cart = array_values($cart);
+
                 session()->put('cart', $cart);
+                return response()->json(
+                    [
+                        'status' => true,
+                        'message' => 'Product removed!!',
+                    ],
+                    200,
+                );
+            } else {
+                return response()->json(
+                    [
+                        'status' => true,
+                        'message' => 'Something really happened but wrong!',
+                    ],
+                    200,
+                );
             }
+
             $totalCount = count($cart);
         }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Product removed',
-            'totalCount' => $totalCount,
-        ]);
     }
 
     public function cartCount()
@@ -152,6 +205,67 @@ class CartController extends Controller
         return response()->json([
             'status' => true,
             'count' => $count,
+        ]);
+    }
+
+    public function updateQty(Request $request, $id)
+    {
+        $action = $request->action; // 'inc' or 'dec'
+
+        if (Auth::check()) {
+            // 🔥 DB CART (logged-in user)
+            $cartItem = Cart::where('user_id', Auth::id())->where('id', $id)->first();
+
+            if (!$cartItem) {
+                return response()->json(
+                    [
+                        'status' => false,
+                        'message' => 'Item not found',
+                    ],
+                    404,
+                );
+            }
+
+            if ($action === 'inc') {
+                $cartItem->qty += 1;
+            } elseif ($action === 'dec') {
+                $cartItem->qty = max(1, $cartItem->qty - 1);
+            }
+
+            $cartItem->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Quantity updated',
+                'qty' => $cartItem->qty,
+            ]);
+        }
+
+        // 🔥 SESSION CART (guest user)
+        $cart = session()->get('cart', []);
+
+        if (!isset($cart[$id])) {
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'Item not found in cart',
+                ],
+                404,
+            );
+        }
+
+        if ($action === 'inc') {
+            $cart[$id]['qty'] += 1;
+        } elseif ($action === 'dec') {
+            $cart[$id]['qty'] = max(1, $cart[$id]['qty'] - 1);
+        }
+
+        session()->put('cart', $cart);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Quantity updated',
+            'qty' => $cart[$id]['qty'],
         ]);
     }
 }

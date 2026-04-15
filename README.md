@@ -53,4 +53,8 @@
 
 # 14/04/2026
 
-1.
+1. add to cart option for login user and guest user.
+
+# 15/04/2026
+
+1. add to cart option for login user and guest user.

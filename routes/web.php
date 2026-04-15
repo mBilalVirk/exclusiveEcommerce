@@ -27,8 +27,9 @@ Route::get('/cart', function () { return view('user.cart.cart'); });
 // add to cart 
 Route::get('/cart/count', [CartController::class,'cartCount']);
     Route::post('/cart/add', [CartController::class, 'addToCart']);
-    Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
+    Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart']);
     Route::get('/cartshow', [CartController::class, 'showCart'])->name('cart.show');
+    Route::post('/cart/update/{id}', [CartController::class, 'updateQty']);
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes (Guest Only)
