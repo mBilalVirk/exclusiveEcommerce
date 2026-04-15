@@ -71,8 +71,22 @@ class ProductController extends Controller
 
         return view('user.shop.shop');
     }
-    public function show(Product $product)
-    {
-        return response()->json($product);
+    public function show($id)
+{
+    $product = Product::find($id);
+
+    if (!$product) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Product not found',
+            'type' => 'error'
+        ], 404);
     }
+
+    return response()->json([
+        'status' => true,
+        'product' => $product,
+        'message' => 'Product fetched successfully'
+    ]);
+}
 }

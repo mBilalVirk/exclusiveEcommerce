@@ -19,7 +19,7 @@ class CartController extends Controller
             $total = 0;
 
             foreach ($cartItems as $item) {
-                $total += $item->product->price * $item->qty;
+                $total += $item->product->discount_price * $item->qty;
             }
 
             return response()->json(

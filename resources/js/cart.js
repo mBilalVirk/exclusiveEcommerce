@@ -69,8 +69,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let html = "";
         const shiping_fee = 150;
         const subTotal = total + shiping_fee;
-        html += `$${total}`;
-        subTotalSpan.innerHTML = html;
+
+        subTotalSpan.innerHTML = `$${total}`;
         shippingSpan.innerHTML = `$${shiping_fee}`;
         grandTotalSpan.innerHTML = `$${subTotal}`;
     }

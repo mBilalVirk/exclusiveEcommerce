@@ -8,9 +8,9 @@
             <nav class="flex text-sm mb-20 text-gray-500">
                 <a href="#" class="hover:text-black">Account</a>
                 <span class="mx-2">/</span>
-                <a href="#" class="hover:text-black">Gaming</a>
+                <a href="#" class="hover:text-black" id='category'></a>
                 <span class="mx-2">/</span>
-                <span class="text-black font-medium">Havic HV G-92 Gamepad</span>
+                <span class="text-black font-medium" id='name'></span>
             </nav>
 
             <div class="flex flex-col lg:flex-row gap-16">
@@ -34,12 +34,12 @@
                         </div>
                     </div>
                     <div class="flex-1 bg-[#F5F5F5] rounded-sm flex items-center justify-center p-12">
-                        <img src="gamepad-main.png" alt="Havic HV G-92 Gamepad" class="w-full h-auto object-contain">
+                        <img src="" alt="" class="w-full h-auto object-contain" id="img">
                     </div>
                 </div>
 
                 <div class="w-full lg:w-2/5 space-y-6">
-                    <h1 class="text-2xl font-semibold tracking-wide">Havic HV G-92 Gamepad</h1>
+                    <h1 class="text-2xl font-semibold tracking-wide"></h1>
 
                     <div class="flex items-center gap-4 text-sm">
                         <div class="flex text-yellow-400 gap-1">
@@ -56,9 +56,8 @@
 
                     <div class="text-2xl font-medium">$192.00</div>
 
-                    <p class="text-sm leading-relaxed border-b border-gray-300 pb-6">
-                        PlayStation 5 Controller Skin High quality vinyl with air channel adhesive for easy bubble free
-                        install & mess free removal Pressure sensitive.
+                    <p class="text-sm leading-relaxed border-b border-gray-300 pb-6" id="description">
+
                     </p>
 
                     <div class="space-y-6 pt-2">
@@ -125,8 +124,13 @@
                 </div>
             </div>
         </div>
+
     </div>
+    <script>
+        // Pass the ID from PHP to JS
+        window.productId = "{{ $id }}";
+    </script>
 
-
+    @vite('resources/js/productdetails.js')
     @include('user.footer.footer')
 @endsection

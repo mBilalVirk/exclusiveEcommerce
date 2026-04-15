@@ -23,6 +23,10 @@ Route::get('/products/flashsales', [ProductController::class, 'flashsales'])->na
 Route::get('/products/bestselling', [ProductController::class, 'bestSelling'])->name('bestselling');
 Route::get('/shop', [ProductController::class, 'shop'])->name('shop');
 Route::get('/cart', function () { return view('user.cart.cart'); });
+Route::get('/show/{id}', function ($id) {
+    return view('user.product-details.product-details', compact('id'));
+});
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('productDetails');//single item details
 
 // add to cart 
 Route::get('/cart/count', [CartController::class,'cartCount']);
