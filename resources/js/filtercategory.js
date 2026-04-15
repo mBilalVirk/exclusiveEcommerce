@@ -111,9 +111,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <img src="/${product.image}" 
                                      class="object-contain max-h-[180px] group-hover:scale-110 transition duration-300">
 
-                                <button class="add-to-cart absolute bottom-0 w-full bg-black text-white py-2 opacity-0 group-hover:opacity-100 transition">
-                                    Add To Cart
-                                </button>
+                                <button 
+                            class="add-to-cart absolute bottom-0 w-full bg-black text-white py-2 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-800"
+                            data-id="${product.id}"
+                            data-name="${product.name || "Product"}">
+                            Add To Cart
+                        </button>
                             </div>
 
                             <div class="mt-4">
@@ -131,6 +134,14 @@ document.addEventListener("DOMContentLoaded", function () {
                             </div>
                         </div>
                     `;
+                });
+                addEventListener("click", function (e) {
+                    const button = e.target.closest(".add-to-cart");
+                    if (button) {
+                        const productId = button.dataset.id;
+                        // const productName = button.dataset.name;productName
+                        addToCart(productId, button);
+                    }
                 });
             })
             .catch((err) => {
@@ -156,7 +167,76 @@ document.addEventListener("DOMContentLoaded", function () {
 
         fetchProducts();
     });
+    // ✅ Add to Cart Function
+    function addToCart(productId, button) {
+        // Disable button temporarily
+        const originalText = button.textContent;
+        button.disabled = true;
+        button.textContent = "Adding...";
+        console.log("add to cart!!");
 
+        // Send request to server
+        fetch("/cart/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRF-TOKEN":
+                    document.querySelector('meta[name="csrf-token"]')
+                        ?.content || "",
+            },
+            body: JSON.stringify({
+                product_id: productId,
+                quantity: 1,
+            }),
+        })
+            .then(async (res) => {
+                const data = await res.json();
+
+                if (data.status === true) {
+                    // Success Toast
+                    showToast(data.message, "success");
+
+                    // Re-fetch cart items to update UI without reload
+                    if (typeof fetchCart === "function") fetchCart();
+                } else {
+                    // Error Toast
+                    showToast(data.message, "error");
+                }
+
+                return data;
+            })
+            .then((data) => {
+                // Success feedback
+                button.textContent = "Added ✓";
+                button.classList.add("bg-green-600");
+                button.classList.remove("bg-black", "hover:bg-gray-800");
+                updateCartCount();
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove("bg-green-600");
+                    button.classList.add("bg-black", "hover:bg-gray-800");
+                    button.disabled = false;
+                }, 2000);
+            })
+            .catch((error) => {
+                console.error("Error adding to cart:", error);
+
+                // Error feedback
+                button.textContent = "Failed ✗";
+                button.classList.add("bg-red-600");
+                button.classList.remove("bg-black", "hover:bg-gray-800");
+
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove("bg-red-600");
+                    button.classList.add("bg-black", "hover:bg-gray-800");
+                    button.disabled = false;
+                }, 2000);
+            });
+    }
     // INIT
     fetchProducts();
 });

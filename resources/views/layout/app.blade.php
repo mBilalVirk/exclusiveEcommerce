@@ -30,7 +30,7 @@
             toast.className =
                 `${bgColor} text-white px-6 py-3 rounded shadow-lg transform transition-all duration-300 translate-x-full opacity-0 flex items-center gap-2`;
             toast.innerHTML = `
-        <span>${type === 'success' ? '✅' : '❌'}</span>
+        <span>${type === 'success' ? '<i class="fa fa-info-circle"></i>' : '<i class="fa-solid fa-circle-xmark"></i>'}</span>
         <span class="text-sm font-medium">${message}</span>
     `;
 
