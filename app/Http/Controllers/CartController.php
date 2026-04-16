@@ -74,7 +74,7 @@ class CartController extends Controller
         $product = Product::find($request->product_id);
 
         if (!$product) {
-            return response()->json(['status' => false, 'message' => 'Product not found!'], 404);
+            return response()->json(['status' => false, 'message' => 'Product not found!','type'=>'error'], 404);
         }
 
         // If user is logged in, save to Database
@@ -189,10 +189,10 @@ class CartController extends Controller
 
         if (Auth::check()) {
             // Option A: Total unique items in the database
-            // $count = Cart::where('user_id', Auth::id())->count();
+            $count = Cart::where('user_id', Auth::id())->count();
 
             // OR Option B: Sum of all quantities (if you want to show total items)
-            $count = Cart::where('user_id', Auth::id())->sum('qty');
+            //$count = Cart::where('user_id', Auth::id())->sum('qty');
         } else {
             // Guest user logic using the session
             $cart = session()->get('cart', []);
