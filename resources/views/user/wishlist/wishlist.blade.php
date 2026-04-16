@@ -1,5 +1,5 @@
 @extends('layout.app')
-@section('title', 'Wish List');
+@section('title', 'Wish List')
 @section('content')
     @include('header.top')
     @include('header.navbar')

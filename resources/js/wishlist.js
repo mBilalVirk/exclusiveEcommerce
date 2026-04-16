@@ -61,7 +61,7 @@ function fetchWishlist() {
                         </div>
 
                         <div class="flex items-center gap-2 mt-2">
-                            <div class="flex text-yellow-400">★★★★★</div>
+                            <div class="flex text-yellow-400">${getStars(p.stars ?? 0)}</div>
                             <span class="text-gray-400 text-sm font-bold">(${p.reviews_count})</span>
                         </div>
                     </div>
@@ -83,6 +83,11 @@ window.removeFromWishlist = function (id, btn) {
         .then((res) => res.json())
         .then((data) => {
             btn.closest(".group").remove();
+            const totalSpan = document.getElementById("totalcount");
+            if (totalSpan) {
+                let currentCount = parseInt(totalSpan.innerText) || 0;
+                totalSpan.innerText = Math.max(0, currentCount - 1); // Ensure it doesn't go below 0
+            }
             updateWishlistCount();
             const container = document.querySelector(".grid");
 
@@ -95,3 +100,16 @@ window.removeFromWishlist = function (id, btn) {
             }
         });
 };
+function getStars(rating) {
+    let stars = "";
+
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            stars += "★"; // filled star
+        } else {
+            stars += "☆"; // empty star
+        }
+    }
+
+    return stars;
+}

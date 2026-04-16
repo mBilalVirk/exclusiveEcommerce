@@ -107,6 +107,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             ${hasDiscount ? `<span class="text-gray-400 line-through font-medium">$${product.price}</span>` : ""}
                         </div>
+                        <div class="flex items-center gap-2 mt-2">
+                            <div class="flex text-yellow-400">${getStars(product.stars ?? 0)}</div>
+                            <span class="text-gray-400 text-sm font-bold">(${product.reviews_count})</span>
+                        </div>
                     </div>
                 </div>`;
             });
@@ -253,6 +257,20 @@ window.toggleWishlist = function (productId, btn) {
             alert("Failed to update wishlist");
         });
 };
+//stars
+function getStars(rating) {
+    let stars = "";
+
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            stars += "★"; // filled star
+        } else {
+            stars += "☆"; // empty star
+        }
+    }
+
+    return stars;
+}
 // ✅ SWIPER INIT
 function initSwiper() {
     if (window.bestSwiper) {
