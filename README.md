@@ -59,3 +59,9 @@
 
 1. add to cart option for login user and guest user.
 2. update cart functionality.
+
+# 16/04/2026
+
+1. Add wishlist functionality.
+2. add to cart functionality.
+3. some bug fixes.
