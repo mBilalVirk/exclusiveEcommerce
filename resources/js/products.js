@@ -38,7 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             products.forEach((product) => {
                 let discountBadge = "";
-
+                const heartClass = product.is_wishlisted
+                    ? "text-red-500 fill-current"
+                    : "";
                 const hasDiscount =
                     product.discount_price &&
                     product.discount_price > 0 &&
@@ -70,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         
                         ${discountBadge}
                          <div class="absolute top-3 right-3 flex flex-col gap-2">
-                        <button class="bg-white p-1.5 rounded-full shadow-sm hover:text-red-500"><svg class="w-5 h-5"
+                        <button class="bg-white p-1.5 rounded-full shadow-sm hover:text-red-500"onclick="toggleWishlist(${product.id}, this)"><svg class="w-5 h-5 ${heartClass}"
                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
@@ -206,6 +208,54 @@ function addToCart(productId, productName, button) {
             }, 2000);
         });
 }
+// toggle wishlist function
+window.toggleWishlist = function (productId, btn) {
+    fetch(`/wishlist/toggle/${productId}`, {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                .content,
+            Accept: "application/json",
+        },
+    })
+        .then(async (res) => {
+            const data = await res.json();
+
+            if (data.status === true || data.status === "added") {
+                // Success Toast
+                showToast(data.message, "success");
+
+                // Re-fetch cart items to update UI without reload
+                if (typeof fetchCart === "function") fetchCart();
+            } else {
+                // Error Toast
+                showToast(data.message, "error");
+            }
+
+            return data;
+        })
+        .then((data) => {
+            updateWishlistCount();
+            const icon = btn.querySelector("svg");
+            if (!btn) {
+                console.error("Button not found ❌");
+                return;
+            }
+            console.log(icon);
+            if (data.status === "added") {
+                //alert("Added to wishlist ❤️");
+                icon.classList.add("text-red-500", "fill-current");
+            } else {
+                //alert("Removed from wishlist 💔");
+                icon.classList.remove("text-red-500", "fill-current");
+            }
+        })
+        .catch((error) => {
+            // ❌ Missing catch block entirely!
+            console.error("Wishlist toggle error:", error);
+            alert("Failed to update wishlist");
+        });
+};
 
 // ✅ SWIPER INIT
 function initSwiper() {

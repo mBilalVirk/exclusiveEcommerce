@@ -1,4 +1,5 @@
 @extends('layout.app')
+@section('title', 'Wish List');
 @section('content')
     @include('header.top')
     @include('header.navbar')
@@ -14,7 +15,8 @@
                             <div class="w-5 h-10 bg-red-500 rounded-sm"></div>
                             <span class="text-red-500 font-bold text-sm">Wish List</span>
                         </div>
-                        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Total Products (4)</h2>
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Total Products (<span
+                                id='totalcount'></span>)</h2>
                     </div>
 
                     <div>
@@ -28,10 +30,10 @@
 
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="wishlists">
 
 
-                    <div class="group">
+                    {{-- <div class="group">
                         <div
                             class="relative bg-gray-100 rounded-sm h-[250px] flex items-center justify-center overflow-hidden">
                             <span
@@ -171,7 +173,7 @@
                                 <span class="text-gray-400 text-sm font-bold">(87)</span>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
 
@@ -211,8 +213,7 @@
 
 
                 <div class="group">
-                    <div
-                        class="relative bg-gray-100 rounded-sm h-[250px] flex items-center justify-center overflow-hidden">
+                    <div class="relative bg-gray-100 rounded-sm h-[250px] flex items-center justify-center overflow-hidden">
                         <span class="absolute top-3 left-3 bg-green-400 text-white text-xs px-3 py-1 rounded-sm">New</span>
 
                         <div class="absolute top-3 right-3 flex flex-col gap-2">
@@ -253,8 +254,7 @@
                 </div>
 
                 <div class="group">
-                    <div
-                        class="relative bg-gray-100 rounded-sm h-[250px] flex items-center justify-center overflow-hidden">
+                    <div class="relative bg-gray-100 rounded-sm h-[250px] flex items-center justify-center overflow-hidden">
 
 
                         <div class="absolute top-3 right-3 flex flex-col gap-2">
@@ -295,8 +295,7 @@
                 </div>
 
                 <div class="group">
-                    <div
-                        class="relative bg-gray-100 rounded-sm h-[250px] flex items-center justify-center overflow-hidden">
+                    <div class="relative bg-gray-100 rounded-sm h-[250px] flex items-center justify-center overflow-hidden">
                         <span class="absolute top-3 left-3 bg-green-400 text-white text-xs px-3 py-1 rounded-sm">New</span>
 
                         <div class="absolute top-3 right-3 flex flex-col gap-2">
@@ -389,4 +388,5 @@
     {{-- end only for you --}}
 
     @include('user.footer.footer')
+    @vite('resources/js/wishlist.js')
 @endsection

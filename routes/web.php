@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController; // Assuming you have this for 'show'
+use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UserMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +28,11 @@ Route::get('/show/{id}', function ($id) {
     return view('user.product-details.product-details', compact('id'));
 });
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('productDetails');//single item details
-
+// wishlist toggle
+Route::get('/wishlist', function () { return view('user.wishlist.wishlist'); });
+Route::post('/wishlist/toggle/{id}', [WishlistController::class, 'toggle']);
+   Route::get('/wishlist/count', [WishlistController::class,'wishListCount']);
+    Route::get('/wishlists', [WishlistController::class, 'showWishList'])->name('show.WishList');
 // add to cart 
 Route::get('/cart/count', [CartController::class,'cartCount']);
     Route::post('/cart/add', [CartController::class, 'addToCart']);
@@ -55,7 +60,7 @@ Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->nam
 |--------------------------------------------------------------------------
 */
 Route::middleware([UserMiddleware::class])->group(function () {
-    Route::get('/wishlist', function () { return view('user.wishlist.wishlist'); });
+    
     
     Route::get('/checkout', function () { return view('user.checkout.checkout'); });
     Route::get('/account', function () { return view('user.account.account'); })->name('account');

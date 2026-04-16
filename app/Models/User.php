@@ -18,24 +18,14 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'first_name',
-        'last_name',
-        'email',
-        'address',
-        'password',
-        'role',
-    ];
+    protected $fillable = ['first_name', 'last_name', 'email', 'address', 'password', 'role'];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
     /**
      * Get the attributes that should be cast.
@@ -71,5 +61,9 @@ class User extends Authenticatable
         $lastName = $this->last_name ?? '';
 
         return trim("{$firstName} {$lastName}");
+    }
+    public function wishlist()
+    {
+        return $this->belongsToMany(Product::class, 'wishlists')->withTimestamps();
     }
 }

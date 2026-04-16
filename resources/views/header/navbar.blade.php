@@ -37,6 +37,8 @@
                 <div class="flex items-center gap-4">
                     <a href="/wishlist" class="relative">
                         <i class="fa-regular fa-heart text-xl"></i>
+                        <span id="wishlist-count"
+                            class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
                     </a>
 
                     <a href="/cart" class="relative">
@@ -44,22 +46,34 @@
                         <span id="cart-count"
                             class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
                     </a>
+
                     <script>
                         document.addEventListener("DOMContentLoaded", function() {
-                            // ✅ Attach to window to make it globally callable
+                            // ✅ Global Cart Count Update
                             window.updateCartCount = function() {
                                 fetch("/cart/count")
                                     .then(res => res.json())
                                     .then(data => {
-
                                         const el = document.getElementById("cart-count");
                                         if (el) el.innerText = data.count;
                                     })
                                     .catch(err => console.log("Cart count error:", err));
                             };
 
-                            // Run once on page load
+                            // ✅ Global Wishlist Count Update
+                            window.updateWishlistCount = function() {
+                                fetch("/wishlist/count")
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        const el = document.getElementById("wishlist-count");
+                                        if (el) el.innerText = data.count;
+                                    })
+                                    .catch(err => console.log("Wishlist count error:", err));
+                            };
+
+                            // Run both on page load
                             window.updateCartCount();
+                            window.updateWishlistCount();
                         });
                     </script>
                     @auth
