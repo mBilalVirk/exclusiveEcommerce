@@ -103,7 +103,11 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
-        ]);
+        ],[
+                'email.required' => 'Email is required',
+                'email.email' => 'Please enter a valid email address',
+                'password.required' => 'Password is required',
+            ]);
 
         if (!Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()

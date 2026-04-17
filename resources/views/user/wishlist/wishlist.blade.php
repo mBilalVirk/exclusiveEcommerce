@@ -16,7 +16,7 @@
                             <span class="text-red-500 font-bold text-sm">Wish List</span>
                         </div>
                         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Total Products (<span
-                                id='totalcount'></span>)</h2>
+                                id='totalcount'>0</span>)</h2>
                     </div>
 
                     <div>

@@ -65,13 +65,13 @@ Route::middleware([UserMiddleware::class])->group(function () {
     Route::get('/checkout', function () { return view('user.checkout.checkout'); });
     Route::get('/account', function () { return view('user.account.account'); })->name('account');
     Route::post('/account', [AuthController::class, 'updateProfile'])->name('account.update');
-    Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
+    
 
 
    
     
 });
- Route::get('/products', [ProductController::class, 'index'])->name('products');
+//  Route::get('/products', [ProductController::class, 'index'])->name('products');
 /*
 |--------------------------------------------------------------------------
 | Admin Routes (Role Restricted)

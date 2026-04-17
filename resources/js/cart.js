@@ -22,7 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     renderCart(response.cartItems);
                     updateTotals(response.total);
                 } else {
-                    cartContainer.innerHTML = `<div class="py-10 text-center">Your cart is empty.</div>`;
+                    cartContainer.innerHTML = `<p class="text-center col-span-4 text-gray-500">
+                    Your cart is empty <i class="fa-solid fa-heart-crack"></i>
+                </p>`;
                 }
             })
             .catch((err) => console.error("Error fetching cart:", err));

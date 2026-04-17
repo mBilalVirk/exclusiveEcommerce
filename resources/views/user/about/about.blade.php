@@ -58,14 +58,16 @@
                     </div>
 
                     <div
-                        class="bg-[#DB4444] border border-[#DB4444] rounded p-8 flex flex-col items-center justify-center text-white shadow-lg">
-                        <div class="w-20 h-20 bg-white/30 rounded-full flex items-center justify-center mb-6">
-                            <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-black">
+                        class="group border border-gray-300 rounded p-8 flex flex-col items-center justify-center transition-all duration-300 hover:bg-[#DB4444] hover:border-[#DB4444">
+                        <div
+                            class="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center mb-6 group-hover:bg-white/30 transition-colors">
+                            <div
+                                class="w-14 h-14 bg-black rounded-full flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-colors">
                                 <i class="fa-solid fa-dollar-sign text-2xl"></i>
                             </div>
                         </div>
-                        <h3 class="text-3xl font-bold mb-2">33k</h3>
-                        <p class="text-sm">Monthly Product Sale</p>
+                        <h3 class="text-3xl font-bold mb-2 group-hover:text-white transition-colors">33k</h3>
+                        <p class="text-sm group-hover:text-white transition-colors">Monthly Product Sale</p>
                     </div>
 
                     <div

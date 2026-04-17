@@ -2,7 +2,7 @@ import Swiper from "swiper";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-
+// import { addToCart } from "./utils/addToCart";
 document.addEventListener("DOMContentLoaded", function () {
     const container = document.getElementById("bestselling-grid");
 

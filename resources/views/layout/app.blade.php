@@ -16,6 +16,7 @@
 <body>
     @yield('content')
     <div id="toast-container" class="fixed top-30 right-5 z-50 flex flex-col gap-3"></div>
+
     <script>
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');

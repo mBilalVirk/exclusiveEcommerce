@@ -13,10 +13,10 @@
 
             <div>
                 <div class="flex gap-2">
-                    <button
+                    <a href="/shop"
                         class="bg-red-500 text-white font-semibold px-6 py-3 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 transition-colors duration-200 cursor-pointer">
                         View All
-                    </button>
+                    </a>
                 </div>
             </div>
 

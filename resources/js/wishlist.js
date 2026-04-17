@@ -1,3 +1,5 @@
+import { showToast } from "./utils/toast";
+import { addToCart } from "./utils/addToCart";
 document.addEventListener("DOMContentLoaded", function () {
     fetchWishlist();
 });
@@ -6,6 +8,8 @@ function fetchWishlist() {
     fetch("/wishlists", {
         method: "GET",
         headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                .content,
             Accept: "application/json",
         },
     })
@@ -13,7 +17,9 @@ function fetchWishlist() {
         .then((data) => {
             const container = document.getElementById("wishlists");
             const totalSpan = document.getElementById("totalcount");
-            totalSpan.innerHTML = data.total;
+            if (totalSpan) {
+                totalSpan.innerHTML = data.total;
+            }
             if (!container) return;
 
             container.innerHTML = "";
@@ -47,7 +53,10 @@ function fetchWishlist() {
                         <img src="${p.image}"
                              class="object-contain max-h-[180px] group-hover:scale-110 transition duration-300">
 
-                        <button class="absolute bottom-0 w-full bg-black text-white py-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button 
+                            class="add-to-cart absolute bottom-0 w-full bg-black text-white py-2 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-800"
+                            data-id="${p.id}"
+                            data-name="${p.name || "Product"}">
                             Add To Cart
                         </button>
                     </div>
@@ -56,7 +65,7 @@ function fetchWishlist() {
                         <h3 class="font-bold text-base truncate">${p.name}</h3>
 
                         <div class="flex items-center gap-3 mt-2">
-                            <span class="text-red-500 font-bold">$${p.discount_price ?? p.price}</span>
+                            <span class="text-red-500 font-bold">$${p.discount_price || p.price}</span>
                             <span class="text-gray-400 line-through">$${p.price}</span>
                         </div>
 
@@ -67,6 +76,15 @@ function fetchWishlist() {
                     </div>
                 </div>
             `;
+            });
+            // ✅ Add to Cart functionality - Using Event Delegation
+            container.addEventListener("click", function (e) {
+                const button = e.target.closest(".add-to-cart");
+                if (button) {
+                    const productId = button.dataset.id;
+                    const productName = button.dataset.name;
+                    addToCart(productId, productName, button);
+                }
             });
         });
 }
@@ -80,7 +98,22 @@ window.removeFromWishlist = function (id, btn) {
             Accept: "application/json",
         },
     })
-        .then((res) => res.json())
+        .then(async (res) => {
+            const data = await res.json();
+
+            if (data.status === true) {
+                // Success Toast
+                showToast(data.message, "success");
+
+                // Re-fetch cart items to update UI without reload
+                if (typeof fetchCart === "function") fetchCart();
+            } else {
+                // Error Toast
+                showToast(data.message, "error");
+            }
+
+            return data;
+        })
         .then((data) => {
             btn.closest(".group").remove();
             const totalSpan = document.getElementById("totalcount");
@@ -98,8 +131,12 @@ window.removeFromWishlist = function (id, btn) {
                 </p>
             `;
             }
+        })
+        .catch((error) => {
+            console.error("Wishlist error:", error);
         });
 };
+
 function getStars(rating) {
     let stars = "";
 
