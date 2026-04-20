@@ -120,7 +120,7 @@ class AuthController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
-        $destination = $user->isAdmin() ? '/admin' : '/account';
+        $destination = $user->isAdmin() ? 'admin/dashboard' : '/account';
 
         return redirect()->intended($destination);
     }

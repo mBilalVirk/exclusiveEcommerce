@@ -18,7 +18,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = ['first_name', 'last_name', 'email', 'address', 'password', 'role'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'address', 'password', 'role', 'phone', 'city', 'country', 'is_active','last_login_at'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -37,6 +37,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_login_at' => 'datetime',
+            'is_active' => 'boolean',
         ];
     }
 
@@ -65,5 +67,14 @@ class User extends Authenticatable
     public function wishlist()
     {
         return $this->belongsToMany(Product::class, 'wishlists')->withTimestamps();
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function cart()
+    {
+        return $this->hasMany(Cart::class);
     }
 }

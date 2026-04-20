@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     buyBtn.onclick = async () => {
         const qty = parseInt(qtyDisplay.innerText);
 
-        const response = await fetch("/api/cart/add", {
+        const response = await fetch("/cart/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
