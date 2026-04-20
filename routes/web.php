@@ -82,46 +82,50 @@ Route::middleware([UserMiddleware::class])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    
-    // You can easily add more admin routes here later
-    // Route::get('/products', [AdminController::class, 'products'])->name('products');
-});
-
-
-
-// Admin Routes
-Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
-    // Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-    // Products Management
-    Route::prefix('products')->name('products.')->group(function () {
-        Route::get('/', [ProductAdminController::class, 'index'])->name('index');
-        Route::post('/', [ProductAdminController::class, 'store'])->name('store');
-        Route::get('/{id}', [ProductAdminController::class, 'show'])->name('show');
-        Route::put('/{id}', [ProductAdminController::class, 'update'])->name('update');
-        Route::delete('/{id}', [ProductAdminController::class, 'destroy'])->name('destroy');
-        Route::post('/bulk-update-stock', [ProductAdminController::class, 'bulkUpdateStock'])->name('bulk-update-stock');
-    });
+    // Admin Views
+    Route::get('/products', function () {
+        return view('admin.products');
+    })->name('products.view');
+    Route::get('/orders', function () {
+        return view('admin.orders');
+    })->name('orders.view');
+    Route::get('/customers', function () {
+        return view('admin.customers');
+    })->name('customers.view');
 
-    // Orders Management
-    Route::prefix('orders')->name('orders.')->group(function () {
-        Route::get('/', [OrderAdminController::class, 'index'])->name('index');
-        Route::post('/', [OrderAdminController::class, 'store'])->name('store');
-        Route::get('/{id}', [OrderAdminController::class, 'show'])->name('show');
-        Route::put('/{id}/status', [OrderAdminController::class, 'updateStatus'])->name('update-status');
-        Route::delete('/{id}', [OrderAdminController::class, 'destroy'])->name('destroy');
-        Route::get('/statistics', [OrderAdminController::class, 'statistics'])->name('statistics');
-    });
+    // API Routes for Admin Panel
+    Route::prefix('api')->name('api.')->group(function () {
+        // Products Management
+        Route::prefix('products')->name('products.')->group(function () {
+            Route::get('/', [ProductAdminController::class, 'index'])->name('index');
+            Route::post('/', [ProductAdminController::class, 'store'])->name('store');
+            Route::get('/{id}', [ProductAdminController::class, 'show'])->name('show');
+            Route::put('/{id}', [ProductAdminController::class, 'update'])->name('update');
+            Route::delete('/{id}', [ProductAdminController::class, 'destroy'])->name('destroy');
+            Route::post('/bulk-update-stock', [ProductAdminController::class, 'bulkUpdateStock'])->name('bulk-update-stock');
+        });
 
-    // Customer Management (CRM)
-    Route::prefix('customers')->name('customers.')->group(function () {
-        Route::get('/', [CustomerAdminController::class, 'index'])->name('index');
-        Route::get('/{id}', [CustomerAdminController::class, 'show'])->name('show');
-        Route::put('/{id}', [CustomerAdminController::class, 'update'])->name('update');
-        Route::get('/{id}/lifetime-value', [CustomerAdminController::class, 'lifetimeValue'])->name('lifetime-value');
-        Route::get('/segmentation', [CustomerAdminController::class, 'segmentation'])->name('segmentation');
-        Route::post('/{id}/send-message', [CustomerAdminController::class, 'sendMessage'])->name('send-message');
+        // Orders Management
+        Route::prefix('orders')->name('orders.')->group(function () {
+            Route::get('/', [OrderAdminController::class, 'index'])->name('index');
+            Route::post('/', [OrderAdminController::class, 'store'])->name('store');
+            Route::get('/{id}', [OrderAdminController::class, 'show'])->name('show');
+            Route::put('/{id}/status', [OrderAdminController::class, 'updateStatus'])->name('update-status');
+            Route::delete('/{id}', [OrderAdminController::class, 'destroy'])->name('destroy');
+            Route::get('/statistics', [OrderAdminController::class, 'statistics'])->name('statistics');
+        });
+
+        // Customer Management (CRM)
+        Route::prefix('customers')->name('customers.')->group(function () {
+            Route::get('/', [CustomerAdminController::class, 'index'])->name('index');
+            Route::get('/{id}', [CustomerAdminController::class, 'show'])->name('show');
+            Route::put('/{id}', [CustomerAdminController::class, 'update'])->name('update');
+            Route::get('/{id}/lifetime-value', [CustomerAdminController::class, 'lifetimeValue'])->name('lifetime-value');
+            Route::get('/segmentation', [CustomerAdminController::class, 'segmentation'])->name('segmentation');
+            Route::post('/{id}/send-message', [CustomerAdminController::class, 'sendMessage'])->name('send-message');
+        });
     });
 });

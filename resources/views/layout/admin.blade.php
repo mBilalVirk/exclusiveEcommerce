@@ -9,6 +9,7 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     @vite('resources/css/app.css')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('head')
 </head>
 
@@ -32,12 +33,12 @@
             <nav class="mt-10 space-y-2">
                 <a href="/admin/dashboard"
                     class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/dashboard') ? 'bg-[#DB4444]' : '' }}">Dashboard</a>
-                <a href="/admin/products"
-                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/products') ? 'bg-[#DB4444]' : '' }}">Products</a>
-                <a href="/admin/orders"
-                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/orders') ? 'bg-[#DB4444]' : '' }}">Orders</a>
-                <a href="/admin/users"
-                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/users') ? 'bg-[#DB4444]' : '' }}">Customers</a>
+                <a href="{{ route('admin.products.view') }}"
+                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/products*') ? 'bg-[#DB4444]' : '' }}">Products</a>
+                <a href="{{ route('admin.orders.view') }}"
+                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/orders*') ? 'bg-[#DB4444]' : '' }}">Orders</a>
+                <a href="{{ route('admin.customers.view') }}"
+                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/customers*') ? 'bg-[#DB4444]' : '' }}">Customers</a>
             </nav>
         </aside>
 
@@ -52,7 +53,8 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <span class="hidden sm:inline font-medium text-sm text-gray-700">Bilal</span>
+                    <span
+                        class="hidden sm:inline font-medium text-sm text-gray-700">{{ auth()->user()->name ?? auth()->user()->email }}</span>
                     <form method="POST" action={{ route('admin.logout') }}>
                         @csrf
                         <button

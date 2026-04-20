@@ -355,3 +355,7 @@ class CartController extends Controller
 7. Bug Fixes.
 
 # 20/04/2026
+
+1. bug fixes.
+2. Add admin panel.
+3. Admin can see products and perform CRUD operation on it.

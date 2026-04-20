@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class ProductAdminController extends Controller
 {
     /**
@@ -22,21 +22,24 @@ class ProductAdminController extends Controller
         $query = Product::query();
 
         if ($search) {
-            $query->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+            $query->where('name', 'like', "%{$search}%")->orWhere('description', 'like', "%{$search}%");
         }
 
         if ($category) {
             $query->where('category', $category);
         }
 
-        $products = $query->orderBy($sortBy, $sortOrder)
-                         ->paginate($perPage);
+        $products = $query->orderBy($sortBy, $sortOrder)->paginate($perPage);
 
-        return response()->json([
-            'status' => true,
-            'data' => $products,
-        ]);
+        return response()->json(
+            [
+                'status' => true,
+                'data' => $products,
+                'database' => true,
+            ],
+            200,
+        );
+        // return view('admin.products', compact('products'));
     }
 
     /**
@@ -44,24 +47,44 @@ class ProductAdminController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:products',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'discount_price' => 'nullable|numeric|min:0|lt:price',
-            'category' => 'required|string|max:100',
-            'stock' => 'required|integer|min:0',
-            'image' => 'nullable|url',
-            'is_new' => 'nullable|boolean',
-        ]);
+        $validated = $request->validate(
+            [
+                'name' => 'required|string|max:255|unique:products',
+                'description' => 'required|string',
+                'price' => 'required|numeric|min:0',
+                'discount_price' => 'nullable|numeric|min:0|lt:price',
+                'category' => 'required|string|max:100|in:gaming,sports,pets,furniture,electronics,computing,beauty,apparel',
+                'stock' => 'required|integer|min:0',
+                'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+                'is_new' => 'nullable|boolean',
+                'is_available' => 'nullable|boolean',
+            ],
+            [
+                'name.required' => 'Product name is required',
+                'name.unique' => 'This product already exists',
+                'price.required' => 'Price is required',
+                'price.numeric' => 'Price must be a number',
+                'category.in' => 'Please select a valid category',
+            ],
+        );
 
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '_' . str_replace(' ', '-', $file->getClientOriginalName());
+            $file->move(public_path('image'), $filename);
+            $validated['image'] = 'image/' . $filename;
+        }
+        $validated['slug'] = Str::slug($request->name);
         $product = Product::create($validated);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Product created successfully',
-            'data' => $product,
-        ], 201);
+        return response()->json(
+            [
+                'status' => true,
+                'message' => 'Product created successfully',
+                'data' => $product,
+            ],
+            201,
+        );
     }
 
     /**
@@ -89,20 +112,52 @@ class ProductAdminController extends Controller
             'description' => 'sometimes|string',
             'price' => 'sometimes|numeric|min:0',
             'discount_price' => 'nullable|numeric|min:0|lt:price',
-            'category' => 'sometimes|string|max:100',
+            'category' => 'sometimes|string|max:100|in:gaming,sports,pets,furniture,electronics,computing,beauty,apparel',
             'stock' => 'sometimes|integer|min:0',
-            'image' => 'nullable|url',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'is_available' => 'nullable|boolean',
             'is_new' => 'nullable|boolean',
         ]);
 
-        $product->update($validated);
+        // ✅ Handle image upload
+        if ($request->hasFile('image')) {
+            // delete old image (optional but recommended)
+            if ($product->image && file_exists(public_path($product->image))) {
+                unlink(public_path($product->image));
+            }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Product updated successfully',
-            'data' => $product,
-        ]);
+            $file = $request->file('image');
+
+            // rename file (IMPORTANT - avoid spaces)
+            $filename = time() . '_' . str_replace(' ', '-', $file->getClientOriginalName());
+
+            // move file to public/image
+            $file->move(public_path('image'), $filename);
+
+            // save path in DB
+            $validated['image'] = 'image/' . $filename;
+        }
+
+        $check = $product->update($validated);
+        if (!$check) {
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'Product not updated',
+                    'data' => $product,
+                ],
+                401,
+            );
+        } else {
+            return response()->json(
+                [
+                    'status' => true,
+                    'message' => 'Product updated successfully',
+                    'data' => $product,
+                ],
+                200,
+            );
+        }
     }
 
     /**
