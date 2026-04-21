@@ -305,7 +305,7 @@
 
                     tbody.innerHTML += `
                 <tr>
-                    <td class="px-6 py-4 font-medium">${customer.name}</td>
+                    <td class="px-6 py-4 font-medium">${customer.first_name} ${customer.last_name}</td>
                     <td class="px-6 py-4">${customer.email}</td>
                     <td class="px-6 py-4">${customer.phone || 'N/A'}</td>
                     <td class="px-6 py-4">${customer.orders_count || 0}</td>
@@ -464,12 +464,13 @@
                 const data = Object.fromEntries(formData);
 
                 data.is_active = document.getElementById('editIsActive').checked;
-
+                console.log('Updating customer with data:', data);
                 fetch(`/admin/api/customers/${customerId}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                            'Accept': 'application/json',
                         },
                         body: JSON.stringify(data)
                     })
@@ -580,18 +581,18 @@
             <div class="mt-6">
                 <h4 class="font-bold mb-4">Recent Orders</h4>
                 ${recentOrders.length > 0 ? `
-                                <div class="overflow-x-auto">
-                                    <table class="w-full border">
-                                        <thead class="bg-gray-50">
-                                            <tr>
-                                                <th class="px-4 py-2 text-left">Order #</th>
-                                                <th class="px-4 py-2 text-left">Date</th>
-                                                <th class="px-4 py-2 text-left">Total</th>
-                                                <th class="px-4 py-2 text-left">Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            ${recentOrders.map(order => `
+                                                        <div class="overflow-x-auto">
+                                                            <table class="w-full border">
+                                                                <thead class="bg-gray-50">
+                                                                    <tr>
+                                                                        <th class="px-4 py-2 text-left">Order #</th>
+                                                                        <th class="px-4 py-2 text-left">Date</th>
+                                                                        <th class="px-4 py-2 text-left">Total</th>
+                                                                        <th class="px-4 py-2 text-left">Status</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    ${recentOrders.map(order => `
                                     <tr class="border-t">
                                         <td class="px-4 py-2">${order.order_number}</td>
                                         <td class="px-4 py-2">${new Date(order.created_at).toLocaleDateString()}</td>
@@ -601,10 +602,10 @@
                                         </td>
                                     </tr>
                                 `).join('')}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            ` : '<p class="text-gray-500">No orders found for this customer.</p>'}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    ` : '<p class="text-gray-500">No orders found for this customer.</p>'}
             </div>
         `;
             }

@@ -22,15 +22,13 @@ class CustomerAdminController extends Controller
         $query = User::where('role', 'user');
 
         if ($search) {
-            $query->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%");
+            $query
+                ->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhere('phone', 'like', "%{$search}%");
         }
 
-        $customers = $query->withCount('orders')
-                          ->withSum('orders', 'total_amount')
-                          ->orderBy($sortBy, $sortOrder)
-                          ->paginate($perPage);
+        $customers = $query->withCount('orders')->withSum('orders', 'total_amount')->orderBy($sortBy, $sortOrder)->paginate($perPage);
 
         return response()->json([
             'status' => true,
@@ -78,23 +76,48 @@ class CustomerAdminController extends Controller
     {
         $customer = User::findOrFail($id);
 
-        $validated = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|unique:users,email,' . $id,
-            'phone' => 'sometimes|string|max:20',
-            'address' => 'sometimes|string',
-            'city' => 'sometimes|string',
-            'country' => 'sometimes|string',
-            'is_active' => 'sometimes|boolean',
-        ]);
+        $validated = $request->validate(
+            [
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $id,
+                'phone' => 'nullable|string|max:20',
+                'address' => 'nullable|string',
+                'city' => 'nullable|string',
+                'country' => 'nullable|string',
+                'is_active' => 'nullable|boolean',
+            ],
+            [
+                'first_name.required' => 'Please provide a first name.',
+                'last_name.required' => 'Please provide a last name.',
+                'email.required' => 'An email address is required.',
+                'email.email' => 'The email must be a valid email address.',
+                'email.unique' => 'This email is already registered to another customer.',
+                'phone.max' => 'The phone number cannot exceed 20 characters.',
+                'is_active.boolean' => 'The status must be either active or inactive.',
+            ],
+        );
 
-        $customer->update($validated);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Customer updated successfully',
-            'data' => $customer,
-        ]);
+        $check = $customer->update($validated);
+        if (!$check) {
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'Customer not updated ',
+                    'data' => $customer,
+                ],
+                400,
+            );
+        } else {
+            return response()->json(
+                [
+                    'status' => true,
+                    'message' => 'Customer updated successfully',
+                    'data' => $customer,
+                ],
+                200,
+            );
+        }
     }
 
     /**
@@ -127,16 +150,10 @@ class CustomerAdminController extends Controller
     public function segmentation(Request $request)
     {
         // VIP customers (spent > $5000)
-        $vipCustomers = User::where('role', 'user')
-            ->withSum('orders', 'total_amount')
-            ->havingRaw('sum(orders.total_amount) > 5000')
-            ->get();
+        $vipCustomers = User::where('role', 'user')->withSum('orders', 'total_amount')->havingRaw('sum(orders.total_amount) > 5000')->get();
 
         // Regular customers
-        $regularCustomers = User::where('role', 'user')
-            ->withSum('orders', 'total_amount')
-            ->havingRaw('sum(orders.total_amount) between 1000 and 5000')
-            ->get();
+        $regularCustomers = User::where('role', 'user')->withSum('orders', 'total_amount')->havingRaw('sum(orders.total_amount) between 1000 and 5000')->get();
 
         // New customers (registered in last 30 days)
         $newCustomers = User::where('role', 'user')
@@ -146,9 +163,14 @@ class CustomerAdminController extends Controller
         // Inactive customers (no orders in last 90 days)
         $inactiveCustomers = User::where('role', 'user')
             ->doesntHave('orders')
-            ->orWhereHas('orders', function ($query) {
-                $query->where('created_at', '<', now()->subDays(90));
-            }, '=', 0)
+            ->orWhereHas(
+                'orders',
+                function ($query) {
+                    $query->where('created_at', '<', now()->subDays(90));
+                },
+                '=',
+                0,
+            )
             ->get();
 
         return response()->json([

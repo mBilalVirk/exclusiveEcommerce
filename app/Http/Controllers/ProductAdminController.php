@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 class ProductAdminController extends Controller
 {
     /**
@@ -107,17 +108,28 @@ class ProductAdminController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        $validated = $request->validate([
-            'name' => 'sometimes|string|max:255|unique:products,name,' . $id,
-            'description' => 'sometimes|string',
-            'price' => 'sometimes|numeric|min:0',
-            'discount_price' => 'nullable|numeric|min:0|lt:price',
-            'category' => 'sometimes|string|max:100|in:gaming,sports,pets,furniture,electronics,computing,beauty,apparel',
-            'stock' => 'sometimes|integer|min:0',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'is_available' => 'nullable|boolean',
-            'is_new' => 'nullable|boolean',
-        ]);
+        $validated = $request->validate(
+            [
+                'name' => 'required|string|max:255|unique:products,name,' . $id,
+                'description' => 'required|string',
+                'price' => 'required|numeric|min:0',
+                'discount_price' => 'nullable|numeric|min:0|lt:price',
+                'category' => 'required|string|max:100|in:gaming,sports,pets,furniture,electronics,computing,beauty,apparel',
+                'stock' => 'required|integer|min:0',
+                'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+                'is_available' => 'nullable|boolean',
+                'is_new' => 'nullable|boolean',
+            ],
+            [
+                'name.required' => 'Product name is missing.',
+                'name.unique' => 'This product name is already taken.',
+                'price.required' => 'Please set a price.',
+                'discount_price.lt' => 'The discount must be lower than the original price.',
+                'category.in' => 'Please select a valid category from our list.',
+                'category.required' => 'Please select a valid category from our list.',
+                'image.max' => 'The image size must be under 2MB.',
+            ],
+        );
 
         // ✅ Handle image upload
         if ($request->hasFile('image')) {
