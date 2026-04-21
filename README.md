@@ -363,4 +363,5 @@ class CartController extends Controller
 # 21/04/2026
 
 1. Admin panel. Customer Management.
-2.
+2. Checkout system implemented for Login user and guest user.
+3.
