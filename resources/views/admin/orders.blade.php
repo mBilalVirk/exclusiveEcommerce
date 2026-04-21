@@ -226,7 +226,13 @@
                     tbody.innerHTML += `
                 <tr>
                     <td class="px-6 py-4 font-medium">${order.order_number}</td>
-                    <td class="px-6 py-4">${order.user?.name || 'Guest'}</td>
+                    <td class="px-6 py-4">
+  ${
+    order.user
+      ? `${order.user.first_name || ''} ${order.user.last_name || ''}`.trim() || 'Guest'
+      : `${order.customer_name}`
+  }
+</td>
                     <td class="px-6 py-4 font-medium">$${parseFloat(order.total_amount).toFixed(2)}</td>
                     <td class="px-6 py-4">
                         <select onchange="updateStatus(${order.id}, this.value)" class="border rounded px-2 py-1 text-xs ${statusClass.replace('text-', 'border-').replace('bg-', 'border-')}">
@@ -488,7 +494,8 @@
                             method: 'DELETE',
                             headers: {
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                    ?.content || ''
+                                    ?.content || '',
+                                'Accept': 'application/json',
                             }
                         })
                         .then(response => response.json())
@@ -511,12 +518,15 @@
                 <div>
                     <h4 class="font-bold mb-2">Order Information</h4>
                     <p><strong>Order #:</strong> ${order.order_number}</p>
-                    <p><strong>Customer:</strong> ${order.user?.name || 'Guest'}</p>
-                    <p><strong>Email:</strong> ${order.user?.email || 'N/A'}</p>
+                   <p>
+  <strong>Customer:</strong> 
+  ${order.user ? `${order.user.first_name} ${order.user.last_name}` : `${order.customer_name}`}
+</p>
+                    <p><strong>Email:</strong> ${order.user?.email || `${order.customer_email}`}</p>
                     <p><strong>Phone:</strong> ${order.phone}</p>
                     <p><strong>Status:</strong> <span class="px-2 py-1 rounded text-xs ${statusClass}">${order.status}</span></p>
                     <p><strong>Payment:</strong> ${order.payment_status}</p>
-                    <p><strong>Order Date:</strong> ${new Date(order.created_at).toLocaleString()}</p>
+                    <p><strong>Order Date:</strong> ${new Date(order.created_at).toLocaleString()}
                 </div>
                 <div>
                     <h4 class="font-bold mb-2">Shipping Information</h4>
@@ -541,13 +551,13 @@
                         </thead>
                         <tbody>
                             ${order.items.map(item => `
-                                        <tr class="border-t">
-                                            <td class="px-4 py-2">${item.product?.name || 'Product'}</td>
-                                            <td class="px-4 py-2">${item.quantity}</td>
-                                            <td class="px-4 py-2">$${parseFloat(item.price).toFixed(2)}</td>
-                                            <td class="px-4 py-2">$${(item.price * item.quantity).toFixed(2)}</td>
-                                        </tr>
-                                    `).join('')}
+                                                                                                    <tr class="border-t">
+                                                                                                        <td class="px-4 py-2">${item.product?.name || 'Product'}</td>
+                                                                                                        <td class="px-4 py-2">${item.quantity}</td>
+                                                                                                        <td class="px-4 py-2">$${parseFloat(item.price).toFixed(2)}</td>
+                                                                                                        <td class="px-4 py-2">$${(item.price * item.quantity).toFixed(2)}</td>
+                                                                                                    </tr>
+                                                                                                `).join('')}
                         </tbody>
                         <tfoot class="bg-gray-50">
                             <tr>

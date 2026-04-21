@@ -87,6 +87,19 @@
                                     class="w-full bg-[#F5F5F5] rounded px-4 py-3 outline-none">
                             </div>
                         </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="text-sm">City</label>
+                                <input type="text" name="city" value="{{ old('city', auth()->user()->city ?? '') }}"
+                                    class="w-full bg-[#F5F5F5] rounded px-4 py-3 outline-none">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm">Country</label>
+                                <input type="text" name="country"
+                                    value="{{ old('country', auth()->user()->country ?? '') }}"
+                                    class="w-full bg-[#F5F5F5] rounded px-4 py-3 outline-none">
+                            </div>
+                        </div>
 
                         <div class="space-y-4 pt-4">
                             <label class="text-sm">Password Changes</label>

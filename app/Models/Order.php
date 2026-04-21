@@ -20,6 +20,8 @@ class Order extends Model
         'shipping_address',
         'billing_address',
         'phone',
+        'customer_email',
+        'customer_name',
         'notes',
         'shipped_at',
         'delivered_at',
@@ -84,4 +86,6 @@ class Order extends Model
     {
         return $query->orderByDesc('created_at');
     }
+    
+
 }

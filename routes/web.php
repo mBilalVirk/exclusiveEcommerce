@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController; // Assuming you have this for 'show'
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AdminMiddleware;
@@ -42,6 +43,12 @@ Route::get('/cart/count', [CartController::class,'cartCount']);
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart']);
     Route::get('/cartshow', [CartController::class, 'showCart'])->name('cart.show');
     Route::post('/cart/update/{id}', [CartController::class, 'updateQty']);
+
+
+    // checkout routes
+    Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/order-confirmation/{orderId}', [CheckoutController::class, 'confirmation'])->name('order.confirmation');
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes (Guest Only)
@@ -64,16 +71,12 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.log
 |--------------------------------------------------------------------------
 */
 Route::middleware([UserMiddleware::class])->group(function () {
+    // Checkout routes
     
     
-    Route::get('/checkout', function () { return view('user.checkout.checkout'); });
+    // Account routes
     Route::get('/account', function () { return view('user.account.account'); })->name('account');
     Route::post('/account', [AuthController::class, 'updateProfile'])->name('account.update');
-    
-
-
-   
-    
 });
 //  Route::get('/products', [ProductController::class, 'index'])->name('products');
 /*

@@ -544,7 +544,7 @@
                 <div>
                     <h4 class="font-bold mb-4">Customer Information</h4>
                     <div class="space-y-2">
-                        <p><strong>Name:</strong> ${customer.name}</p>
+                        <p><strong>Name:</strong> ${customer.first_name} ${customer.last_name}</p>
                         <p><strong>Email:</strong> ${customer.email}</p>
                         <p><strong>Phone:</strong> ${customer.phone || 'N/A'}</p>
                         <p><strong>Address:</strong> ${customer.address || 'N/A'}</p>
@@ -581,18 +581,18 @@
             <div class="mt-6">
                 <h4 class="font-bold mb-4">Recent Orders</h4>
                 ${recentOrders.length > 0 ? `
-                                                        <div class="overflow-x-auto">
-                                                            <table class="w-full border">
-                                                                <thead class="bg-gray-50">
-                                                                    <tr>
-                                                                        <th class="px-4 py-2 text-left">Order #</th>
-                                                                        <th class="px-4 py-2 text-left">Date</th>
-                                                                        <th class="px-4 py-2 text-left">Total</th>
-                                                                        <th class="px-4 py-2 text-left">Status</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    ${recentOrders.map(order => `
+                                                            <div class="overflow-x-auto">
+                                                                <table class="w-full border">
+                                                                    <thead class="bg-gray-50">
+                                                                        <tr>
+                                                                            <th class="px-4 py-2 text-left">Order #</th>
+                                                                            <th class="px-4 py-2 text-left">Date</th>
+                                                                            <th class="px-4 py-2 text-left">Total</th>
+                                                                            <th class="px-4 py-2 text-left">Status</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        ${recentOrders.map(order => `
                                     <tr class="border-t">
                                         <td class="px-4 py-2">${order.order_number}</td>
                                         <td class="px-4 py-2">${new Date(order.created_at).toLocaleDateString()}</td>
@@ -602,10 +602,10 @@
                                         </td>
                                     </tr>
                                 `).join('')}
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    ` : '<p class="text-gray-500">No orders found for this customer.</p>'}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        ` : '<p class="text-gray-500">No orders found for this customer.</p>'}
             </div>
         `;
             }

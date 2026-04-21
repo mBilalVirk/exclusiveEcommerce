@@ -102,9 +102,10 @@
                             <span id="grandtotal"></span>
                         </div>
                     </div>
-                    <button
-                        class="w-full bg-[#DB4444] text-white py-4 rounded font-medium mt-4 hover:bg-[#c33a3a] transition">Procees
-                        to checkout</button>
+                    <a href="{{ url('/checkout') }}"
+                        class="w-full block text-center bg-[#DB4444] text-white py-4 rounded font-medium mt-4 hover:bg-[#c33a3a] transition">
+                        Proceed to checkout
+                    </a>
                 </div>
             </div>
         </div>

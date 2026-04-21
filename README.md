@@ -361,3 +361,6 @@ class CartController extends Controller
 3. Admin can see products and perform CRUD operation on it.
 
 # 21/04/2026
+
+1. Admin panel. Customer Management.
+2.

@@ -65,6 +65,16 @@ class AuthController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'address' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+        ];
+        $messages = [
+            'first_name.required' => 'First name is required',
+            'last_name.required' => 'Last name is required',
+
+            'email.required' => 'Email is required',
+            'email.email' => 'Enter a valid email address',
+            'email.unique' => 'This email is already registered',
         ];
 
         if ($request->filled('new_password')) {
@@ -72,7 +82,7 @@ class AuthController extends Controller
             $rules['new_password'] = ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).+$/'];
         }
 
-        $validated = $request->validate($rules);
+        $validated = $request->validate($rules, $messages);
 
         if ($request->filled('new_password')) {
             if (!Hash::check($validated['current_password'], $user->password)) {
@@ -87,6 +97,8 @@ class AuthController extends Controller
             'last_name' => $validated['last_name'],
             'email' => $validated['email'],
             'address' => $validated['address'] ?? null,
+            'city' => $validated['city'] ?? null,
+            'country' => $validated['country'] ?? null,
         ];
 
         if ($request->filled('new_password')) {
@@ -100,14 +112,17 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ],[
+        $credentials = $request->validate(
+            [
+                'email' => 'required|string|email',
+                'password' => 'required|string',
+            ],
+            [
                 'email.required' => 'Email is required',
                 'email.email' => 'Please enter a valid email address',
                 'password.required' => 'Password is required',
-            ]);
+            ],
+        );
 
         if (!Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()

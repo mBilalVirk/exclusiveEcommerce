@@ -177,7 +177,14 @@ class OrderAdminController extends Controller
      */
     public function destroy($id)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::with('items.product')->findOrFail($id);
+
+    // ✅ Restore stock
+    foreach ($order->items as $item) {
+        if ($item->product) {
+            $item->product->increment('stock', $item->quantity);
+        }
+    }
         $order->delete();
 
         return response()->json([
