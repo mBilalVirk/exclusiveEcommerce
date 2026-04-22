@@ -526,6 +526,8 @@
                     <p><strong>Phone:</strong> ${order.phone}</p>
                     <p><strong>Status:</strong> <span class="px-2 py-1 rounded text-xs ${statusClass}">${order.status}</span></p>
                     <p><strong>Payment:</strong> ${order.payment_status}</p>
+                    <p><strong>Stripe Id:</strong> ${order.stripe_payment_id}</p>
+                    <p><strong>Stripe Status:</strong> ${order.stripe_status}</p>
                     <p><strong>Order Date:</strong> ${new Date(order.created_at).toLocaleString()}
                 </div>
                 <div>
@@ -551,13 +553,13 @@
                         </thead>
                         <tbody>
                             ${order.items.map(item => `
-                                                                                                    <tr class="border-t">
-                                                                                                        <td class="px-4 py-2">${item.product?.name || 'Product'}</td>
-                                                                                                        <td class="px-4 py-2">${item.quantity}</td>
-                                                                                                        <td class="px-4 py-2">$${parseFloat(item.price).toFixed(2)}</td>
-                                                                                                        <td class="px-4 py-2">$${(item.price * item.quantity).toFixed(2)}</td>
-                                                                                                    </tr>
-                                                                                                `).join('')}
+                                                                                                            <tr class="border-t">
+                                                                                                                <td class="px-4 py-2">${item.product?.name || 'Product'}</td>
+                                                                                                                <td class="px-4 py-2">${item.quantity}</td>
+                                                                                                                <td class="px-4 py-2">$${parseFloat(item.price).toFixed(2)}</td>
+                                                                                                                <td class="px-4 py-2">$${(item.price * item.quantity).toFixed(2)}</td>
+                                                                                                            </tr>
+                                                                                                        `).join('')}
                         </tbody>
                         <tfoot class="bg-gray-50">
                             <tr>

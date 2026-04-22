@@ -49,6 +49,11 @@ Route::get('/cart/count', [CartController::class,'cartCount']);
     Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/order-confirmation/{orderId}', [CheckoutController::class, 'confirmation'])->name('order.confirmation');
+
+    //Payment routes
+    Route::get('/payment/{orderId}', [CheckoutController::class, 'paymentView'])->name('payment');
+    Route::post('/payment/process/{orderId}', [CheckoutController::class, 'processPayment'])->name('payment.process');
+    Route::get('/payment/success/{orderId}', [CheckoutController::class, 'paymentSuccess'])->name('payment.success');
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes (Guest Only)

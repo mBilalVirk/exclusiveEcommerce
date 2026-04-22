@@ -360,8 +360,118 @@ class CartController extends Controller
 2. Add admin panel.
 3. Admin can see products and perform CRUD operation on it.
 
-# 21/04/2026
+# 21/04/2026 // Monthly Progress Start Here
 
 1. Admin panel. Customer Management.
 2. Checkout system implemented for Login user and guest user.
-3.
+
+# 22/04/2026
+
+1. Payment system after checkout.
+2. Design Payment page.
+3. First install `composer require stripe/stripe-php`
+4. Used Stripe Sandbox for that..
+5. Go to this site.`https://dashboard.stripe.com/`
+6. Register Account. Get ApiKeys
+7. Get them from 👉 `https://dashboard.stripe.com/test/apikeys`
+8. In .env
+
+```.env
+STRIPE_KEY=pk_test_xxxxxxxxx
+STRIPE_SECRET=sk_test_xxxxxxxxx
+```
+
+9. add this in 'config/services.php'
+
+```
+'stripe' => [
+    'key' => env('STRIPE_KEY'),
+    'secret' => env('STRIPE_SECRET'),
+],
+```
+
+10. using this routes:
+
+```php
+//Payment routes
+Route::get('/payment/{orderId}', [CheckoutController::class, 'paymentView'])->name('payment');
+Route::post('/payment/process/{orderId}', [CheckoutController::class, 'processPayment'])->name('payment.process');
+```
+
+11. Update in CheckoutController:: processPayment
+    This:
+
+```php
+public function processPayment(Request $request, $orderId)
+    {
+
+
+         $order = Order::findOrFail($orderId);
+
+
+        try {
+
+            sleep(2); // Simulate processing time
+
+            // Update order status
+            $order->update([
+                'payment_status' => 'paid',
+                'status' => 'processing',
+            ]);
+
+            return redirect("/order-confirmation/{$order->id}")
+            ->with('success', 'Order placed successfully!');
+        } catch (\Exception $e) {
+            Log::error('Payment processing failed: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Payment failed. Please try again.'], 500);
+        }
+    }
+```
+
+    To This:
+
+```php
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
+
+public function processPayment(Request $request, $orderId)
+{
+    $order = Order::findOrFail($orderId);
+
+    Stripe::setApiKey(config('services.stripe.secret'));
+
+    try {
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => [
+                        'name' => 'Order #' . $order->id,
+                    ],
+                    'unit_amount' => $order->total_amount * 100,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            $order->update([
+                'payment_status' => 'paid',
+                'status' => 'processing',
+            ]);
+
+            // IMPORTANT: use YOUR routes
+            'success_url' => url("/order-confirmation/{$order->id}"),
+            'cancel_url' => url("/payment/{$order->id}"),
+        ]);
+
+        return redirect($session->url);
+
+    } catch (\Exception $e) {
+        return back()->with('error', $e->getMessage());
+    }
+}
+```
+
+13. It go to the stripe checkout page..
+14. past the in card number field: 4242 4242 4242 4242
+15. Give any future date and CVC number.
