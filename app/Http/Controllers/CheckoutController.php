@@ -121,7 +121,7 @@ class CheckoutController extends Controller
                     return back()->with('error', "Not enough stock for {$item->product->name}");
                 }
 
-                $price = $item->product->discount_price ?? $item->product->price;
+                $price = !is_null($item->product->discount_price) && $item->product->discount_price > 0 ? $item->product->discount_price : $item->product->price;
                 $subtotal += $price * $item->qty;
             }
 
@@ -163,14 +163,14 @@ class CheckoutController extends Controller
             // ORDER ITEMS + STOCK UPDATE
             // =========================
             foreach ($cartItems as $item) {
-                $price = $item->product->discount_price ?? $item->product->price;
-
+                $price = !is_null($item->product->discount_price) && $item->product->discount_price > 0 ? $item->product->discount_price : $item->product->price;
+                $discount = !is_null($item->product->discount_price) && $item->product->discount_price > 0 ? ($item->product->price - $item->product->discount_price) : 0;
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item->product->id,
                     'quantity' => $item->qty,
                     'price' => $price,
-                    'discount' => 0,
+                    'discount' => $discount,
                 ]);
 
                 $item->product->decrement('stock', $item->qty);
@@ -189,7 +189,17 @@ class CheckoutController extends Controller
 
             // return redirect("/order-confirmation/{$order->id}")
             //     ->with('success', 'Order placed successfully!');
+            if($validated['payment_method'] === 'cod' || $validated['payment_method'] === 'bank') {
+                $order->update([
+                    'payment_status' => $validated['payment_method'] === 'cod' ? 'cod' : 'pending',
+                    'status' => $validated['payment_method'] === 'cod' ? 'processing' : 'pending',
+                ]);
+
+                return redirect("/order-confirmation/{$order->id}")
+                ->with('success', 'Order placed successfully!');
+            }else {
             return redirect("/payment/{$order->id}")->with('success', 'Please complete your payment!');
+            }
         } catch (\Exception $e) {
             DB::rollBack();
 

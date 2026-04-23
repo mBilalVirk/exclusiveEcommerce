@@ -32,13 +32,18 @@
                     <div>
                         <h3 class="font-medium text-base mb-4">My Orders</h3>
                         <ul class="pl-8 space-y-2 text-sm text-gray-500">
+                            <li><a href="/account/orders" class="hover:text-[#DB4444]">Orders</a></li>
                             <li><a href="/account#returns" class="hover:text-[#DB4444]">My Returns</a></li>
                             <li><a href="/account#cancellations" class="hover:text-[#DB4444]">My Cancellations</a></li>
                         </ul>
                     </div>
 
                     <div>
-                        <a href="/wishlist" class="font-medium text-base hover:text-[#DB4444]">My WishList</a>
+                        <h3 class="font-medium text-base mb-4">My Wishlist</h3>
+                        <ul class="pl-8 space-y-2 text-sm text-gray-500">
+                            <li><a href="/wishlist" class="hover:text-[#DB4444]">Wish List</a></li>
+
+                        </ul>
                     </div>
                 </aside>
 

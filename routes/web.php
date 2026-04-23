@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\CustomerAdminController;
-use App\Http\Controllers\OrderAdminController;
-use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CustomerAdminController;
+use App\Http\Controllers\OrderAdminController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\ProductController; // Assuming you have this for 'show'
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AdminMiddleware;
@@ -54,6 +55,9 @@ Route::get('/cart/count', [CartController::class,'cartCount']);
     Route::get('/payment/{orderId}', [CheckoutController::class, 'paymentView'])->name('payment');
     Route::post('/payment/process/{orderId}', [CheckoutController::class, 'processPayment'])->name('payment.process');
     Route::get('/payment/success/{orderId}', [CheckoutController::class, 'paymentSuccess'])->name('payment.success');
+
+    // track my order
+    Route::get('/track-order', [OrderController::class, 'trackOrder'])->name('track.order');
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes (Guest Only)
@@ -82,6 +86,7 @@ Route::middleware([UserMiddleware::class])->group(function () {
     // Account routes
     Route::get('/account', function () { return view('user.account.account'); })->name('account');
     Route::post('/account', [AuthController::class, 'updateProfile'])->name('account.update');
+    Route::get('/account/orders', [OrderController::class, 'index'])->name('account.orders');
 });
 //  Route::get('/products', [ProductController::class, 'index'])->name('products');
 /*

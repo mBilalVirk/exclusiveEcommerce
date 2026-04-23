@@ -44,6 +44,7 @@
                     <li><a href="/terms" class="hover:text-gray-400 transition">Terms Of Use</a></li>
                     <li><a href="/faq" class="hover:text-gray-400 transition">FAQ</a></li>
                     <li><a href="/contact" class="hover:text-gray-400 transition">Contact</a></li>
+                    <li><a href="/track-order" class="hover:text-gray-400 transition">Track Order</a></li>
                 </ul>
             </div>
 
