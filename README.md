@@ -475,3 +475,8 @@ public function processPayment(Request $request, $orderId)
 13. It go to the stripe checkout page..
 14. past the in card number field: 4242 4242 4242 4242
 15. Give any future date and CVC number.
+
+# 24/04/2026
+
+1. bugfix in orderItem.
+2. Order Tracking.
