@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Log;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderConfirmation;
+use App\Mail\PaymentConfirmation;
+
 class CheckoutController extends Controller
 {
     /**
@@ -187,6 +192,8 @@ class CheckoutController extends Controller
 
             DB::commit();
 
+            Mail::to($validated['email'])->send(new OrderAdminController($order));
+
             // return redirect("/order-confirmation/{$order->id}")
             //     ->with('success', 'Order placed successfully!');
             if($validated['payment_method'] === 'cod' || $validated['payment_method'] === 'bank') {
@@ -300,7 +307,7 @@ class CheckoutController extends Controller
             'stripe_payment_id' => $session->payment_intent,
             'stripe_status' => $session->payment_status,
         ]);
-
+         Mail::to($order->customer_email)->send(new PaymentConfirmation($order));
         return redirect("/order-confirmation/{$order->id}")->with('success', 'Payment successful!');
     }
 }

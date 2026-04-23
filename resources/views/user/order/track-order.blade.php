@@ -1,4 +1,5 @@
 @extends('layout.app')
+@section('title', 'Track Order')
 @section('content')
     @include('header.top')
     @include('header.navbar')

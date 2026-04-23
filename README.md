@@ -480,3 +480,33 @@ public function processPayment(Request $request, $orderId)
 
 1. bugfix in orderItem.
 2. Order Tracking.
+3. Email implementation. Login to MailTrap copy code for laravel/php.
+
+```php
+# email
+
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+4. Past this in .env file.
+5. Create Order Confirmation Email. `php artisan make:mail OrderConfirmation`.[Click here to see the code](app/Mail/OrderConfirmation.php)
+6. Create Payment Confirmation Email. `php artisan make:mail PaymentConfirmation`.[Click here to see the code](app/Mail/PaymentConfirmation.php)
+7. Create Order Shipped Email. `php artisan make:mail OrderShipped`.[Click here to see the code](app/Mail/OrderShipped.php)
+8. Create View of the all email.[Click here to see the code](resources/views/user/emails/)
+9. You can check with tinker.
+
+```php
+use App\Models\Order;
+use App\Mail\OrderConfirmation;
+use Illuminate\Support\Facades\Mail;
+
+$order = Order::first();
+Mail::to('test@example.com')->send(new OrderConfirmation($order));
+```

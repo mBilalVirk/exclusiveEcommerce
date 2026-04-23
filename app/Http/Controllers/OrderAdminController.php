@@ -9,6 +9,9 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderShipped;
+
 class OrderAdminController extends Controller
 {
     /**
@@ -152,6 +155,8 @@ class OrderAdminController extends Controller
 
             if ($validated['status'] === 'shipped') {
                 $order->shipped_at = now();
+
+                Mail::to($order->customer_email)->send(new OrderShipped($order));
             }
 
             if ($validated['status'] === 'delivered') {
