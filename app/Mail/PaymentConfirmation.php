@@ -39,10 +39,11 @@ class PaymentConfirmation extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.payment-confirmation',
+            view: 'user.emails.payment-confirmation',
             with:[
                 'order'=>$this->order,
                 'orderNumber'=>$this->order->order_number,
+                'total_amount'=>$this->order->total_amount,
                 'paymentStatus'=>$this->order->payment_status,
             ],
         );

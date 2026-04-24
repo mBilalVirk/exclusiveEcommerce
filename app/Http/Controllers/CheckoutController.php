@@ -79,7 +79,7 @@ class CheckoutController extends Controller
             'city' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'required|email|max:255',
-            'payment_method' => 'required|in:bank,cod',
+            'payment_method' => 'required|in:bank,cod,stripe,jazzcash,easypaisa',
             'coupon_code' => 'nullable|string|max:50',
         ]);
 
@@ -192,7 +192,7 @@ class CheckoutController extends Controller
 
             DB::commit();
 
-            Mail::to($validated['email'])->send(new OrderAdminController($order));
+            Mail::to($validated['email'])->send(new OrderConfirmation($order));
 
             // return redirect("/order-confirmation/{$order->id}")
             //     ->with('success', 'Order placed successfully!');
@@ -307,7 +307,7 @@ class CheckoutController extends Controller
             'stripe_payment_id' => $session->payment_intent,
             'stripe_status' => $session->payment_status,
         ]);
-         Mail::to($order->customer_email)->send(new PaymentConfirmation($order));
+        Mail::to($order->customer_email)->send(new PaymentConfirmation($order));
         return redirect("/order-confirmation/{$order->id}")->with('success', 'Payment successful!');
     }
 }

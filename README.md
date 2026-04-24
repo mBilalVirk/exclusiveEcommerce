@@ -510,3 +510,25 @@ use Illuminate\Support\Facades\Mail;
 $order = Order::first();
 Mail::to('test@example.com')->send(new OrderConfirmation($order));
 ```
+
+# 25/04/2026
+
+1. SOLID principle.
+
+# Problem in real-world project.
+
+Maintainability.
+Reusability.
+Bug Handling.
+
+# SOLID: Stand for
+
+S — Single Responsibility Principle (SRP): Each class has one responsibility.
+
+O — Open/Closed Principle (OCP): Extendable without modifying existing code.
+
+L — Liskov Substitution Principle (LSP): Ready for future payment methods.
+
+I — Interface Segregation Principle (ISP): Small, focused interfaces.
+
+D — Dependency Inversion Principle (DIP): Depend on abstractions, not concretions.

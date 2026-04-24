@@ -148,19 +148,29 @@
                         </div>
 
                         <div class="space-y-4">
-                            <div>
+                            <div class="flex justify-between items-center">
+
                                 <label class="flex items-center gap-3 cursor-pointer mb-3">
                                     <input type="radio" name="payment_method" value="bank" class="w-5 h-5 accent-black"
                                         {{ old('payment_method') === 'bank' || old('payment_method') === null ? 'checked' : '' }}>
                                     <span>Bank</span>
                                 </label>
+
                                 <div class="flex gap-2 pl-8">
-                                    <div class="w-[50px] h-[35px] rounded-sm"><img src="card/Master.png" alt="Bank Logo"
-                                            class="w-full h-full object-contain"></div>
-                                    <div class="w-[50px] h-[35px] rounded-sm"><img src="card/Visa.png" alt="Bank Logo"
-                                            class="w-full h-full object-contain"></div>
+                                    <div class="w-[50px] h-[30px] rounded-sm">
+                                        <img src="card/Master.png" alt="Bank Logo" class="w-full h-full object-contain">
+                                    </div>
+                                    <div class="w-[50px] h-[30px] rounded-sm">
+                                        <img src="card/Visa.png" alt="Bank Logo" class="w-full h-full object-contain">
+                                    </div>
                                 </div>
+
                             </div>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="radio" name="payment_method" value="stripe" class="w-5 h-5 accent-black"
+                                    {{ old('payment_method') === 'stripe' ? 'checked' : '' }}>
+                                <span>Stripe payment</span>
+                            </label>
                             <label class="flex items-center gap-3 cursor-pointer">
                                 <input type="radio" name="payment_method" value="cod" class="w-5 h-5 accent-black"
                                     {{ old('payment_method') === 'cod' ? 'checked' : '' }}>

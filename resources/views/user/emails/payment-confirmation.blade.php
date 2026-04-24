@@ -76,7 +76,7 @@
             <div class="payment-details">
                 <h3 style="margin-top: 0;">Payment Receipt</h3>
                 <p><strong>Order Number:</strong> #{{ $orderNumber }}</p>
-                <p><strong>Amount Paid:</strong> ${{ number_format($amount, 2) }}</p>
+                <p><strong>Amount Paid:</strong> ${{ number_format($total_amount, 2) }}</p>
                 <p><strong>Payment Status:</strong> <span
                         style="color: #10b981; font-weight: bold;">{{ strtoupper($paymentStatus) }}</span></p>
                 <p><strong>Date:</strong> {{ now()->format('M d, Y H:i:s') }}</p>
