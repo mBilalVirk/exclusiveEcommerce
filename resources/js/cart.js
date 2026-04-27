@@ -41,7 +41,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="flex items-center gap-4">
                     <div class="relative">
                         <button onclick="removeFromCart(${item.id})" 
-                            class="absolute -top-2 -left-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition">✕</button>
+                            class="absolute -top-3 -left-3 bg-red-500 text-white rounded-full 
+                            w-7 h-7 md:w-5 md:h-5 
+                            flex items-center justify-center text-[12px] md:text-[10px] 
+                            opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition shadow-sm">
+                            ✕
+                        </button>
                         <img src="${item.product.image || "/placeholder.png"}" alt="${item.product.name}" class="w-12 h-12 object-contain">
                     </div>
                     <span class="text-sm">${item.product.name}</span>

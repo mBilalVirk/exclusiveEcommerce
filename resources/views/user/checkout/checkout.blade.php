@@ -85,6 +85,16 @@
                             @enderror
                         </div>
                         <div>
+                            <label class="block text-gray-400 mb-2">Country<span class="text-red-500">*</span></label>
+                            <input type="text" name="country"
+                                value="{{ old('country', optional(Auth::user())->country) }}"
+                                class="w-full bg-gray-100 rounded px-4 py-3 outline-none @error('country') border-2 border-red-500 @enderror"
+                                required>
+                            @error('country')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
                             <label class="block text-gray-400 mb-2">Phone Number<span class="text-red-500">*</span></label>
                             <input type="tel" name="phone" value="{{ old('phone', optional(Auth::user())->phone) }}"
                                 class="w-full bg-gray-100 rounded px-4 py-3 outline-none @error('phone') border-2 border-red-500 @enderror"
@@ -151,7 +161,8 @@
                             <div class="flex justify-between items-center">
 
                                 <label class="flex items-center gap-3 cursor-pointer mb-3">
-                                    <input type="radio" name="payment_method" value="bank" class="w-5 h-5 accent-black"
+                                    <input type="radio" name="payment_method" value="bank"
+                                        class="w-5 h-5 accent-black"
                                         {{ old('payment_method') === 'bank' || old('payment_method') === null ? 'checked' : '' }}>
                                     <span>Bank</span>
                                 </label>
