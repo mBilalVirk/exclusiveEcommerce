@@ -64,13 +64,13 @@
 
                         <!-- Google Play -->
                         <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer">
-                            <img src="image/play-store.png" alt="Get it on Google Play"
+                            <img src="{{ asset('image/play-store.png') }}" alt="Get it on Google Play"
                                 class="w-full h-auto hover:scale-105 transition duration-300">
                         </a>
 
                         <!-- App Store -->
                         <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer">
-                            <img src="image/app-store.png" alt="Download on the App Store"
+                            <img src="{{ asset('image/app-store.png') }}" alt="Download on the App Store"
                                 class="w-full h-auto hover:scale-105 transition duration-300">
                         </a>
 

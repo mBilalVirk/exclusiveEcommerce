@@ -469,6 +469,7 @@
             };
 
             window.updateStatus = function(id, status) {
+
                 fetch(`/admin/api/orders/${id}/status`, {
                         method: 'PUT',
                         headers: {
@@ -484,6 +485,7 @@
                         if (result.status) {
                             loadOrders(currentPage);
                         }
+
                     })
                     .catch(error => console.error('Error updating status:', error));
             };
@@ -553,13 +555,13 @@
                         </thead>
                         <tbody>
                             ${order.items.map(item => `
-                                                                                                            <tr class="border-t">
-                                                                                                                <td class="px-4 py-2">${item.product?.name || 'Product'}</td>
-                                                                                                                <td class="px-4 py-2">${item.quantity}</td>
-                                                                                                                <td class="px-4 py-2">$${parseFloat(item.price).toFixed(2)}</td>
-                                                                                                                <td class="px-4 py-2">$${(item.price * item.quantity).toFixed(2)}</td>
-                                                                                                            </tr>
-                                                                                                        `).join('')}
+                                                                                                                        <tr class="border-t">
+                                                                                                                            <td class="px-4 py-2">${item.product?.name || 'Product'}</td>
+                                                                                                                            <td class="px-4 py-2">${item.quantity}</td>
+                                                                                                                            <td class="px-4 py-2">$${parseFloat(item.price).toFixed(2)}</td>
+                                                                                                                            <td class="px-4 py-2">$${(item.price * item.quantity).toFixed(2)}</td>
+                                                                                                                        </tr>
+                                                                                                                    `).join('')}
                         </tbody>
                         <tfoot class="bg-gray-50">
                             <tr>

@@ -1202,3 +1202,4 @@ private array $paymentMethods = [
 
 1. Bug fix in Stripe Payment.
 2. Handle if payment failed.
+3. Apply live notification for user when order status update my admin.

@@ -156,7 +156,7 @@ class OrderAdminController extends Controller
             if ($validated['status'] === 'shipped') {
                 $order->shipped_at = now();
 
-                Mail::to($order->customer_email)->send(new OrderShipped($order));
+                // Mail::to($order->customer_email)->send(new OrderShipped($order));
             }
 
             if ($validated['status'] === 'delivered') {
@@ -169,7 +169,7 @@ class OrderAdminController extends Controller
         }
 
         $order->save();
-
+        broadcast(new \App\Events\OrderStatusUpdated($order))->toOthers();
         return response()->json([
             'status' => true,
             'message' => 'Order updated successfully',

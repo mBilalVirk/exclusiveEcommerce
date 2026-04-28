@@ -63,7 +63,7 @@
                                         <span class="text-sm font-light">Manage My Account</span>
                                     </a>
 
-                                    <a href="{{ route('account') }}#orders"
+                                    <a href="/account/orders"
                                         class="flex items-center gap-4 px-4 py-2 text-white hover:bg-white/10 transition rounded-sm group">
                                         <i class="fa-solid fa-box text-xl"></i>
                                         <span class="text-sm font-light">My Order</span>
@@ -154,3 +154,4 @@
     });
 </script>
 @vite('resources/js/utils/updateCounter.js')
+@vite('resources/js/app.js')
