@@ -13,38 +13,34 @@ use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
-    public function __construct(
-        private CartService $cartService,
-        private OrderService $orderService,
-        private PaymentService $paymentService,
-    ) {}
+    public function __construct(private CartService $cartService, private OrderService $orderService, private PaymentService $paymentService) {}
 
     /**
      * Show checkout form
      */
     public function show()
-{
-    $userId = Auth::id(); // Returns null if not logged in
-    $data = $this->cartService->getItems($userId);
-    
-    // 1. Get the items and ensure they are a Collection
-    // 2. Use ->map() to force every item to be an object
-    $cartItems = collect($data->get('cartItems'))->map(function ($item) {
-        return (object) $item;
-    });
+    {
+        $userId = Auth::id(); // Returns null if not logged in
+        $data = $this->cartService->getItems($userId);
 
-    if ($cartItems->isEmpty()) {
-        return redirect('/cart')->with('error', 'Your cart is empty');
+        // 1. Get the items and ensure they are a Collection
+        // 2. Use ->map() to force every item to be an object
+        $cartItems = collect($data->get('cartItems'))->map(function ($item) {
+            return (object) $item;
+        });
+
+        if ($cartItems->isEmpty()) {
+            return redirect('/cart')->with('error', 'Your cart is empty');
+        }
+
+        // Now calculateTotal and your Blade view will both receive Objects
+        $calculateTotal = $this->cartService->calculateTotal($cartItems);
+        $shipping = $calculateTotal['shipping'];
+        $subtotal = $calculateTotal['subtotal'];
+        $tax = $calculateTotal['tax'];
+        $total = $calculateTotal['total'];
+        return view('user.checkout.checkout', compact('cartItems', 'shipping', 'subtotal', 'tax', 'total'));
     }
-
-    // Now calculateTotal and your Blade view will both receive Objects
-    $calculateTotal = $this->cartService->calculateTotal($cartItems);
-    $shipping =  $calculateTotal['shipping'];
-    $subtotal =  $calculateTotal['subtotal'];
-    $tax =  $calculateTotal['tax'];
-    $total= $calculateTotal['total'];
-    return view('user.checkout.checkout', compact('cartItems','shipping','subtotal','tax','total'));
-}
 
     /**
      * Store order in database
@@ -75,10 +71,7 @@ class CheckoutController extends Controller
             ]);
 
             // Process payment
-            $paymentResult = $this->paymentService->processPayment(
-                $order,
-                $validated['payment_method']
-            );
+            $paymentResult = $this->paymentService->processPayment($order, $validated['payment_method']);
 
             if (!$paymentResult['success']) {
                 return back()->with('error', $paymentResult['error'] ?? 'Payment processing failed');
@@ -89,8 +82,7 @@ class CheckoutController extends Controller
                 return redirect($paymentResult['redirect_url']);
             }
 
-            return redirect("/order-confirmation/{$order->id}")
-                ->with('success', 'Order placed successfully!');
+            return redirect("/order-confirmation/{$order->id}")->with('success', 'Order placed successfully!');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -103,18 +95,18 @@ class CheckoutController extends Controller
     {
         $order = Order::findOrFail($orderId);
 
-        if ($this->paymentService->confirmPayment($order, 'stripe', [
-            'session_id' => $request->get('session_id'),
-        ])) {
-             Mail::to($order->customer_email)->send(new PaymentConfirmation($order));
-            return redirect("/order-confirmation/{$order->id}")
-                ->with('success', 'Payment successful!');
+        if (
+            $this->paymentService->confirmPayment($order, 'stripe', [
+                'session_id' => $request->get('session_id'),
+            ])
+        ) {
+            Mail::to($order->customer_email)->send(new PaymentConfirmation($order));
+            return redirect("/order-confirmation/{$order->id}")->with('success', 'Payment successful!');
         }
 
-        return redirect("/checkout")
-            ->with('error', 'Payment could not be confirmed');
+        return redirect('/checkout')->with('error', 'Payment could not be confirmed');
     }
-     public function confirmation($orderId)
+    public function confirmation($orderId)
     {
         $order = Order::with('items.product', 'user')->findOrFail($orderId);
 
@@ -125,5 +117,14 @@ class CheckoutController extends Controller
         }
 
         return view('user.checkout.order-confirmation', compact('order'));
+    }
+
+    public function paymentFailed($orderId)
+    {
+        $order = Order::with('items')->findOrFail($orderId);
+
+        $this->cartService->restoreCart($order);
+
+        return redirect()->route('cart')->with('error', 'Payment failed, cart restored');
     }
 }

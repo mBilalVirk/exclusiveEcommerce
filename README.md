@@ -1197,3 +1197,8 @@ private array $paymentMethods = [
         'cod' => \App\Services\Payment\CashOnDeliveryPaymentMethod::class,
     ];
 ```
+
+# 28/04/2026
+
+1. Bug fix in Stripe Payment.
+2. Handle if payment failed.

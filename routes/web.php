@@ -28,7 +28,7 @@ Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/products/flashsales', [ProductController::class, 'flashsales'])->name('flashsales');
 Route::get('/products/bestselling', [ProductController::class, 'bestSelling'])->name('bestselling');
 Route::get('/shop', [ProductController::class, 'shop'])->name('shop');
-Route::get('/cart', function () { return view('user.cart.cart'); });
+Route::get('/cart', function () { return view('user.cart.cart'); })->name('cart');
 Route::get('/show/{id}', function ($id) {
     return view('user.product-details.product-details', compact('id'));
 });
@@ -52,7 +52,7 @@ Route::get('/cart/count', [CartController::class,'cartCount']);
     Route::get('/order-confirmation/{orderId}', [CheckoutController::class, 'confirmation'])->name('order.confirmation');
 
     //Payment routes
-    Route::get('/payment/{orderId}', [CheckoutController::class, 'paymentView'])->name('payment');
+    Route::get('/payment/{orderId}', [CheckoutController::class, 'paymentFailed'])->name('payment.failed');
     Route::post('/payment/process/{orderId}', [CheckoutController::class, 'processPayment'])->name('payment.process');
     Route::get('/payment/success/{orderId}', [CheckoutController::class, 'paymentSuccess'])->name('payment.success');
 

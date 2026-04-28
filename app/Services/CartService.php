@@ -15,23 +15,20 @@ class CartService
     public function getItems($userId = null)
     {
         if ($userId) {
-             $cartItems = Cart::with('product')
-            ->where('user_id', Auth::id())
-            ->limit(500) // Safety limit
-            ->get();
+            $cartItems = Cart::with('product')
+                ->where('user_id', Auth::id())
+                ->limit(500) // Safety limit
+                ->get();
 
-        $total = $cartItems->sum(function ($item) {
-            $price = $this->getProductPrice($item->product);
-            return $price * $item->qty;
-        });
+            $total = $cartItems->sum(function ($item) {
+                $price = $this->getProductPrice($item->product);
+                return $price * $item->qty;
+            });
 
-        return collect([
-            'cartItems' => $cartItems,
-            'total' => $total,
-        ]);
-            
-        
-            
+            return collect([
+                'cartItems' => $cartItems,
+                'total' => $total,
+            ]);
         }
 
         return $this->getSessionCart();
@@ -61,8 +58,10 @@ class CartService
      */
     public function removeItem(int $productId, $userId = null): bool
     {
+       
+
         if ($userId) {
-            Cart::where('user_id', $userId)->where('product_id', $productId)->delete();
+            Cart::where('user_id', $userId)->where('id', $productId)->delete();
         } else {
             $this->removeFromSessionCart($productId);
         }
@@ -75,15 +74,16 @@ class CartService
      */
     public function updateAuthenticatedQty($id, $action)
     {
-        $cartItem = Cart::where('user_id', Auth::id())
-            ->where('id', $id)
-            ->first();
+        $cartItem = Cart::where('user_id', Auth::id())->where('id', $id)->first();
 
         if (!$cartItem) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Item not found',
-            ], 404);
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'Item not found',
+                ],
+                404,
+            );
         }
 
         if ($action === 'inc') {
@@ -105,10 +105,13 @@ class CartService
         $cart = session()->get('cart', []);
 
         if (!isset($cart[$id])) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Item not found in cart',
-            ], 404);
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'Item not found in cart',
+                ],
+                404,
+            );
         }
 
         if ($action === 'inc') {
@@ -132,26 +135,25 @@ class CartService
     public function calculateTotal($cartItems): array
     {
         $subtotal = collect($cartItems)->sum(function ($item) {
-        
-        // Transform array items into objects if necessary
-        $item = is_array($item) ? (object) $item : $item;
+            // Transform array items into objects if necessary
+            $item = is_array($item) ? (object) $item : $item;
 
-        // Ensure product exists and is also an object
-        $product = is_array($item->product) ? (object) $item->product : $item->product;
+            // Ensure product exists and is also an object
+            $product = is_array($item->product) ? (object) $item->product : $item->product;
 
-        if (!$product) {
-            return 0;
-        }
+            if (!$product) {
+                return 0;
+            }
 
-        $price = $product->discount_price ?? $product->price;
-        
-        return $price * ($item->qty ?? 0);
-    });
-        
+            $price = $product->discount_price ?? $product->price;
+
+            return $price * ($item->qty ?? 0);
+        });
+
         $tax = $subtotal * 0.01;
         $shipping = 150;
         $total = $subtotal + $tax + $shipping;
-        
+
         return [
             'subtotal' => $subtotal,
             'tax' => $tax,
@@ -222,5 +224,38 @@ class CartService
             $cart[$productId]['qty'] = $quantity;
             session()->put('cart', $cart);
         }
+    }
+
+    public function restoreCart($order):void
+    {
+        if ($order->user_id) {
+            foreach ($order->items as $item) {
+                \App\Models\Cart::updateOrCreate(
+                    [
+                        'user_id' => $order->user_id,
+                        'product_id' => $item->product_id,
+                    ],
+                    [
+                        'quantity' => $item->quantity,
+                        'price' => $item->price,
+                    ],
+                );
+            }
+        } else {
+            $cart = session()->get('cart', []);
+
+            foreach ($order->items as $item) {
+                // Use 'id' and 'qty' to match your addToSessionCart method
+                $cart[$item->product_id] = [
+                    'id' => $item->product_id,
+                    'qty' => $item->quantity,
+                    // 'price' => $item->price, // Include price if your cart needs it
+                ];
+            }
+
+            session()->put('cart', $cart);
+            session()->save(); // Force the session to write immediately
+        }
+        $order->delete();
     }
 }
