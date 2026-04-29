@@ -27,10 +27,20 @@
 
             <div class="flex items-center gap-3 md:gap-6 flex-1 justify-end md:flex-none">
 
-                <div class="hidden sm:flex items-center bg-gray-100 rounded px-3 py-2 w-full max-w-[240px]">
-                    <input type="text" placeholder="What are you looking for?"
-                        class="bg-transparent outline-none text-xs w-full text-black" />
-                    <button><i class="fa-solid fa-magnifying-glass text-sm"></i></button>
+                <div class="hidden sm:flex items-center relative w-full max-w-md">
+                    <form action="" method="GET" class="relative w-full">
+                        <input id="liveSearchDesktop" type="text" name="query" placeholder="Search for products..."
+                            value="{{ request('query') }}"
+                            class="w-full bg-[#F5F5F5] rounded px-4 py-2 outline-none focus:ring-1 focus:ring-gray-300">
+                        <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2">
+                            <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
+                        </button>
+                    </form>
+
+                    {{-- search Result Desktop - Added top-full and z-index --}}
+                    <div id="resultsDesktop"
+                        class="absolute top-full left-0 right-0 bg-white shadow-xl mt-2 rounded-md hidden z-[100] border border-gray-100 max-h-96 overflow-y-auto">
+                    </div>
                 </div>
 
 
@@ -114,14 +124,24 @@
                 </div>
             </div>
 
-            <div class="sm:hidden pb-4">
-                <div class="flex items-center bg-gray-100 rounded px-3 py-2 w-full">
-                    <input type="text" placeholder="Search..." class="bg-transparent outline-none text-sm w-full" />
-                    <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
+
+        </div>
+        <div class="sm:hidden pb-4 pt-1 relative">
+            <div class="relative w-full">
+                <form action="" method="GET" class="relative">
+                    <input id="liveSearchMobile" type="text" name="query" placeholder="Search for products..."
+                        value="{{ request('query') }}"
+                        class="w-full bg-[#F5F5F5] rounded px-4 py-2 outline-none focus:ring-1 focus:ring-gray-300">
+                    <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2">
+                        <i class="fa-solid fa-magnifying-glass text-gray-500"></i>
+                    </button>
+                </form>
+                {{-- search Result Mobile --}}
+                <div id="resultsMobile"
+                    class="absolute top-full left-0 right-0 bg-white shadow-xl mt-2 rounded-md hidden z-[100] border border-gray-100 max-h-80 overflow-y-auto">
                 </div>
             </div>
         </div>
-
         <div id="mobile-menu"
             class="hidden md:hidden absolute top-full left-0 w-full bg-white border-t border-gray-100 shadow-xl z-50">
 
@@ -135,7 +155,8 @@
                 @else
                     <a href="{{ route('account') }}" class="block text-lg font-medium text-black">My Account</a>
                     @if (auth()->user()->isAdmin())
-                        <a href="{{ route('admin.dashboard') }}" class="block text-lg font-medium text-black">Dashboard</a>
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="block text-lg font-medium text-black">Dashboard</a>
                     @endif
                     <a href="{{ route('logout') }}" class="block text-lg font-medium text-black">Logout</a>
                 @endguest
@@ -144,6 +165,7 @@
             </div>
 
         </div>
+    </div>
 </nav>
 
 <script>
@@ -152,6 +174,61 @@
     btn.addEventListener('click', () => {
         menu.classList.toggle('hidden');
     });
+</script>
+<script>
+    function setupLiveSearch(inputId, resultId) {
+        const input = document.getElementById(inputId);
+        const resultsBox = document.getElementById(resultId);
+
+        if (!input) return;
+
+        input.addEventListener('keyup', function() {
+            let query = this.value;
+
+            if (query.length < 2) {
+                resultsBox.classList.add('hidden');
+                return;
+            }
+
+            fetch(`/live-search?query=${query}`)
+                .then(res => res.json())
+                .then(data => {
+                    resultsBox.innerHTML = '';
+
+                    if (data.length === 0) {
+                        resultsBox.innerHTML = '<p class="p-2 text-gray-500">No results</p>';
+                    } else {
+                        data.forEach(product => {
+                            resultsBox.innerHTML += `
+                        <a href="/show/${product.id}" 
+                           class="flex items-center gap-3 p-2 hover:bg-gray-100">
+                           
+                           <img src="/${product.image}" 
+                                class="w-10 h-10 object-cover rounded">
+
+                           <div>
+                               <p class="text-sm font-medium">${product.name}</p>
+                               <p class="text-xs text-gray-500">$${product.price}</p>
+                           </div>
+                        </a>`;
+                        });
+                    }
+
+                    resultsBox.classList.remove('hidden');
+                });
+        });
+
+        // Hide when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!input.contains(e.target) && !resultsBox.contains(e.target)) {
+                resultsBox.classList.add('hidden');
+            }
+        });
+    }
+
+    // ✅ Initialize BOTH searches
+    setupLiveSearch('liveSearchDesktop', 'resultsDesktop');
+    setupLiveSearch('liveSearchMobile', 'resultsMobile');
 </script>
 @vite('resources/js/utils/updateCounter.js')
 @vite('resources/js/app.js')

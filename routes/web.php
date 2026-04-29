@@ -58,6 +58,8 @@ Route::get('/cart/count', [CartController::class,'cartCount']);
 
     // track my order
     Route::get('/track-order', [OrderController::class, 'trackOrder'])->name('track.order');
+    //Search route
+    Route::get('/live-search', [ProductController::class, 'liveSearch'])->name('liveSearch');
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes (Guest Only)

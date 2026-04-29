@@ -192,4 +192,21 @@ class ProductController extends Controller
             'message' => 'Product fetched successfully',
         ]);
     }
+
+    public function liveSearch(Request $request)
+{
+    $query = $request->input('query');
+
+    $query = $request->query('query');
+
+    if (!$query) {
+        return response()->json([]);
+    }
+
+    $products = Product::where('name', 'LIKE', "%{$query}%")
+        ->take(5)
+        ->get(['id', 'name', 'price', 'image']); // keep it light
+
+    return response()->json($products);
+}
 }
