@@ -6,7 +6,7 @@
     <div id="product-details">
         <div class="max-w-6xl mx-auto px-4 py-20 font-sans">
             <nav class="flex text-sm mb-20 text-gray-500">
-                <a href="#" class="hover:text-black">Account</a>
+                <a href="#" class="hover:text-black">Products</a>
                 <span class="mx-2">/</span>
                 <a href="#" class="hover:text-black" id='category'></a>
                 <span class="mx-2">/</span>
@@ -51,10 +51,10 @@
                         </div>
                         <span class="text-gray-500">(150 Reviews)</span>
                         <span class="text-gray-300">|</span>
-                        <span class="text-[#00FF66]">In Stock</span>
+                        <span id="stockStatus" class="text-[#00FF66]">In Stock</span>
                     </div>
 
-                    <div class="text-2xl font-medium">$192.00</div>
+                    <div class="text-2xl font-medium"></div>
 
                     <p class="text-sm leading-relaxed border-b border-gray-300 pb-6" id="description">
 
@@ -88,19 +88,23 @@
 
                         <div class="flex items-center gap-4 pt-4">
                             <div class="flex items-center border border-gray-400 rounded overflow-hidden">
-                                <button
+                                <button id="minus-btn"
                                     class="px-4 py-2 hover:bg-[#DB4444] hover:text-white transition-colors border-r border-gray-400">−</button>
-                                <span class="px-8 font-medium">2</span>
-                                <button
+                                <span id="qty-display" class="px-8 font-medium">1</span>
+                                <button id="plus-btn"
                                     class="px-4 py-2 bg-[#DB4444] text-white transition-colors border-l border-[#DB4444]">+</button>
                             </div>
-                            <button
-                                class="flex-1 bg-[#DB4444] text-white py-2.5 rounded font-medium hover:bg-[#c33a3a] transition-colors">Buy
-                                Now</button>
+
+                            <button id="addToCartBtn"
+                                class="flex-1 bg-[#DB4444] text-white py-2.5 rounded font-medium hover:bg-[#c33a3a] transition-colors">
+                                Add to Cart
+                            </button>
                             <button class="p-2.5 border border-gray-400 rounded hover:bg-gray-50">
                                 <i class="fa-regular fa-heart text-xl"></i>
                             </button>
                         </div>
+
+
                     </div>
 
                     <div class="border border-gray-400 rounded overflow-hidden mt-10">

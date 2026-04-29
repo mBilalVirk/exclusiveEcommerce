@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
     async function fetchProductDetails(productId) {
         try {
             const response = await fetch(`/products/${productId}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             const data = await response.json();
 
             if (data.status) {
@@ -39,9 +42,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Update Stock Status
-        const stockStatus = document.querySelector(".text-[#00FF66]");
-        stockStatus.innerText = product.stock > 0 ? "In Stock" : "Out of Stock";
-        stockStatus.style.color = product.stock > 0 ? "#00FF66" : "#FF4444";
+        const stockStatus = document.getElementById("stockStatus");
+        if (stockStatus) {
+            stockStatus.innerText =
+                product.stock > 0 ? "In Stock" : "Out of Stock";
+            stockStatus.style.color = product.stock > 0 ? "#00FF66" : "#FF4444";
+        }
     }
 
     // 3. Handle Quantity Buttons (+/-)
@@ -63,30 +69,60 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // 4. Handle Add to Cart
-    const buyBtn = document.querySelector("button.flex-1.bg-[#DB4444]");
-    buyBtn.onclick = async () => {
-        const qty = parseInt(qtyDisplay.innerText);
+    const buyBtn = document.getElementById("addToCartBtn");
 
-        const response = await fetch("/cart/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": document
-                    .querySelector('meta[name="csrf-token"]')
-                    .getAttribute("content"),
-            },
-            body: JSON.stringify({
-                product_id: id,
-                qty: qty,
-            }),
-        });
+    if (buyBtn) {
+        buyBtn.onclick = async () => {
+            const qty = parseInt(qtyDisplay.innerText);
 
-        const result = await response.json();
-        if (result.status) {
-            alert("Added to cart!");
-            // Update your cart count icon if you have one
-            if (window.updateCartCount)
-                window.updateCartCount(result.totalCount);
-        }
-    };
+            try {
+                const response = await fetch("/cart/add", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json", // Tell Laravel you want JSON back
+                        "X-CSRF-TOKEN": document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute("content"),
+                    },
+                    body: JSON.stringify({
+                        product_id: id,
+                        quantity: qty,
+                    }),
+                });
+
+                // If the response is not 200-299, it's likely an HTML error page
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("Server Error Response:", errorText);
+                    throw new Error(
+                        `Server returned ${response.status}: Likely a crash or route issue.`,
+                    );
+                }
+
+                const result = await response.json();
+
+                if (result.status) {
+                    // Use the showToast function from your app.blade.php
+                    showToast(result.message || "Added to cart!", "success");
+
+                    if (window.updateCartCount) {
+                        window.updateCartCount(result.totalCount);
+                    }
+                } else {
+                    showToast(
+                        result.message || "Failed to add to cart.",
+                        "error",
+                    );
+                }
+            } catch (error) {
+                // This catches the "Unexpected token <" or network timeouts
+                console.error("Cart Error:", error);
+                showToast(
+                    "Something went wrong. Check the console (F12).",
+                    "error",
+                );
+            }
+        };
+    }
 });
