@@ -13,7 +13,7 @@ class BankTransferPaymentMethod implements PaymentMethodInterface
     public function initiatePayment(Order $order): array
     {
         $order->update([
-            'payment_status' => 'pending',
+            'payment_status' => 'bank',
             'status' => 'pending',
         ]);
 

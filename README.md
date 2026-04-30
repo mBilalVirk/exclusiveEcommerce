@@ -932,7 +932,7 @@ class CheckoutController extends Controller
         });
 
         $tax = $subtotal * 0; // 10% tax
-        $shipping = 150; // $150 shipping
+        $shipping =config('shop.shipping_fee');// $5 shipping
         $total = $subtotal + $tax + $shipping;
 
         return view('user.checkout.checkout', compact('cartItems', 'subtotal', 'tax', 'shipping', 'total'));
@@ -1006,7 +1006,7 @@ class CheckoutController extends Controller
             }
 
             $tax = 0;
-            $shipping = 150;
+            $shipping = config('shop.shipping_fee');
             $total = $subtotal + $tax + $shipping;
 
             // =========================

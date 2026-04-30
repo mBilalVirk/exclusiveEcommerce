@@ -29,6 +29,8 @@
                         <div class="text-right">
                             <p class="text-sm text-gray-500">Estimated Delivery</p>
                             <p class="font-bold text-gray-800">Oct 24, 2026</p>
+                            <p class="text-sm text-gray-500">Total Amount</p>
+                            <p class="font-bold text-gray-800">${{ number_format($order->total_amount, 2) }}</p>
                         </div>
                     </div>
 

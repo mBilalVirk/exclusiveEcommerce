@@ -21,11 +21,22 @@ class OrderService
         return DB::transaction(function () use ($data) {
             // Get cart items
             $cartItems = $this->getCartItems($data['user_id'] ?? null);
-
+            
             if ($cartItems->isEmpty()) {
                 throw new \InvalidArgumentException('Cart is empty');
             }
+            
+            foreach ($cartItems as $item) {
+    // 1. Check if product exists
+    if (!$item->product) {
+        throw new \Exception('One of the products in your cart no longer exists.');
+    }
 
+    // 2. Check stock levels
+    if ($item->product->stock < $item->qty) {
+        throw new \Exception("Sorry, only {$item->product->stock} units of {$item->product->name} are left.");
+    }
+}
             // Calculate totals
             $totals = $this->calculateTotals($cartItems);
 
@@ -94,8 +105,8 @@ class OrderService
             return $price * $item->qty;
         });
 
-        $tax = $subtotal * 0.05; // 5% tax
-        $shipping = 150; // $150 fixed shipping
+        $tax = $subtotal * 0.01; // 1% tax
+        $shipping = 5; // $5 fixed shipping
         $total = $subtotal + $tax + $shipping;
 
         return compact('subtotal', 'tax', 'shipping', 'total');
@@ -155,5 +166,15 @@ class OrderService
     {
         return 'ORD-' .time();
     }
-    
+      /**
+     * Restore stock
+     */
+    public function RestoreStock($order): void
+    {
+        // ✅ Restore stock
+        foreach ($order->items as $item) {
+            Product::where('id', $item->product_id)
+                ->increment('stock', $item->quantity);
+        }
+    }
 }

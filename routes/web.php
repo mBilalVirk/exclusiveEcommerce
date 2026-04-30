@@ -149,4 +149,7 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
             Route::post('/{id}/send-message', [CustomerAdminController::class, 'sendMessage'])->name('send-message');
         });
     });
+
+    // Analytics
+    Route::get('/analytics', [ProductAdminController::class, 'analytics'])->name('products.analytics');
 });

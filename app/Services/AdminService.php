@@ -113,4 +113,50 @@ class AdminService
             'recentOrders' => Order::with('user')->latest()->limit(6)->get(),
         ];
     }
+
+    public function getAnalyticsData(): array
+    {
+        return [
+            'lowStockProducts' => $this->getLowStockProducts(),
+            'stockByCategory' => $this->getStockByCategory(),
+            'productPerformance' => $this->getProductPerformance(),
+        ];
+    }
+
+    /**
+     * Low stock products
+     */
+    private function getLowStockProducts()
+    {
+        return Product::where('stock', '<', 10)->orderBy('stock')->get();
+    }
+
+    /**
+     * Stock by category
+     */
+    private function getStockByCategory()
+    {
+        return Product::selectRaw('categories.name as category_name, COUNT(*) as product_count, SUM(stock) as total_stock, SUM(price * stock) as stock_value')->join('categories', 'products.category_id', '=', 'categories.id')->groupBy('category_id', 'categories.name')->get();
+    }
+
+    /**
+     * Product performance
+     */
+    private function getProductPerformance()
+    {
+        return Product::select(
+    'products.id',
+    'products.name',
+    'products.price',
+    'products.stock'
+)
+->selectRaw('
+    COUNT(order_items.id) as sales_count,
+    SUM(order_items.quantity) as total_sold
+')
+->leftJoin('order_items', 'products.id', '=', 'order_items.product_id')
+->groupBy('products.id', 'products.name', 'products.price', 'products.stock')
+->orderByDesc('sales_count')
+->get();
+    }
 }

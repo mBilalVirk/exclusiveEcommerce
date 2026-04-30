@@ -151,7 +151,7 @@ class CartService
         });
 
         $tax = $subtotal * 0.01;
-        $shipping = 150;
+        $shipping = config('shop.shipping_fee');
         $total = $subtotal + $tax + $shipping;
 
         return [

@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateTotals(total) {
         let html = "";
-        const shiping_fee = 150;
+        const shiping_fee = 5;
         const subTotal = total + shiping_fee;
 
         subTotalSpan.innerHTML = `$${total}`;

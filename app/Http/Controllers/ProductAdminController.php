@@ -4,11 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Services\AdminService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+
 class ProductAdminController extends Controller
 {
+    private $adminService;
+
+    // ✅ Inject here
+    public function __construct(AdminService $adminService)
+    {
+        $this->adminService = $adminService;
+    }
     /**
      * Get all products with pagination
      */
@@ -205,5 +214,15 @@ class ProductAdminController extends Controller
             'status' => true,
             'message' => 'Stock updated successfully',
         ]);
+    }
+
+    /**
+     * Product Analytics
+     */
+    public function analytics()
+    {
+         $data = $this->adminService->getAnalyticsData();
+
+        return view('admin.analytics', $data);
     }
 }

@@ -37,7 +37,8 @@
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-600">Payment Method:</span>
-                                <span class="capitalize">{{ str_replace('Payment Method: ', '', $order->notes) }}</span>
+                                <span
+                                    class="capitalize">{{ str_replace('Payment Method: ', '', $order->payment_status) }}</span>
                             </div>
                         </div>
                     </div>

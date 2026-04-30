@@ -39,6 +39,8 @@
                     class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/orders*') ? 'bg-[#DB4444]' : '' }}">Orders</a>
                 <a href="{{ route('admin.customers.view') }}"
                     class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/customers*') ? 'bg-[#DB4444]' : '' }}">Customers</a>
+                <a href="{{ route('admin.products.analytics') }}"
+                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/analytics*') ? 'bg-[#DB4444]' : '' }}">Analytics</a>
             </nav>
         </aside>
 

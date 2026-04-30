@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Mail\PaymentConfirmation;
 use App\Models\Order;
+use App\Models\Product;
 use App\Services\CartService;
 use App\Services\OrderService;
 use App\Services\PaymentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+  use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
@@ -64,6 +67,8 @@ class CheckoutController extends Controller
         ]);
 
         try {
+
+            
             // Create order
             $order = $this->orderService->createOrder([
                 'user_id' => Auth::id(),
@@ -76,7 +81,6 @@ class CheckoutController extends Controller
             if (!$paymentResult['success']) {
                 return back()->with('error', $paymentResult['error'] ?? 'Payment processing failed');
             }
-
             // Handle redirect
             if ($validated['payment_method'] === 'stripe') {
                 return redirect($paymentResult['redirect_url']);
@@ -119,12 +123,32 @@ class CheckoutController extends Controller
         return view('user.checkout.order-confirmation', compact('order'));
     }
 
-    public function paymentFailed($orderId)
-    {
+  
+
+public function paymentFailed($orderId)
+{
+    DB::beginTransaction();
+
+    try {
         $order = Order::with('items')->findOrFail($orderId);
 
+        
+
+        $this->orderService->RestoreStock($order);
+
+        // ✅ Restore cart
         $this->cartService->restoreCart($order);
 
-        return redirect()->route('cart')->with('error', 'Payment failed, cart restored');
+        DB::commit();
+
+        return redirect()->route('cart')
+            ->with('error', 'Payment failed, cart restored & stock updated');
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return back()->with('error', $e->getMessage());
     }
+}
 }

@@ -101,9 +101,9 @@ class OrderAdminController extends Controller
             }
 
             // Add shipping fee and calculate tax
-            $shippingFee = 150;
+            $shippingFee = config('shop.shipping_fee');
             $subtotal = $totalAmount;
-            $tax = $subtotal * 0.05; // 5% tax
+            $tax = $subtotal * 0.01; // 1% tax
             $totalAmount = $subtotal + $tax + $shippingFee;
 
             $order->update([
