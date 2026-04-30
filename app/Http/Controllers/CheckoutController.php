@@ -100,7 +100,7 @@ class CheckoutController extends Controller
                 'session_id' => $request->get('session_id'),
             ])
         ) {
-            Mail::to($order->customer_email)->send(new PaymentConfirmation($order));
+            //Mail::to($order->customer_email)->send(new PaymentConfirmation($order));
             return redirect("/order-confirmation/{$order->id}")->with('success', 'Payment successful!');
         }
 

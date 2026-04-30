@@ -54,7 +54,7 @@ class OrderService
             $this->clearCart($data['user_id'] ?? null);
 
             // Send confirmation email
-            Mail::to($data['email'])->send(new OrderConfirmation($order));
+            //Mail::to($data['email'])->send(new OrderConfirmation($order));
 
             Log::info('Order created', ['order_id' => $order->id, 'order_number' => $order->order_number]);
 
