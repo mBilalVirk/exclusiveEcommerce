@@ -41,7 +41,7 @@ Route::post('/wishlist/toggle/{id}', [WishlistController::class, 'toggle']);
     Route::get('/wishlists', [WishlistController::class, 'showWishList'])->name('show.WishList');
 // add to cart 
 Route::get('/cart/count', [CartController::class,'cartCount']);
-    Route::post('/cart/add', [CartController::class, 'addToCart']);
+    Route::post('/cart/add', [CartController::class, 'addToCart'])->middleware('throttle:30,1'); // 3 per minute;;
     Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart']);
     Route::get('/cartshow', [CartController::class, 'showCart'])->name('cart.show');
     Route::post('/cart/update/{id}', [CartController::class, 'updateQty']);
@@ -60,10 +60,10 @@ Route::get('/cart/count', [CartController::class,'cartCount']);
     // track my order
     Route::get('/track-order', [OrderController::class, 'trackOrder'])->name('track.order');
     //Search route
-    Route::get('/live-search', [ProductController::class, 'liveSearch'])->name('liveSearch');
+    Route::get('/live-search', [ProductController::class, 'liveSearch'])->name('liveSearch')->middleware('throttle:30,1');
 
     // Google Authentication Routes
-Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.login') ->middleware('throttle:10,1');
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
 //Route::post('/logout', [GoogleAuthController::class, 'logout'])->name('logout');
 /*
@@ -75,8 +75,8 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('throttle:5,1'); // 5 attempts per minute;
     Route::post('/login', [AuthController::class, 'login'])->name('login.post')->middleware('throttle:5,1'); // 5 attempts per minute;
 
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register') ->middleware('throttle:3,1'); // 3 per minute;
-    Route::post('/register', [AuthController::class, 'register'])->name('register.post') ->middleware('throttle:3,1'); // 3 per minute;
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register')->middleware('throttle:3,1'); // 3 per minute;
+    Route::post('/register', [AuthController::class, 'register'])->name('register.post')->middleware('throttle:3,1'); // 3 per minute;
 });
 
 Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
@@ -93,7 +93,7 @@ Route::middleware([UserMiddleware::class])->group(function () {
     
     // Account routes
     Route::get('/account', function () { return view('user.account.account'); })->name('account');
-    Route::post('/account', [AuthController::class, 'updateProfile'])->name('account.update');
+    Route::post('/account', [AuthController::class, 'updateProfile'])->name('account.update')->middleware('throttle:3,1'); // 3 per minute;;
     Route::get('/account/orders', [OrderController::class, 'index'])->name('account.orders');
 });
 //  Route::get('/products', [ProductController::class, 'index'])->name('products');

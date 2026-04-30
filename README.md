@@ -1228,3 +1228,12 @@ private array $paymentMethods = [
    [ ] User logged in successfully
    [ ] All features work (cart, checkout, etc.)
    [ ] Production credentials configured (if going live)
+
+2. Improve Security Brute force attack.
+3. By add adding middle ware like this in routes.
+
+```php
+Route::post('/login', [AuthController::class, 'login'])
+    ->middleware('throttle:5,1')// limit to hit api only 5 time in a minute
+    ->name('login.post');
+```

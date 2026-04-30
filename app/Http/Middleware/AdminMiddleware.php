@@ -15,7 +15,7 @@ class AdminMiddleware
         }
 
         if (!Auth::user()->isAdmin()) {
-            abort(403);
+            abort(403, 'Unauthorized - Admin access required');
         }
 
         return $next($request);
