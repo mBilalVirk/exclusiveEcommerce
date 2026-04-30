@@ -66,4 +66,46 @@
             </tbody>
         </table>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <!-- Revenue Chart -->
+    <div class="bg-white rounded-lg shadow p-6 mb-6 mt-4">
+        <h3 class="text-lg font-semibold mb-4">Revenue Trend (Last 30 Days)</h3>
+        <canvas id="revenueChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {!! json_encode($revenueData->pluck('date')) !!},
+                datasets: [{
+                    label: 'Daily Revenue',
+                    data: {!! json_encode($revenueData->pluck('revenue')) !!},
+                    borderColor: '#dc2626',
+                    backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                    tension: 0.3,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 @endsection

@@ -4,11 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Services\AdminService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+   // ✅ Declare the property
+    protected $AdminService;
+
+    // ✅ Inject the service through the constructor
+    public function __construct(AdminService $AdminService)
+    {
+        $this->AdminService = $AdminService;
+    }
     public function dashboard()
     {
         if (!Auth::check()) {
@@ -19,19 +28,14 @@ class AdminController extends Controller
             abort(403);
         }
 
-        $totalRevenue = Order::sum('total_amount');
-        $activeOrders = Order::whereIn('status', ['pending', 'confirmed', 'shipped'])->count();
-        $pendingShipments = Order::where('status', 'shipped')->count();
-        $totalCustomers = User::whereNotIn('role', ['admin', 'super-admin'])->count();
-        $recentOrders = Order::with('user')->latest()->limit(6)->get();
+        $startDate = now()->subDays(30);
 
-        return view('admin.dashboard', compact(
-            'totalRevenue',
-            'activeOrders',
-            'pendingShipments',
-            'totalCustomers',
-            'recentOrders'
-        ));
+        $data = array_merge(
+            $this->AdminService->getDashboardData($startDate),
+            $this->AdminService->getDashboardSummary()
+        );
+
+        return view('admin.dashboard', $data);
     }
 
     public function logout(Request $request)

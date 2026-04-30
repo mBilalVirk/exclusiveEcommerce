@@ -1237,3 +1237,5 @@ Route::post('/login', [AuthController::class, 'login'])
     ->middleware('throttle:5,1')// limit to hit api only 5 time in a minute
     ->name('login.post');
 ```
+
+3.
