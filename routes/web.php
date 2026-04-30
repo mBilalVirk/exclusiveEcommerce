@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CustomerAdminController;
+use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\OrderAdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductAdminController;
@@ -60,6 +61,11 @@ Route::get('/cart/count', [CartController::class,'cartCount']);
     Route::get('/track-order', [OrderController::class, 'trackOrder'])->name('track.order');
     //Search route
     Route::get('/live-search', [ProductController::class, 'liveSearch'])->name('liveSearch');
+
+    // Google Authentication Routes
+Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
+//Route::post('/logout', [GoogleAuthController::class, 'logout'])->name('logout');
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes (Guest Only)
