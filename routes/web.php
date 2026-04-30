@@ -48,8 +48,8 @@ Route::get('/cart/count', [CartController::class,'cartCount']);
 
 
     // checkout routes
-    Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
-    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show')->middleware('throttle:10,1'); // 10 per minute;
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store')->middleware('throttle:10,1'); // 10 per minute;
     Route::get('/order-confirmation/{orderId}', [CheckoutController::class, 'confirmation'])->name('order.confirmation');
 
     //Payment routes
@@ -72,11 +72,11 @@ Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleC
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('throttle:5,1'); // 5 attempts per minute;
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post')->middleware('throttle:5,1'); // 5 attempts per minute;
 
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register') ->middleware('throttle:3,1'); // 3 per minute;
+    Route::post('/register', [AuthController::class, 'register'])->name('register.post') ->middleware('throttle:3,1'); // 3 per minute;
 });
 
 Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');

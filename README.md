@@ -1208,3 +1208,23 @@ private array $paymentMethods = [
 
 1. Search bar bug fix.
 2. Product details bug fix.
+
+# 30/04/2026
+
+1. Google OAUTH added.
+   [ ] Google Cloud Project created
+   [ ] Google+ API enabled
+   [ ] OAuth credentials created
+   [ ] Client ID & Secret copied to .env
+   [ ] Redirect URI correct in Google Console
+   [ ] Laravel Socialite installed
+   [ ] Migration created and run
+   [ ] User model updated
+   [ ] GoogleAuthController created
+   [ ] Routes added
+   [ ] Login view updated with Google button
+   [ ] Test with local Google account
+   [ ] User created in database with google_id
+   [ ] User logged in successfully
+   [ ] All features work (cart, checkout, etc.)
+   [ ] Production credentials configured (if going live)
