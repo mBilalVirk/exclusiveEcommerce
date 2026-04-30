@@ -1238,4 +1238,5 @@ Route::post('/login', [AuthController::class, 'login'])
     ->name('login.post');
 ```
 
-3.
+3. Improvement in admin panel
+4. Bug fix in User side.
