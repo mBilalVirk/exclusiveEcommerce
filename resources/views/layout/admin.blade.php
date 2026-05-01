@@ -41,6 +41,13 @@
                     class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/customers*') ? 'bg-[#DB4444]' : '' }}">Customers</a>
                 <a href="{{ route('admin.products.analytics') }}"
                     class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/analytics*') ? 'bg-[#DB4444]' : '' }}">Analytics</a>
+                {{-- is user admin --}}
+                @auth
+                    @if (auth()->user()->isSuperAdmin())
+                        <a href="{{ route('admin.admins.view') }}"
+                            class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/admins*') ? 'bg-[#DB4444]' : '' }}">Admin</a>
+                    @endif
+                @endauth
             </nav>
         </aside>
 

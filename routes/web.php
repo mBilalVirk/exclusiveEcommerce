@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAdminController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
@@ -116,6 +117,9 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::get('/customers', function () {
         return view('admin.customers');
     })->name('customers.view');
+    Route::get('/admins', function () {
+        return view('admin.admins');
+    })->name('admins.view');
 
     // API Routes for Admin Panel
     Route::prefix('api')->name('api.')->group(function () {
@@ -147,6 +151,15 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
             Route::get('/{id}/lifetime-value', [CustomerAdminController::class, 'lifetimeValue'])->name('lifetime-value');
             Route::get('/segmentation', [CustomerAdminController::class, 'segmentation'])->name('segmentation');
             Route::post('/{id}/send-message', [CustomerAdminController::class, 'sendMessage'])->name('send-message');
+        });
+
+        // Admin Management
+        Route::prefix('admins')->name('admins.')->group(function () {
+            Route::get('/', [AdminAdminController::class, 'index'])->name('index');
+            Route::post('/', [AdminAdminController::class, 'store'])->name('store');
+            Route::get('/{id}', [AdminAdminController::class, 'show'])->name('show');
+            Route::put('/{id}', [AdminAdminController::class, 'update'])->name('update');
+            Route::delete('/{id}', [AdminAdminController::class, 'destroy'])->name('destroy');
         });
     });
 
