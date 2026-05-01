@@ -1,4 +1,9 @@
 import "./bootstrap";
+// resources/js/app.js
+
+import { showToast } from "./utils/toast";
+
+window.showToast = showToast;
 // 1. Find the meta tag
 const userIdMeta = document.head.querySelector('meta[name="user-id"]');
 
@@ -16,3 +21,13 @@ if (userIdMeta && userIdMeta.content) {
 } else {
     console.log("User is not logged in. WebSocket listener not started.");
 }
+
+// Live Search
+
+import { setupLiveSearch } from "./utils/search";
+
+// Initialize when the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", () => {
+    setupLiveSearch("liveSearchDesktop", "resultsDesktop");
+    setupLiveSearch("liveSearchMobile", "resultsMobile");
+});

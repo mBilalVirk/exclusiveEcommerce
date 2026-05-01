@@ -20,7 +20,7 @@
     @yield('content')
     <div id="toast-container" class="fixed top-30 right-5 z-50 flex flex-col gap-3"></div>
 
-    <script>
+    {{-- <script>
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
 
@@ -51,7 +51,8 @@
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
-    </script>
+    </script> --}}
+    @vite('resources/js/app.js')
 </body>
 
 </html>
