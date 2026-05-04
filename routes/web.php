@@ -12,6 +12,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\ProductController; // Assuming you have this for 'show'
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UserMiddleware;
@@ -75,6 +76,9 @@ Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleC
     
     Route::get('/orders/{orderId}/receipt/view', [ReceiptController::class, 'viewReceipt'])
         ->name('receipt.view');
+
+// Recommendation Route
+Route::get('/recommendations/only-for-you', [RecommendationController::class, 'onlyForYou'])->name('recommendations.onlyForYou')->middleware('throttle:10,1');
 //Route::post('/logout', [GoogleAuthController::class, 'logout'])->name('logout');
 /*
 |--------------------------------------------------------------------------

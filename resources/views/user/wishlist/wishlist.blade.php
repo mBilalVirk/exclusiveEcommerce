@@ -209,10 +209,10 @@
 
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="recommendation">
 
 
-                <div class="group">
+                {{-- <div class="group">
                     <div class="relative bg-gray-100 rounded-sm h-[250px] flex items-center justify-center overflow-hidden">
                         <span class="absolute top-3 left-3 bg-green-400 text-white text-xs px-3 py-1 rounded-sm">New</span>
 
@@ -375,7 +375,7 @@
                             <span class="text-gray-400 text-sm font-bold">(17)</span>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
             </div>
 
@@ -389,4 +389,5 @@
 
     @include('user.footer.footer')
     @vite('resources/js/wishlist.js')
+    @vite('resources/js/recommendation.js')
 @endsection
