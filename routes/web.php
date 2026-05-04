@@ -11,6 +11,7 @@ use App\Http\Controllers\OrderAdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\ProductController; // Assuming you have this for 'show'
+use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UserMiddleware;
@@ -66,6 +67,14 @@ Route::get('/cart/count', [CartController::class,'cartCount']);
     // Google Authentication Routes
 Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.login') ->middleware('throttle:10,1');
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
+
+
+// Receipt Routes
+ Route::get('/orders/{orderId}/receipt/download', [ReceiptController::class, 'downloadReceipt'])
+        ->name('receipt.download');
+    
+    Route::get('/orders/{orderId}/receipt/view', [ReceiptController::class, 'viewReceipt'])
+        ->name('receipt.view');
 //Route::post('/logout', [GoogleAuthController::class, 'logout'])->name('logout');
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +106,7 @@ Route::middleware([UserMiddleware::class])->group(function () {
     Route::post('/account', [AuthController::class, 'updateProfile'])->name('account.update')->middleware('throttle:3,1'); // 3 per minute;;
     Route::get('/account/orders', [OrderController::class, 'index'])->name('account.orders');
 });
+
 //  Route::get('/products', [ProductController::class, 'index'])->name('products');
 /*
 |--------------------------------------------------------------------------

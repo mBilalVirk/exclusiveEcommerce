@@ -1240,3 +1240,7 @@ Route::post('/login', [AuthController::class, 'login'])
 
 3. Improvement in admin panel
 4. Bug fix in User side.
+
+# 04/05/2026
+
+1. User: Download order receipt as PDF

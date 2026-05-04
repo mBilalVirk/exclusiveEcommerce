@@ -1,4 +1,5 @@
 @extends('layout.app')
+@section('title', 'Order')
 @section('content')
     @include('header.top')
     @include('header.navbar')
@@ -58,6 +59,18 @@
                         <div class="space-y-6">
                             @foreach ($orders as $order)
                                 <div class="border border-gray-200 rounded p-4">
+                                    <!-- Download Receipt Button -->
+                                    <div class="flex gap-2 justify-end gap-2 mb-4">
+                                        <a href="{{ route('receipt.download', $order->id) }}"
+                                            class="btn btn-primary flex items-center gap-2">
+                                            <i class="fas fa-download"></i>Receipt (PDF)
+                                        </a>
+
+                                        <a href="{{ route('receipt.view', $order->id) }}"
+                                            class="btn btn-secondary flex items-center gap-2" target="_blank">
+                                            <i class="fas fa-eye"></i> View Receipt
+                                        </a>
+                                    </div>
                                     <div class="flex justify-between items-center mb-4">
                                         <div>
                                             <p class="text-sm text-gray-500">Order #{{ $order->order_number }}</p>
@@ -72,6 +85,7 @@
                                             class="px-3 py-1 text-sm font-medium rounded {{ $order->status == 'pending' ? 'bg-yellow-100 text-yellow-800' : ($order->status == 'completed' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800') }}">
                                             {{ ucfirst($order->status) }}
                                         </span>
+
                                     </div>
                                     <div class="space-y-2">
                                         @foreach ($order->items as $item)
