@@ -1243,4 +1243,5 @@ Route::post('/login', [AuthController::class, 'login'])
 
 # 04/05/2026
 
-1. User: Download order receipt as PDF
+1. User: Download order receipt as PDF.
+2. Add products recommendation for user.
