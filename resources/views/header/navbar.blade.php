@@ -177,3 +177,4 @@
 </script>
 
 @vite('resources/js/utils/updateCounter.js')
+@include('user.chatbot.chatbot')
