@@ -20,18 +20,25 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(async (res) => {
             const contentType = res.headers.get("content-type");
 
+            // Check if the server returned an error code (like 404)
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(
+                    errorData.message || `Server error: ${res.status}`,
+                );
+            }
+
             if (!contentType || !contentType.includes("application/json")) {
                 const text = await res.text();
-                console.error("Expected JSON but got:", text);
                 throw new Error("Server returned HTML instead of JSON");
             }
 
             return res.json();
         })
         .then((response) => {
-            if (!response.status || !response.data) {
-                throw new Error("Invalid API response structure");
-            }
+            // if (!response.status || !response.data) {
+            //     throw new Error("Invalid API response structure");
+            // }
 
             const products = response.data;
             let html = "";
