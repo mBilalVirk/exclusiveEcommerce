@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Services\CartService;
+use App\Services\OrderService;
+use App\Services\WishlistService;
+use App\Services\ChatService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +15,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Singleton bindings (Recommended for Services)
+        $this->app->singleton(CartService::class);
+        $this->app->singleton(OrderService::class);
+        $this->app->singleton(WishlistService::class);
+        $this->app->singleton(ChatService::class);
     }
 
     /**

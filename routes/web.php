@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminAdminController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CustomerAdminController;
 use App\Http\Controllers\GoogleAuthController;
@@ -180,3 +181,7 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     // Analytics
     Route::get('/analytics', [ProductAdminController::class, 'analytics'])->name('products.analytics');
 });
+
+
+// chatbot routes
+Route::post('/chatbot', [ChatController::class, 'handle'])->name('chatbot.handle')->middleware('throttle:20,1'); // 20 per minute;

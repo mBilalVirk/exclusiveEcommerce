@@ -1249,3 +1249,9 @@ Route::post('/login', [AuthController::class, 'login'])
 # 05/05/2026
 
 1. Improved the product recommendation.
+
+# 06/05/2026
+
+1. Chatbot integration.
+2. Chatbot assist the user to track-order. What is in the Cart. What is in wishlist.
+3. New products arrivals. Price and specification.

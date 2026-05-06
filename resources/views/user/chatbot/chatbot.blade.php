@@ -1,6 +1,6 @@
 {{-- resources/views/components/chatbot.blade.php --}}
 {{-- Include this in your main layout: @include('components.chatbot') --}}
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div id="chatbot-wrapper">
 
     {{-- Floating Toggle Button --}}
@@ -36,7 +36,7 @@
                     </svg>
                 </div>
                 <div>
-                    <div class="chatbot-name">AI Assistant</div>
+                    <div class="chatbot-name">AI Assistant : Chat is not saved</div>
                     <div class="chatbot-status">
                         <span class="status-dot"></span> Online
                     </div>
@@ -55,12 +55,21 @@
         <div class="faq-chips" id="faq-chips">
             <p class="faq-label">Quick questions:</p>
             <div class="chips-row">
-                <button class="chip" onclick="sendQuick('What is today\'s date?')">📅 Today's date</button>
-                <button class="chip" onclick="sendQuick('How do I create a post?')">✏️ Create post</button>
-                <button class="chip" onclick="sendQuick('How do I add a friend?')">👥 Add friend</button>
-                <button class="chip" onclick="sendQuick('How do I change my password?')">🔒 Password</button>
-                <button class="chip" onclick="sendQuick('How do I make my profile private?')">🛡️ Privacy</button>
-                <button class="chip" onclick="sendQuick('How do I report someone?')">🚩 Report user</button>
+                <button class="chip" onclick="sendQuick('Show me latest products')">🆕 New Arrivals</button>
+
+                <button class="chip" onclick="sendQuick('Show trending products')">🔥 Trending</button>
+
+                <button class="chip" onclick="sendQuick('Show products on sale')">💸 Deals</button>
+
+                <button class="chip" onclick="sendQuick('View my cart')">🛒 My Cart</button>
+
+                <button class="chip" onclick="sendQuick('Track my order')">📦 Track Order</button>
+
+                <button class="chip" onclick="sendQuick('Show my wishlist')">❤️ Wishlist</button>
+
+                <button class="chip" onclick="sendQuick('Show product categories')">📂 Categories</button>
+
+                <button class="chip" onclick="sendQuick('Contact support')">📞 Support</button>
             </div>
         </div>
 
@@ -665,14 +674,16 @@
 
         try {
             const token = getToken();
+
             const headers = {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             };
-            if (token) headers['Authorization'] = 'Bearer ' + token;
 
-            const response = await fetch('/api/chatbot', {
+
+            const response = await fetch('/chatbot', {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify({
@@ -716,8 +727,12 @@
         const bubbleDiv = document.createElement('div');
         bubbleDiv.className = 'message-bubble';
 
-        const p = document.createElement('p');
-        p.textContent = text;
+        // Change this inside your appendMessage function
+        const p = document.createElement('div'); // Changed from 'p' to 'div'
+        // Use innerHTML instead of textContent so AI can send <b> or <a> tags
+        // Note: Only do this if you trust your AI provider or use a library like DOMPurify
+        p.style.color = sender === 'user' ? '#FAF9F6' : '';
+        p.innerHTML = text.replace(/\n/g, '<br>');
 
         const timeSpan = document.createElement('span');
         timeSpan.className = 'message-time';
