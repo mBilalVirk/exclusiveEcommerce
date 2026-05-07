@@ -15,6 +15,7 @@ use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\ProductController; // Assuming you have this for 'show'
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\RecommendationController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UserMiddleware;
@@ -192,3 +193,28 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
 
 // chatbot routes
 Route::post('/chatbot', [ChatController::class, 'handle'])->name('chatbot.handle')->middleware('throttle:20,1'); // 20 per minute;
+
+
+
+// Reports & Exports Routes
+Route::middleware(['auth', 'admin'])->prefix('admin/reports')->name('reports.')->group(function () {
+    // Dashboard
+    Route::get('/', [ReportController::class, 'index'])->name('reports.index');
+    
+    // Orders Export
+    Route::get('/orders/csv', [ReportController::class, 'downloadOrdersCSV'])->name('export.orders.csv');
+    Route::get('/orders/pdf', [ReportController::class, 'downloadOrdersPDF'])->name('export.orders.pdf');
+    
+    // Customers Export
+    Route::get('/customers/csv', [ReportController::class, 'downloadCustomersCSV'])->name('export.customers.csv');
+    Route::get('/customers/pdf', [ReportController::class, 'downloadCustomersPDF'])->name('export.customers.pdf');
+    
+    // Products Export
+    Route::get('/products/csv', [ReportController::class, 'downloadProductsCSV'])->name('export.products.csv');
+    
+    // Revenue Report
+    Route::get('/revenue', [ReportController::class, 'downloadRevenueReport'])->name('export.revenue');
+    
+    // Tax Report
+    Route::get('/tax', [ReportController::class, 'downloadTaxReport'])->name('export.tax');
+});

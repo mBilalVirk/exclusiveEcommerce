@@ -1304,3 +1304,4 @@ Route::post('/login', [AuthController::class, 'login'])
 
 1. User can cancel their order.
 2. Bug fix in order in admin side.
+3. Super Admin can generate different type of reports.

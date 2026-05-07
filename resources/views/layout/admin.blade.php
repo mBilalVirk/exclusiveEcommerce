@@ -32,20 +32,31 @@
 
             <nav class="mt-10 space-y-2">
                 <a href="/admin/dashboard"
-                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/dashboard') ? 'bg-[#DB4444]' : '' }}">Dashboard</a>
+                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/dashboard') ? 'bg-[#DB4444]' : '' }}"><i
+                        class="fa-solid fa-gauge-high mr-2"></i>
+                    Dashboard</a>
                 <a href="{{ route('admin.products.view') }}"
-                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/products*') ? 'bg-[#DB4444]' : '' }}">Products</a>
+                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/products*') ? 'bg-[#DB4444]' : '' }}"><i
+                        class="fa-solid fa-boxes-stacked mr-2"></i>Products</a>
                 <a href="{{ route('admin.orders.view') }}"
-                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/orders*') ? 'bg-[#DB4444]' : '' }}">Orders</a>
+                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/orders*') ? 'bg-[#DB4444]' : '' }}"><i
+                        class="fa-solid fa-shopping-cart mr-2"></i>Orders</a>
                 <a href="{{ route('admin.customers.view') }}"
-                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/customers*') ? 'bg-[#DB4444]' : '' }}">Customers</a>
+                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/customers*') ? 'bg-[#DB4444]' : '' }}"><i
+                        class="fa-solid fa-users mr-2"></i>Customers</a>
                 <a href="{{ route('admin.products.analytics') }}"
-                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/analytics*') ? 'bg-[#DB4444]' : '' }}">Analytics</a>
+                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/analytics*') ? 'bg-[#DB4444]' : '' }}"><i
+                        class="fa-solid fa-chart-bar mr-2"></i>Analytics</a>
                 {{-- is user admin --}}
                 @auth
                     @if (auth()->user()->isSuperAdmin())
                         <a href="{{ route('admin.admins.view') }}"
-                            class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/admins*') ? 'bg-[#DB4444]' : '' }}">Admin</a>
+                            class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/admins*') ? 'bg-[#DB4444]' : '' }}"><i
+                                class="fa-solid fa-user-gear mr-2"></i>Admin</a>
+
+                        <a href="{{ route('reports.index') }}"
+                            class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/reports*') ? 'bg-[#DB4444]' : '' }}"><i
+                                class="fa-solid fa-file-lines mr-2"></i>Reports</a>
                     @endif
                 @endauth
             </nav>

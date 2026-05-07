@@ -102,7 +102,7 @@ class AdminService
     public function getDashboardSummary(): array
     {
         return [
-            'totalRevenue' => Order::sum('total_amount'),
+            'totalRevenue' => Order::where('status', '!=', 'cancelled')->sum('total_amount'),
 
             'activeOrders' => Order::whereIn('status', ['pending', 'confirmed', 'shipped'])->count(),
 
