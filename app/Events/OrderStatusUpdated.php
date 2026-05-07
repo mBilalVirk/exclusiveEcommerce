@@ -39,7 +39,7 @@ class OrderStatusUpdated implements ShouldBroadcast
         return [
             'id' => $this->order->id,
             'status' => $this->order->status,
-            'message' => "Order #{$this->order->id} is now {$this->order->status}!",
+            'message' => "Order #{$this->order->order_number} is now {$this->order->status}!",
         ];
     }
 }

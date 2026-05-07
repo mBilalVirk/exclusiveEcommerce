@@ -17,7 +17,8 @@ class ChatService
      */
     public function processChatMessage(array $messages)
     {
-        $apiKey = env('OPENROUTER_API_KEY');
+        // $apiKey = env('OPENROUTER_API_KEY');
+        $apiKey = config('services.openrouter.key');
 
         if (!$apiKey || $apiKey === 'your_api_key_here') {
             return '⚠️ Chatbot is not configured. Please set OPENROUTER_API_KEY in .env file.';

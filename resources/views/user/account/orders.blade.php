@@ -101,6 +101,23 @@
                                             </div>
                                         @endforeach
                                     </div>
+                                    {{-- cancel order --}}
+                                    <div class="flex justify-start mt-4">
+                                        <div>
+                                            @if (in_array($order->status, ['pending', 'processing', 'confirmed']))
+                                                <a class="text-gray-600"href="{{ route('order.cancel.confirm', $order->id) }}"
+                                                    class="btn btn-danger inline-flex items-center gap-2">
+                                                    <i class="fas fa-ban"></i> Cancel Order
+                                                </a>
+                                            @else
+                                                <p class="text-gray-600 text-sm">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    This order cannot be cancelled ({{ ucfirst($order->status) }})
+                                                </p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    {{-- cancel order --}}
                                 </div>
                             @endforeach
                         </div>

@@ -32,12 +32,12 @@ class OrderAdminController extends Controller
         }
 
         if ($search) {
-            $query->where('order_number', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%")
-                  ->orWhereHas('user', function ($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%")
-                        ->orWhere('email', 'like', "%{$search}%");
-                  });
+            $query
+                ->where('order_number', 'like', "%{$search}%")
+                ->orWhere('phone', 'like', "%{$search}%")
+                ->orWhereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%");
+                });
         }
 
         if ($dateFrom) {
@@ -112,16 +112,22 @@ class OrderAdminController extends Controller
                 'shipping_fee' => $shippingFee,
             ]);
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Order created successfully',
-                'data' => $order->load('items'),
-            ], 201);
+            return response()->json(
+                [
+                    'status' => true,
+                    'message' => 'Order created successfully',
+                    'data' => $order->load('items'),
+                ],
+                201,
+            );
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to create order: ' . $e->getMessage(),
-            ], 400);
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'Failed to create order: ' . $e->getMessage(),
+                ],
+                400,
+            );
         }
     }
 
@@ -148,20 +154,45 @@ class OrderAdminController extends Controller
             'payment_status' => 'nullable|in:pending,completed,failed',
         ]);
 
-        $order = Order::findOrFail($id);
+        $order = Order::with('items.product')->findOrFail($id);
 
-        if (isset($validated['status'])) {
-            $order->status = $validated['status'];
+        // 1. Capture the OLD status before we change it
+        $oldStatus = $order->getOriginal('status');
+        $newStatus = $validated['status'];
 
-            if ($validated['status'] === 'shipped') {
-                $order->shipped_at = now();
-
-                // Mail::to($order->customer_email)->send(new OrderShipped($order));
+        // 2. Handle Stock Logic based on Status Transitions
+        if ($oldStatus !== $newStatus) {
+            // CASE: Moving TO cancelled (Restore Stock)
+            // We check if it wasn't already cancelled to avoid double-incrementing
+            if ($newStatus === 'cancelled' && $oldStatus !== 'cancelled') {
+                foreach ($order->items as $item) {
+                    if ($item->product) {
+                        $item->product->increment('stock', $item->quantity);
+                    }
+                }
             }
 
-            if ($validated['status'] === 'delivered') {
-                $order->delivered_at = now();
+            // CASE: Moving FROM cancelled BACK TO an active state (Reduce Stock)
+            // This covers your scenario: Admin re-confirms a previously cancelled order
+            if ($oldStatus === 'cancelled' && in_array($newStatus, ['pending', 'confirmed', 'shipped', 'delivered'])) {
+                foreach ($order->items as $item) {
+                    if ($item->product) {
+                        // Optional: Check if stock is available before decrementing
+                        $item->product->decrement('stock', $item->quantity);
+                    }
+                }
             }
+        }
+
+        // 3. Update Order Dates and Fields
+        $order->status = $newStatus;
+
+        if ($newStatus === 'shipped') {
+            $order->shipped_at = $order->shipped_at ?? now();
+        }
+
+        if ($newStatus === 'delivered') {
+            $order->delivered_at = $order->delivered_at ?? now();
         }
 
         if (isset($validated['payment_status'])) {
@@ -169,7 +200,9 @@ class OrderAdminController extends Controller
         }
 
         $order->save();
+
         broadcast(new \App\Events\OrderStatusUpdated($order))->toOthers();
+
         return response()->json([
             'status' => true,
             'message' => 'Order updated successfully',
@@ -184,12 +217,12 @@ class OrderAdminController extends Controller
     {
         $order = Order::with('items.product')->findOrFail($id);
 
-    // ✅ Restore stock
-    foreach ($order->items as $item) {
-        if ($item->product) {
-            $item->product->increment('stock', $item->quantity);
+        // ✅ Restore stock
+        foreach ($order->items as $item) {
+            if ($item->product) {
+                $item->product->increment('stock', $item->quantity);
+            }
         }
-    }
         $order->delete();
 
         return response()->json([

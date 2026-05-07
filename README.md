@@ -533,6 +533,50 @@ I — Interface Segregation Principle (ISP): Small, focused interfaces.
 
 D — Dependency Inversion Principle (DIP): Depend on abstractions, not concretions.
 
+```md
+app/
+├── Interfaces/
+│ └── ProductRepositoryInterface.php
+│
+├── Repositories/
+│ └── ProductRepository.php
+│
+├── Services/
+│ └── ProductService.php
+│
+├── Http/Controllers/
+│ └── ProductController.php
+```
+
+# Service-Repository Pattern
+
+Summary (Simple Words)
+
+Controller = Receptionist (Takes request, gives response)
+
+Service = Manager (Decides what to do, coordinates)
+
+Repository = Worker (Does actual database work)
+
+Interface = Job Description (Defines what the worker must do)
+
+This pattern follows SOLID Principles, especially Single Responsibility and Dependency Inversion.
+
+| Aspect            | Traditional MVC                                         | Service-Repository Pattern (Our Structure)             | Winner       |
+| ----------------- | ------------------------------------------------------- | ------------------------------------------------------ | ------------ |
+| Controller        | Contains validation, queries, business logic, responses | Very thin — only handles request & response            | Service-Repo |
+| Business Logic    | Mixed in Controller or Model                            | Placed in Service layer                                | Service-Repo |
+| Database Queries  | Directly in Controller or Model                         | Isolated in Repository                                 | Service-Repo |
+| Code Organization | Poor in large apps                                      | Excellent — clean separation                           | Service-Repo |
+| Maintainability   | Becomes messy as project grows                          | Highly maintainable                                    | Service-Repo |
+| Testability       | Difficult (hard to mock)                                | Very easy (can mock Repository & Service)              | Service-Repo |
+| Reusability       | Low                                                     | High (Service can be used in API, Web, Jobs, Commands) | Service-Repo |
+| Scalability       | Limited for large projects                              | Excellent for medium to large applications             | Service-Repo |
+| Flexibility       | Hard to change database or logic                        | Easy to swap Repository (e.g., Eloquent → MongoDB)     | Service-Repo |
+| Learning Curve    | Easy for beginners                                      | Slightly steeper                                       | MVC          |
+| Development Speed | Fast for small projects                                 | Slower initially, faster in long term                  | Depends      |
+| File Count        | Fewer files                                             | More files (Interface + Repo + Service)                | MVC          |
+
 # 27/04/2026
 
 1. Try to implement SOLID principle.
@@ -1255,3 +1299,8 @@ Route::post('/login', [AuthController::class, 'login'])
 1. Chatbot integration.
 2. Chatbot assist the user to track-order. What is in the Cart. What is in wishlist.
 3. New products arrivals. Price and specification.
+
+# 07/05/2026
+
+1. User can cancel their order.
+2. Bug fix in order in admin side.

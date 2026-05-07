@@ -9,6 +9,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CustomerAdminController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\OrderAdminController;
+use App\Http\Controllers\OrderCancellationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\ProductController; // Assuming you have this for 'show'
@@ -110,6 +111,12 @@ Route::middleware([UserMiddleware::class])->group(function () {
     Route::get('/account', function () { return view('user.account.account'); })->name('account');
     Route::post('/account', [AuthController::class, 'updateProfile'])->name('account.update')->middleware('throttle:3,1'); // 3 per minute;;
     Route::get('/account/orders', [OrderController::class, 'index'])->name('account.orders');
+    // Order cancellation
+    Route::get('/orders/{orderId}/cancel', [OrderCancellationController::class, 'showCancellation'])
+        ->name('order.cancel.confirm');
+    
+    Route::post('/orders/{orderId}/cancel', [OrderCancellationController::class, 'cancelOrder'])
+        ->name('order.cancel');
 });
 
 //  Route::get('/products', [ProductController::class, 'index'])->name('products');
