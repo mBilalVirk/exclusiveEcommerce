@@ -54,7 +54,7 @@
                             class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/admins*') ? 'bg-[#DB4444]' : '' }}"><i
                                 class="fa-solid fa-user-gear mr-2"></i>Admin</a>
 
-                        <a href="{{ route('reports.index') }}"
+                        <a href="{{ route('reports.reports.index') }}"
                             class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/reports*') ? 'bg-[#DB4444]' : '' }}"><i
                                 class="fa-solid fa-file-lines mr-2"></i>Reports</a>
                     @endif

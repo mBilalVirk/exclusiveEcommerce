@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             const products = response.data;
+
             let html = "";
 
             products.forEach((product) => {
@@ -62,6 +63,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 const finalPrice = hasDiscount
                     ? product.discount_price
                     : product.price;
+
+                // Calculate average rating from reviews array
+                let avgRating = 0;
+                if (product.reviews && product.reviews.length > 0) {
+                    const total = product.reviews.reduce(
+                        (sum, review) => sum + review.rating,
+                        0,
+                    );
+                    avgRating = (total / product.reviews.length).toFixed(1);
+                } else {
+                    avgRating = product.stars || 0; // fallback to stars field if available
+                }
 
                 html += `
                 <div class="swiper-slide group">
@@ -108,8 +121,8 @@ document.addEventListener("DOMContentLoaded", function () {
                             ${hasDiscount ? `<span class="text-gray-400 line-through font-medium">$${product.price}</span>` : ""}
                         </div>
                         <div class="flex items-center gap-2 mt-2">
-                            <div class="flex text-yellow-400">${getStars(product.stars ?? 0)}</div>
-                            <span class="text-gray-400 text-sm font-bold">(${product.reviews_count})</span>
+                            <div class="flex text-yellow-400"> ${getStars(Math.round(avgRating))}</div>
+                            <span class="text-gray-400 text-sm font-bold">(${product.total_reviews})</span>
                         </div>
                     </div>
                 </div>`;

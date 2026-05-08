@@ -1,9 +1,11 @@
 @extends('layout.app')
-@section('title', 'Product-Details')
+@section('title', 'Product Details')
+
 @section('content')
     @include('header.top')
     @include('header.navbar')
-    <div id="product-details">
+
+    <div id="product-details" class="max-w-6xl mx-auto px-4 py-20 font-sans">
         <div class="max-w-6xl mx-auto px-4 py-20 font-sans">
             <nav class="flex text-sm mb-20 text-gray-500">
                 <a href="#" class="hover:text-black">Products</a>
@@ -15,7 +17,7 @@
 
             <div class="flex flex-col lg:flex-row gap-16">
                 <div class="flex flex-col-reverse md:flex-row gap-8 w-full lg:w-3/5">
-                    <div class="flex md:flex-col gap-4">
+                    {{-- <div class="flex md:flex-col gap-4">
                         <div
                             class="w-24 h-24 bg-[#F5F5F5] rounded-sm flex items-center justify-center p-2 cursor-pointer border hover:border-black">
                             <img src="gamepad-side.png" alt="Side view" class="max-h-full">
@@ -32,7 +34,8 @@
                             class="w-24 h-24 bg-[#F5F5F5] rounded-sm flex items-center justify-center p-2 cursor-pointer border hover:border-black">
                             <img src="gamepad-front.png" alt="Front view" class="max-h-full">
                         </div>
-                    </div>
+                    </div> --}}
+
                     <div class="flex-1 bg-[#F5F5F5] rounded-sm flex items-center justify-center p-12">
                         <img src="" alt="" class="w-full h-auto object-contain" id="img">
                     </div>
@@ -42,15 +45,7 @@
                     <h1 class="text-2xl font-semibold tracking-wide"></h1>
 
                     <div class="flex items-center gap-4 text-sm">
-                        <div class="flex text-yellow-400 gap-1">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star text-gray-300"></i>
-                        </div>
-                        <span class="text-gray-500">(150 Reviews)</span>
-                        <span class="text-gray-300">|</span>
+
                         <span id="stockStatus" class="text-[#00FF66]">In Stock</span>
                     </div>
 
@@ -129,9 +124,50 @@
             </div>
         </div>
 
+        <!-- Reviews Section -->
+        <div class="mt-20">
+            <h2 class="text-2xl font-semibold mb-8">Customer Reviews</h2>
+
+            <div id="reviews-container" class="space-y-8">
+                <!-- Reviews populated by JS -->
+            </div>
+
+            <!-- Add Review Form -->
+            @auth
+                <div class="mt-12 border-t pt-10">
+                    <h3 class="text-xl font-medium mb-6">Write a Review</h3>
+                    <form id="review-form">
+                        <input type="hidden" name="product_id" value="{{ $id }}">
+
+                        <div class="mb-6">
+                            <label class="block text-sm mb-2">Your Rating</label>
+                            <div id="review-stars" class="flex gap-2 text-3xl text-gray-300 cursor-pointer">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <i class="fa-solid fa-star hover:text-yellow-400 transition-colors"
+                                        data-rating="{{ $i }}"></i>
+                                @endfor
+                            </div>
+                            <input type="hidden" id="rating-input" name="rating" value="5">
+                        </div>
+
+                        <textarea name="comment" id="review-comment"
+                            class="w-full border border-gray-300 rounded-xl p-5 h-32 resize-y min-h-[120px]"
+                            placeholder="Write your review here..." required></textarea>
+
+                        <button type="submit"
+                            class="mt-6 bg-black text-white px-10 py-3.5 rounded-xl hover:bg-gray-800 transition-colors">
+                            Submit Review
+                        </button>
+                    </form>
+                </div>
+            @else
+                <p class="mt-10 text-gray-500">Please <a href="{{ route('login') }}" class="text-blue-600 underline">login</a>
+                    to write a review.</p>
+            @endauth
+        </div>
     </div>
+
     <script>
-        // Pass the ID from PHP to JS
         window.productId = "{{ $id }}";
     </script>
 

@@ -16,6 +16,7 @@ use App\Http\Controllers\ProductController; // Assuming you have this for 'show'
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\UserMiddleware;
@@ -118,6 +119,11 @@ Route::middleware([UserMiddleware::class])->group(function () {
     
     Route::post('/orders/{orderId}/cancel', [OrderCancellationController::class, 'cancelOrder'])
         ->name('order.cancel');
+
+    // review
+    Route::post('/reviews', [ReviewController::class, 'store'])
+         ->name('reviews.store')
+         ->middleware('throttle:5,1');
 });
 
 //  Route::get('/products', [ProductController::class, 'index'])->name('products');
@@ -199,7 +205,7 @@ Route::post('/chatbot', [ChatController::class, 'handle'])->name('chatbot.handle
 // Reports & Exports Routes
 Route::middleware(['auth', 'admin'])->prefix('admin/reports')->name('reports.')->group(function () {
     // Dashboard
-    Route::get('/', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/', [ReportController::class, 'index'])->name('index');
     
     // Orders Export
     Route::get('/orders/csv', [ReportController::class, 'downloadOrdersCSV'])->name('export.orders.csv');
@@ -218,3 +224,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin/reports')->name('reports.')-
     // Tax Report
     Route::get('/tax', [ReportController::class, 'downloadTaxReport'])->name('export.tax');
 });
+
+
+
+
+Route::get('/products/{product}/reviews', [ReviewController::class, 'show'])
+     ->name('products.reviews');

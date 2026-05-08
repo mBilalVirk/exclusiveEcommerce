@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             const products = response.data;
+            console.log("Fetched products:", products);
             let html = "";
 
             products.forEach((product) => {

@@ -20,4 +20,28 @@ class Product extends Model
     {
         return $this->hasMany(Cart::class, 'product_id');   
     }
+
+
+    // Add these relationships
+public function reviews()
+{
+    return $this->hasMany(Review::class);
+}
+
+// Optional: Approved reviews only
+public function approvedReviews()
+{
+    return $this->reviews()->where('is_approved', true);
+}
+
+// Accessor for average rating (if not storing in products table)
+public function getAverageRatingAttribute()
+{
+    return $this->approvedReviews()->avg('rating') ?? 0;
+}
+
+public function getTotalReviewsAttribute()
+{
+    return $this->approvedReviews()->count();
+}
 }

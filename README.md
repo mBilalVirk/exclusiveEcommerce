@@ -1305,3 +1305,8 @@ Route::post('/login', [AuthController::class, 'login'])
 1. User can cancel their order.
 2. Bug fix in order in admin side.
 3. Super Admin can generate different type of reports.
+
+# 08/05/2026
+
+1. User Review System Update.
+2. User give review to the products.

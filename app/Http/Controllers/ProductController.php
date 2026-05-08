@@ -34,27 +34,16 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        // $products = Product::all();
-        // // 2. Get the IDs of products in the current user's wishlist
-        // // We use pluck() to get a simple array like [1, 5, 12]
-        // // ✅ Logged-in user wishlist
-        // if (auth()->check()) {
-        //     $wishlistIds = auth()->user()->wishlist()->pluck('product_id')->toArray();
-        // } else {
-        //     // ❌ Guest user wishlist (SESSION)
-        //     $sessionWishlist = session()->get('wishlist', []);
-
-        //     // session stored as [productId => data]
-        //     $wishlistIds = array_keys($sessionWishlist);
-        // }
-
-        // // Add flag
-        // $products->map(function ($product) use ($wishlistIds) {
-        //     $product->is_wishlisted = in_array($product->id, $wishlistIds);
-        //     return $product;
-        // });
+        
         $perPage = $request->input('per_page', 8);
-        $products = Product::paginate($perPage);
+        $products = Product::query()
+        ->with("reviews")
+            ->withCount([
+                'reviews as total_reviews' => function ($q) {
+                    $q->where('is_approved', true);
+                },
+            ])
+        ->paginate($perPage);
         $products = $this->attachWishlistFlags($products);
         return response()->json(
             [
@@ -67,33 +56,18 @@ class ProductController extends Controller
 
     public function flashsales(Request $request)
     {
-        // $query = Product::query();
-
-        // $query->whereNotNull('discount_price')->whereColumn('discount_price', '<', 'price');
-
-        // $products = $query->get();
-        // // 2. Get the IDs of products in the current user's wishlist
-        // // We use pluck() to get a simple array like [1, 5, 12]
-        // // ✅ Logged-in user wishlist
-        // if (auth()->check()) {
-        //     $wishlistIds = auth()->user()->wishlist()->pluck('product_id')->toArray();
-        // } else {
-        //     // ❌ Guest user wishlist (SESSION)
-        //     $sessionWishlist = session()->get('wishlist', []);
-
-        //     // session stored as [productId => data]
-        //     $wishlistIds = array_keys($sessionWishlist);
-        // }
-
-        // // Add flag
-        // $products->map(function ($product) use ($wishlistIds) {
-        //     $product->is_wishlisted = in_array($product->id, $wishlistIds);
-        //     return $product;
-        // });
-
         $perPage = $request->input('per_page', 20);
 
-        $products = Product::query()->whereNotNull('discount_price')->whereColumn('discount_price', '<', 'price')->paginate($perPage);
+        $products = Product::query()
+            ->whereNotNull('discount_price')
+            ->whereColumn('discount_price', '<', 'price')
+            ->with("reviews")
+            ->withCount([
+                'reviews as total_reviews' => function ($q) {
+                    $q->where('is_approved', true);
+                },
+            ])
+            ->paginate($perPage);
 
         $products = $this->attachWishlistFlags($products);
         return response()->json(
@@ -106,30 +80,17 @@ class ProductController extends Controller
     }
     public function bestSelling(Request $request)
     {
-        // $query = Product::query();
-        // $query->where('reviews_count', '>', '80');
-        // $bestSelling = $query->get();
-        // // 2. Get the IDs of products in the current user's wishlist
-        // // We use pluck() to get a simple array like [1, 5, 12]
-        // // ✅ Logged-in user wishlist
-        // if (auth()->check()) {
-        //     $wishlistIds = auth()->user()->wishlist()->pluck('product_id')->toArray();
-        // } else {
-        //     // ❌ Guest user wishlist (SESSION)
-        //     $sessionWishlist = session()->get('wishlist', []);
-
-        //     // session stored as [productId => data]
-        //     $wishlistIds = array_keys($sessionWishlist);
-        // }
-
-        // // Add flag
-        // $bestSelling->map(function ($product) use ($wishlistIds) {
-        //     $product->is_wishlisted = in_array($product->id, $wishlistIds);
-        //     return $product;
-        // });
+        
         $perPage = $request->input('per_page', 20);
 
-        $products = Product::query()->where('reviews_count', '>', 80)->paginate($perPage);
+        $products = Product::query()->where('reviews_count', '>', 80)
+        ->with("reviews")
+            ->withCount([
+                'reviews as total_reviews' => function ($q) {
+                    $q->where('is_approved', true);
+                },
+            ])
+        ->paginate($perPage);
 
         $bestSelling = $this->attachWishlistFlags($products);
         return response()->json(
@@ -142,13 +103,16 @@ class ProductController extends Controller
     }
     public function shop(Request $request)
     {
-        $validated = $request->validate([
-            'category' => 'nullable|string|max:50|in:gaming,sports,pets,furniture,electronics,computing,beauty,apparel',
-            'search' => 'nullable|string|max:100',
-        ],[
-            'category.required' => 'Category is required!',
-            'category.in' => 'Invalid category selected!',
-        ]);
+        $validated = $request->validate(
+            [
+                'category' => 'nullable|string|max:50|in:gaming,sports,pets,furniture,electronics,computing,beauty,apparel',
+                'search' => 'nullable|string|max:100',
+            ],
+            [
+                'category.required' => 'Category is required!',
+                'category.in' => 'Invalid category selected!',
+            ],
+        );
         $query = Product::query();
 
         if ($request->category) {
@@ -158,7 +122,12 @@ class ProductController extends Controller
         if ($request->search) {
             $query->where('name', 'like', "%{$request->search}%");
         }
-
+        $query = $query->with("reviews")
+            ->withCount([
+                'reviews as total_reviews' => function ($q) {
+                    $q->where('is_approved', true);
+                },
+            ]);
         $products = $query->get();
 
         if ($request->wantsJson()) {
@@ -194,19 +163,19 @@ class ProductController extends Controller
     }
 
     public function liveSearch(Request $request)
-{
-    $query = $request->input('query');
+    {
+        $query = $request->input('query');
 
-    $query = $request->query('query');
+        $query = $request->query('query');
 
-    if (!$query) {
-        return response()->json([]);
+        if (!$query) {
+            return response()->json([]);
+        }
+
+        $products = Product::where('name', 'LIKE', "%{$query}%")
+            ->take(5)
+            ->get(['id', 'name', 'price', 'image']); // keep it light
+
+        return response()->json($products);
     }
-
-    $products = Product::where('name', 'LIKE', "%{$query}%")
-        ->take(5)
-        ->get(['id', 'name', 'price', 'image']); // keep it light
-
-    return response()->json($products);
-}
 }

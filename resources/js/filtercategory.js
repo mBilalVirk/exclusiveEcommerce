@@ -79,6 +79,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     const finalPrice = hasDiscount
                         ? product.discount_price
                         : product.price;
+                    // Calculate average rating from reviews array
+                    let avgRating = 0;
+                    if (product.reviews && product.reviews.length > 0) {
+                        const total = product.reviews.reduce(
+                            (sum, review) => sum + review.rating,
+                            0,
+                        );
+                        avgRating = (total / product.reviews.length).toFixed(1);
+                    } else {
+                        avgRating = product.stars || 0; // fallback to stars field if available
+                    }
 
                     const discountBadge = hasDiscount
                         ? `<span class="absolute top-3 left-3 bg-[#DB4444] text-white text-[12px] px-3 py-1 rounded-sm">
@@ -132,8 +143,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                     }
                                 </div>
                                 <div class="flex items-center gap-2 mt-2">
-                            <div class="flex text-yellow-400">${getStars(product.stars ?? 0)}</div>
-                            <span class="text-gray-400 text-sm font-bold">(${product.reviews_count})</span>
+                            <div class="flex text-yellow-400">${getStars(avgRating)}</div>
+                            <span class="text-gray-400 text-sm font-bold">(${product.total_reviews})</span>
                         </div>
                             </div>
                         </div>
