@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminReviewsController;
 use App\Http\Controllers\AdminAdminController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
@@ -230,3 +231,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin/reports')->name('reports.')-
 
 Route::get('/products/{product}/reviews', [ReviewController::class, 'show'])
      ->name('products.reviews');
+
+
+// === ADMIN REVIEWS ROUTES ===
+Route::prefix('admin/reviews')->group(function () {
+    Route::get('/', [AdminReviewsController::class, 'index'])->name('admin.reviews.index');
+    Route::get('/{review}', [AdminReviewsController::class, 'show'])->name('admin.reviews.show');
+    Route::post('/{review}/approve', [AdminReviewsController::class, 'approve'])->name('admin.reviews.approve');
+    Route::post('/{review}/unapprove', [AdminReviewsController::class, 'unapprove'])->name('admin.reviews.unapprove');
+    Route::delete('/{review}', [AdminReviewsController::class, 'destroy'])->name('admin.reviews.destroy');
+
+    // Bulk Actions
+    Route::post('/bulk-approve', [AdminReviewsController::class, 'bulkApprove'])->name('bulk.approve');
+    Route::post('/bulk-delete', [AdminReviewsController::class, 'bulkDelete'])->name('bulk.delete');
+});

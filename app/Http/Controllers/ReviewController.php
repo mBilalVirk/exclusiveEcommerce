@@ -78,7 +78,7 @@ class ReviewController extends Controller
                     'product_id'  => $productId,
                     'rating'      => $validated['rating'],
                     'comment'     => trim($validated['comment']),
-                    'is_approved' => true,
+                    'is_approved' => false, // New reviews require approval
                 ]);
             }
 

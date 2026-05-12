@@ -47,6 +47,9 @@
                 <a href="{{ route('admin.products.analytics') }}"
                     class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/analytics*') ? 'bg-[#DB4444]' : '' }}"><i
                         class="fa-solid fa-chart-bar mr-2"></i>Analytics</a>
+                <a href="{{ route('admin.reviews.index') }}"
+                    class="block px-6 py-3 hover:bg-[#DB4444] transition {{ request()->is('admin/reviews*') ? 'bg-[#DB4444]' : '' }}"><i
+                        class="fa-solid fa-star mr-2"></i>Reviews</a>
                 {{-- is user admin --}}
                 @auth
                     @if (auth()->user()->isSuperAdmin())

@@ -1310,3 +1310,7 @@ Route::post('/login', [AuthController::class, 'login'])
 
 1. User Review System Update.
 2. User give review to the products.
+
+# 12/05/2026
+
+1. Admin can approve/unapproved/delete the reviews
